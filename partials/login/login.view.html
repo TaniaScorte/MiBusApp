@@ -1,0 +1,25 @@
+<head><link rel="stylesheet" href="css/login/login.style.css"></head>
+
+  
+<form class="form-signin" ng-submit="vm.login()">
+    <img class="mb-4" src="images/logoMiniBusApp-B.png" alt="Logo" width="300" height="250">
+    <h1 class="h3 mb-3 font-weight-normal">Bienvenidos!</h1>
+    <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+      <label for="inputEmail" class="sr-only">Email</label>
+      <input type="email" name="inpEmail" id="inpEmail" class="form-control" placeholder="Email" ng-model="vm.email" required autofocus />
+      <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Email es requerido</span>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+      <label for="password" class="sr-only">Password</label>
+      <input type="password" name="password" id="password" class="form-control" placeholder="Password" ng-model="vm.password" required />
+      <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password es requerido</span>
+   </div>
+    <div class="form-actions">
+      <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">
+        <img ng-if="vm.dataLoading" src="images/descarga.gif" />Entrar</button>
+      
+      <a href="#!/register" class="btn btn-link">Registrarse</a>
+    </div>
+    <p class="mt-5 mb-3 text-muted">&copy; Grupo-106 UNLaM/2019</p>
+</form>
+  
