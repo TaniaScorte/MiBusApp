@@ -31,6 +31,11 @@
                 templateUrl: 'partials/schedules/schedules.view.html',
                 controllerAs: 'vm'
             })
+            .when('/bus-view', {
+                controller: 'SchedulesController',
+                templateUrl: 'partials/bus-view/bus-view.view.html',
+                controllerAs: 'vm'
+            })
             .when('/purchase', {
                 controller: 'PurchaseController',
                 templateUrl: 'partials/purchase/purchase.view.html',
@@ -48,7 +53,7 @@
                 controllerAs: 'vm'
             })
 
-            .otherwise({ redirectTo: '/login' });
+            .otherwise({ redirectTo: '/' });
     }
 
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];

@@ -1,0 +1,22 @@
+<div nav-user></div>
+<style>
+        #mapid {
+            height: 580px;
+        }
+    </style>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Mapa</h2>
+        <div id="mapid"/>
+    </div>
+
+</div>
+<script>        
+    var mymap = L.map('mapid').setView([-34.8482141,-58.4470336], 13);
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(mymap);
+    var marker = L.marker([-34.8482141,-58.4470336]).addTo(mymap);
+
+</script>

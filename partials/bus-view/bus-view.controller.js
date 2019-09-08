@@ -3,10 +3,10 @@
 
     angular
         .module('app')
-        .controller('PurchaseController', PurchaseController);
+        .controller('ViewBusController', ViewBusController);
 
-        PurchaseController.$inject = ['UserService', '$rootScope'];
-    function PurchaseController(UserService, $location,$rootScope) {
+        ViewBusController.$inject = ['UserService', '$location','$rootScope'];
+    function ViewBusController(UserService, $location,$rootScope) {
         var vm = this;
 
         vm.user = null;

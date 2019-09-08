@@ -5,8 +5,8 @@
         .module('app')
         .controller('UserEditController', UserEditController);
 
-        UserEditController.$inject = ['UserService', '$rootScope'];
-    function UserEditController(UserService, $rootScope) {
+        UserEditController.$inject = ['UserService','$location', '$rootScope'];
+    function UserEditController(UserService, $location,$rootScope) {
         var vm = this;
 
         vm.user = null;
@@ -16,21 +16,21 @@
         initController();
 
         function initController() {
-            loadCurrentUser();
-            loadAllUsers();
+            //loadCurrentUser();
+           // loadAllUsers();
         }
 
         function loadCurrentUser() {
 
         }
 
-        function loadAllUsers() {
+      /*  function loadAllUsers() {
             UserService.GetAll()
                 .then(function (users) {
                     vm.allUsers = users;
                 });
         }
-
+*/
         function deleteUser(id) {
                     
         }

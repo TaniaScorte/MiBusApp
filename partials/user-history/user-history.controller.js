@@ -5,8 +5,8 @@
         .module('app')
         .controller('UserHistoryController', UserHistoryController);
 
-        UserHistoryController.$inject = ['UserService', '$rootScope'];
-    function UserHistoryController(UserService, $rootScope) {
+        UserHistoryController.$inject = ['UserService','$location', '$rootScope'];
+    function UserHistoryController(UserService,$location, $rootScope) {
         var vm = this;
 
         vm.user = null;
@@ -16,21 +16,21 @@
         initController();
 
         function initController() {
-            loadCurrentUser();
-            loadAllUsers();
+            //loadCurrentUser();
+           // loadAllUsers();
         }
 
         function loadCurrentUser() {
 
         }
 
-        function loadAllUsers() {
+      /*  function loadAllUsers() {
             UserService.GetAll()
                 .then(function (users) {
                     vm.allUsers = users;
                 });
         }
-
+*/
         function deleteUser(id) {
                     
         }

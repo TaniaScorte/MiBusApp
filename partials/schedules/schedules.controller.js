@@ -5,8 +5,8 @@
         .module('app')
         .controller('SchedulesController', SchedulesController);
 
-        SchedulesController.$inject = ['UserService', '$rootScope'];
-    function SchedulesController(UserService, $rootScope) {
+        SchedulesController.$inject = ['UserService', '$location','$rootScope'];
+    function SchedulesController(UserService,$location ,$rootScope) {
         var vm = this;
 
         vm.user = null;
@@ -16,20 +16,21 @@
         initController();
 
         function initController() {
-            loadCurrentUser();
-            loadAllUsers();
+            //loadCurrentUser();
+           // loadAllUsers();
         }
 
         function loadCurrentUser() {
 
         }
 
-        function loadAllUsers() {
+      /*  function loadAllUsers() {
             UserService.GetAll()
                 .then(function (users) {
                     vm.allUsers = users;
                 });
         }
+*/
 
         function deleteUser(id) {
                     
