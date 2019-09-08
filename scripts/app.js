@@ -32,7 +32,7 @@
                 controllerAs: 'vm'
             })
             .when('/bus-view', {
-                controller: 'SchedulesController',
+                controller: 'BusViewController',
                 templateUrl: 'partials/bus-view/bus-view.view.html',
                 controllerAs: 'vm'
             })
