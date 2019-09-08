@@ -26,6 +26,27 @@
                 templateUrl: 'partials/register/register.view.html',
                 controllerAs: 'vm'
             })
+            .when('/schedules', {
+                controller: 'SchedulesController',
+                templateUrl: 'partials/schedules/schedules.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/purchase', {
+                controller: 'PurchaseController',
+                templateUrl: 'partials/purchase/purchase.view.html',
+                controllerAs: 'vm'
+            })
+
+            .when('/user-edit', {
+                controller: 'UserEditController',
+                templateUrl: 'partials/user-edit/user-edit.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/user-history', {
+                controller: 'UserHistoryController',
+                templateUrl: 'partials/user-history/user-history.view.html',
+                controllerAs: 'vm'
+            })
 
             .otherwise({ redirectTo: '/login' });
     }
