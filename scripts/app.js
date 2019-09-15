@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ngRoute', 'ngCookies'])
+        .module('app', ['ngRoute', 'ngCookies','ngAnimate','ui.bootstrap','ngSanitize','oitozero.ngSweetAlert'])
         .config(config)
         .run(run);
 
@@ -26,6 +26,11 @@
                 templateUrl: 'partials/register/register.view.html',
                 controllerAs: 'vm'
             })
+            .when('/reset-password', {
+                controller: 'ResetPasswordController',
+                templateUrl: 'partials/reset-password/reset-password.view.html',
+                controllerAs: 'vm'
+            })
             .when('/schedules', {
                 controller: 'SchedulesController',
                 templateUrl: 'partials/schedules/schedules.view.html',
@@ -36,9 +41,9 @@
                 templateUrl: 'partials/bus-view/bus-view.view.html',
                 controllerAs: 'vm'
             })
-            .when('/purchase', {
-                controller: 'PurchaseController',
-                templateUrl: 'partials/purchase/purchase.view.html',
+            .when('/buy', {
+                controller: 'BuyController',
+                templateUrl: 'partials/buy/buy.view.html',
                 controllerAs: 'vm'
             })
 
@@ -53,7 +58,7 @@
                 controllerAs: 'vm'
             })
 
-            .otherwise({ redirectTo: '/' });
+            .otherwise({ redirectTo: '/' });            
     }
 
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];

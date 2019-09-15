@@ -5,9 +5,8 @@
         .module('app')
         .factory('UserService', UserService);
 
-    UserService.$inject = ['$timeout', '$filter', '$q','$http'];
-    function UserService($timeout, $filter, $q,$http) {
-
+        UserService.$inject = ['$timeout', '$filter', '$q','$http','$rootScope'];
+        function UserService($timeout, $filter, $q,$http,$rootScope) {
         var service = {};
 
         service.GetAll = GetAll;
@@ -18,10 +17,10 @@
         service.Delete = Delete;
 
         return service;
-
+      
         function GetAll() {
             var deferred = $q.defer();
-            $http.get('http://api.mellevas.com.ar/usuarios/getusuarios',headers)
+            $http.get('http://api.mellevas.com.ar/usuarios/getusuarios?empresaid=1',headers)
             .then(function(response){
                deferred.resolve(response.data);
             })
@@ -49,17 +48,37 @@
 
         function Create(user) {
             var deferred = $q.defer();
-
-            // simulate api call with $timeout
-   
-            /*    GetByUsername(user.username)
-                    .then(function (duplicateUser) {
-                        
-                    });
-           */
-
-           // return deferred.promise;
-                    return true;
+            var data ={
+                nombre: user.name,
+                apellido: user.surname,
+                tipoDni: user.dnitypes,
+                dni: user.dni,
+                email: user.email,
+                clave: user.password,
+                //telefono: user.tel,
+                empresaid: 0,
+                rolid:1,
+                token: "",
+            }
+            var urlUserCreate ='http://api.mellevas.com.ar/usuarios/create';   
+            
+            var req = {
+                method: 'POST',
+                url: urlUserCreate,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: data
+               }
+               
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al crear el usuario");
+                });
+                return deferred.promise;
         }
 
         function Update(user) {
@@ -96,9 +115,7 @@
         }
 
         // private functions
-        var headers = {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'   
-        }
+
         function getUsers() {
                 var deferred = $q.defer();
                 $http.get('http://api.mellevas.com.ar/usuarios/getusuarios',headers)

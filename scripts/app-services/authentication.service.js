@@ -5,8 +5,8 @@
         .module('app')
         .factory('AuthenticationService', AuthenticationService);
 
-    AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService'];
-    function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService) {
+    AuthenticationService.$inject = ['$http','$q', '$cookies', '$rootScope', '$timeout', 'UserService'];
+    function AuthenticationService($http,$q ,$cookies, $rootScope, $timeout, UserService) {
         var service = {};
 
         service.Login = Login;
@@ -15,21 +15,24 @@
 
         return service;
 
-        function Login(username, password, callback) {
-
-            /* Dummy authentication for testing, uses $timeout to simulate api call
-             ----------------------------------------------*/
-      
-                        var  response = { success: true };
-                        callback(response);
-
-            /* Use this for real authentication
-             ----------------------------------------------*/
-            //$http.post('/api/authenticate', { username: username, password: password })
-            //    .success(function (response) {
-            //        callback(response);
-            //    });
-
+        function Login(user) {
+            var deferred = $q.defer();
+            var data = {
+                email: user.email,
+                clave: user.password
+            }
+            var headers = {
+                'Access-Control-Allow-Origin': '*'
+            }
+            var urlUserAuthenticate ='http://api.mellevas.com.ar/usuarios/authenticate';           
+            $http.post(urlUserAuthenticate,data, headers)
+            .then(function(response){
+               deferred.resolve(response.data);
+            })
+            .catch(function(error){
+              deferred.reject("Error al autenticar");
+            });
+            return deferred.promise;
         }
 
         function SetCredentials(username, password) {
