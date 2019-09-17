@@ -18,18 +18,13 @@
                         SweetAlert.swal ({
                             type: "success", 
                             title: "La operacion se ha realizado con exito",
-                            text: "El usuario ha sido creado, verifique su casilla de E-mail",
+                            text: "ssss",
                             confirmButtonAriaLabel: 'Ok',
                         });
                        
                     } else {
+                        //FlashService.Error(response.message);
                         vm.dataLoading = false;
-                        SweetAlert.swal ({
-                            type: "error", 
-                            title: "Error",
-                            text: "Error al crear el usuario",
-                            confirmButtonAriaLabel: 'Ok',
-                        });
                     }
                 })
                 .catch(function(error){
@@ -45,7 +40,7 @@
             ResourcesService.GetTiposDNI()
             .then(function (response) {
                 if (response){
-                   vm.dnitypes = response;          
+                   vm.dnitypes = response.data;          
                 } 
             })
             .catch(function(error){

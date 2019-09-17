@@ -6,8 +6,13 @@
         .config(config)
         .run(run);
 
-    config.$inject = ['$routeProvider', '$locationProvider'];
-    function config($routeProvider, $locationProvider) {
+    config.$inject = ['$routeProvider', '$locationProvider','$httpProvider'];
+    function config($routeProvider, $locationProvider,$httpProvider) {
+       // $httpProvider.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
+      //  $httpProvider.defaults.headers.common['Content-Type'] =  ' text/plain';
+      // $httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] =  '*';
+        //$httpProvider.defaults.headers.common['Access-Control-Allow-Methods'] =  'POST, GET, DELETE, PUT'
+        
         $routeProvider
             .when('/', {
                 controller: 'HomeController',
