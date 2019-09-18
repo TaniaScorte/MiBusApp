@@ -17,22 +17,28 @@
 
         function Login(user) {
             var deferred = $q.defer();
-            var data = {
-                email: user.email,
-                clave: user.password
-            }
-            var headers = {
-                'Access-Control-Allow-Origin': '*'
-            }
+            var myFormData = new FormData();            
+            myFormData.append('email', user.email);
+            myFormData.append('clave', user.password);
             var urlUserAuthenticate ='http://api.mellevas.com.ar/usuarios/authenticate';           
-            $http.post(urlUserAuthenticate,data, headers)
-            .then(function(response){
-               deferred.resolve(response.data);
-            })
-            .catch(function(error){
-              deferred.reject("Error al autenticar");
-            });
-            return deferred.promise;
+            var req = {
+                method: 'POST',
+                url: urlUserAuthenticate,
+                headers: {
+                    'Content-Type': undefined,
+                    transformRequest: angular.identity
+                },
+                data: myFormData
+               }
+               
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al autenticarse");
+                });
+                return deferred.promise;
         }
 
         function SetCredentials(username, password) {

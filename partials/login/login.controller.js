@@ -31,6 +31,7 @@
                     text: error,
                     confirmButtonAriaLabel: 'Ok',
                 });
+                vm.dataLoading = false;
             });
         };
     }
