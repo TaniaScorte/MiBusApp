@@ -1,7 +1,5 @@
 (function () {
     'use strict';
-    var miApp = angular.module('app');
-
 
     angular
         .module('app')

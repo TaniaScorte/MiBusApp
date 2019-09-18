@@ -67,6 +67,16 @@
                 templateUrl: 'partials/driver-home/driver-home.view.html',
                 controllerAs: 'vm'
             })
+            .when('/driver-map', {
+                controller: 'DriverMapController',
+                templateUrl: 'partials/driver-map/driver-map.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/driver-report', {
+                controller: 'DriverReportController',
+                templateUrl: 'partials/driver-report/driver-report.view.html',
+                controllerAs: 'vm'
+            })
 
             .otherwise({ redirectTo: '/' });            
     }
