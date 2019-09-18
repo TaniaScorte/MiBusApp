@@ -65,7 +65,7 @@
             .when('/driver-home', {
                 controller: 'DriverHomeController',
                 templateUrl: 'partials/driver-home/driver-home.view.html',
-               // controllerAs: 'vm'
+                controllerAs: 'vm'
             })
 
             .otherwise({ redirectTo: '/' });            
