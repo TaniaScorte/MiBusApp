@@ -1,0 +1,123 @@
+
+<head>
+    <style>
+        .color {
+            background-color: #b4d3de;
+            padding: 2%;
+            margin: 2%;
+            border-style: solid;
+            border-color: #4d4948;
+            border-width: 2px;
+            border-radius: 20px;
+        }
+
+        .boton {
+            margin: 2%;
+            width: 110%;
+            height: 80%;
+            border-radius: 20px;
+
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .center {
+            display: inline-block;
+        }
+
+        .boton-aqui {
+            border-radius: 20px;
+            margin-top: 10px;
+            width: 70%;
+            height: 60%;
+        }
+
+        .rojo{
+            color: rgb(168, 8, 8);
+            font-weight: bold;
+        }
+        .contenedor{
+            height: 100%;
+            width: 100%;
+            margin-top: 80px;
+        }
+
+        @media only screen and (min-width: 300px) {
+            .adapt {
+                height: 95%;
+            }
+        }
+    </style>
+</head>
+<style>
+        .bg-light {
+            background-color: #b4d3de !important;
+        }
+    </style>
+
+
+</body>
+
+<div nav-driver></div>
+<div class="row contenedor" >
+    <div class="col-md-6 col-sm-12">
+        <div class="color row ">
+            <div class="col-8 text-center">
+                <h4>Asientos libres:</h4>
+                <h3 class="rojo" class="center">{{libres}}</h3>
+            </div>
+            <div class="col-4 ">
+                <button class="btn boton btn-success " ng-click='ocuparLibre()'>Ocupar</button>
+            </div>
+        </div>
+
+        <div class="color row">
+            <div class="col-8 text-center">
+                <h4>Asientos comprados:</h4>
+                <h4 class="rojo center">{{comprados}}</h4>
+            </div>
+            <div class="col-4">
+                <button class="btn boton btn-success" ng-click='ocuparComprado()'>Ocupar</button>
+            </div>
+        </div>
+
+        <div class="color row">
+            <div class="col-8 text-center">
+                <h4>Asientos ocupados:</h4>
+                <h4 class="rojo center">{{ocupados}}</h4>
+            </div>
+            <div class="col-4">
+                <button class="btn boton btn-success" ng-click='liberar()'>Liberar</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-6 col-sm-12 text-center">
+        <div class="color adapt">
+            <h4>Siguiente parada:</h4>
+            <div class="center">
+                <h4 class="rojo">{{proximaParada}}</h4>
+            </div>
+            <hr>
+            <div class="col-12 center">
+                <h4 class="rojo">Hora de llegada:</h4>
+            </div>
+            <div class="center">
+                <h4 class="rojo">{{horaLlegada}}</h4>
+            </div>
+            <hr>
+            <div class="col-12">
+                <button class="btn btn-lg boton-aqui btn-block center btn-info" ng-click='marcarParada()'>Estoy aquí</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

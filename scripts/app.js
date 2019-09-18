@@ -57,6 +57,11 @@
                 templateUrl: 'partials/user-history/user-history.view.html',
                 controllerAs: 'vm'
             })
+            .when('/driver-home', {
+                controller: 'DriverHomeController',
+                templateUrl: 'partials/driver-home/driver-home.view.html',
+               // controllerAs: 'vm'
+            })
 
             .otherwise({ redirectTo: '/' });            
     }
