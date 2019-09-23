@@ -77,6 +77,37 @@
                 templateUrl: 'partials/driver-report/driver-report.view.html',
                 controllerAs: 'vm'
             })
+            .when('/driver-bus', {
+                controller: 'DriverBusController',
+                templateUrl: 'partials/driver-bus/driver-bus.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/admin-home', {
+                controller: 'AdminHomeController',
+                templateUrl: 'partials/admin-home/admin-home.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/admin-routes', {
+                controller: 'AdminRoutesController',
+                templateUrl: 'partials/admin-routes/admin-routes.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/admin-journey', {
+                controller: 'AdminJourneyController',
+                templateUrl: 'partials/admin-journey/admin-journey.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/admin-drivers', {
+                controller: 'AdminDriversController',
+                templateUrl: 'partials/admin-drivers/admin-drivers.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/SUadmin-home', {
+                controller: 'SUAdminHomeController',
+                templateUrl: 'partials/SUadmin-home/SUadmin-home.view.html',
+                controllerAs: 'vm'
+            })
+
 
             .otherwise({ redirectTo: '/' });            
     }
