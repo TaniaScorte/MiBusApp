@@ -30,12 +30,26 @@
             return deferred.promise;
         }
 
-        function GetById(id) {
+        function GetById(id,token) {
             var deferred = $q.defer();
-            var filtered = $filter('filter')(getUsers(), { id: id });
-            var user = filtered.length ? filtered[0] : null;
-            deferred.resolve(user);
-            return deferred.promise;
+            var urlUserGetId ='http://www.mellevas.com.ar/api/usuarios/getusuario?id=';   
+            
+            var req = {
+                method: 'GET',
+                url: urlUserGetId + id + "&token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+               }
+               
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al iniciar");
+                });
+                return deferred.promise;
         }
 
         function GetByUsername(username) {
@@ -51,23 +65,20 @@
             var data ={
                 nombre: user.name,
                 apellido: user.surname,
-                tipoDni: user.dnitypes,
+                tipoDni: user.dnitype.Id,
                 dni: user.dni,
                 email: user.email,
                 clave: user.password,
                 //telefono: user.tel,
                 empresaid: 0,
                 rolid:1,
-                token: "",
+                token: "2019",
             }
-            var urlUserCreate ='http://api.mellevas.com.ar/usuarios/create';   
+            var urlUserCreate ='http://www.mellevas.com.ar/api/usuarios/create';   
             
             var req = {
                 method: 'POST',
                 url: urlUserCreate,
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
                 data: data
                }
                
@@ -118,7 +129,7 @@
 
         function getUsers() {
                 var deferred = $q.defer();
-                $http.get('http://api.mellevas.com.ar/usuarios/getusuarios',headers)
+                $http.get('usuarios/getusuarios',headers)
                 .then(function(response){
                    deferred.resolve(response.data);
                 })

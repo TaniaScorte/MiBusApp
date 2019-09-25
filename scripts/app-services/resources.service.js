@@ -15,7 +15,7 @@
 
         function GetTiposDNI() {
             var deferred = $q.defer();
-            var urlGetTiposDNI ='http://api.mellevas.com.ar/tiposdni/getTiposDni';       
+            var urlGetTiposDNI ='http://www.mellevas.com.ar/api/tiposdni/getTiposDni';       
         
             var req = {
                 method: 'GET',

@@ -5,11 +5,9 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['UserService', '$rootScope'];
-    function HomeController(UserService, $rootScope) {
-        var vm = this;
-
-        vm.user = null;
+    HomeController.$inject = ['UserService','$scope' ,'$rootScope'];
+    function HomeController(UserService,$scope ,$rootScope) {
+        var vm = $scope;
         vm.allUsers = [];
         vm.deleteUser = deleteUser;
 
@@ -17,7 +15,6 @@
 
         function initController() {
             loadCurrentUser();
-            loadAllUsers();
         }
 
         function loadCurrentUser() {

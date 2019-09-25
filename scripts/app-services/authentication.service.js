@@ -17,18 +17,19 @@
 
         function Login(user) {
             var deferred = $q.defer();
-            var myFormData = new FormData();            
-            myFormData.append('email', user.email);
-            myFormData.append('clave', user.password);
-            var urlUserAuthenticate ='http://api.mellevas.com.ar/usuarios/authenticate';           
+            var data = {            
+                email: user.email,
+                clave: user.password
+            };
+            
+            var urlUserAuthenticate ='http://www.mellevas.com.ar/api/usuarios/authenticate'; 
             var req = {
                 method: 'POST',
                 url: urlUserAuthenticate,
-                headers: {
-                    'Content-Type': undefined,
-                    transformRequest: angular.identity
-                },
-                data: myFormData
+                data: {
+                    email: user.email,
+                    clave: user.password
+                }
                }
                
             $http(req)
@@ -41,29 +42,26 @@
                 return deferred.promise;
         }
 
-        function SetCredentials(username, password) {
-            var authdata = Base64.encode(username + ':' + password);
-
+        function SetCredentials(userData, token) {
             $rootScope.globals = {
                 currentUser: {
-                    username: username,
-                    authdata: authdata
+                    userData: userData,
+                    token: token
                 }
             };
 
             // set default auth header for http requests
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
+           // $http.defaults.headers.common['Authorization'] = 'Basic ' + token;
 
             // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
             var cookieExp = new Date();
             cookieExp.setDate(cookieExp.getDate() + 7);
             $cookies.putObject('globals', $rootScope.globals, { expires: cookieExp });
         }
-
         function ClearCredentials() {
             $rootScope.globals = {};
             $cookies.remove('globals');
-            $http.defaults.headers.common.Authorization = 'Basic';
+            //$http.defaults.headers.common.Authorization = 'Basic';
         }
     }
 

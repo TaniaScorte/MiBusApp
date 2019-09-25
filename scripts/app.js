@@ -14,7 +14,7 @@
         //$httpProvider.defaults.headers.common['Access-Control-Allow-Methods'] =  'POST, GET, DELETE, PUT'
         
         $routeProvider
-            .when('/', {
+            .when('/home', {
                 controller: 'HomeController',
                 templateUrl: 'partials/home/home.view.html',
                 controllerAs: 'vm'
@@ -107,18 +107,30 @@
                 templateUrl: 'partials/SUadmin-home/SUadmin-home.view.html',
                 controllerAs: 'vm'
             })
+            .when('/logout', {
+                controller: 'AppController',
+                templateUrl: 'partials/login/login.view.html',
+                controllerAs: 'vm'
+            })
 
-
-            .otherwise({ redirectTo: '/' });            
+            .otherwise({ redirectTo: '/home' });            
     }
 
-    run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];
-    function run($rootScope, $location, $cookieStore, $http) {
-       
-        var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
-        if (restrictedPage) {
-            $location.path('/login');
-        }     
-    }
+    run.$inject = ['$rootScope', '$location', '$cookieStore', '$http','AuthenticationService'];
+    function run($rootScope, $location, $cookieStore, $http,AuthenticationService) {
+        // keep user logged in after page refresh
+        $rootScope.globals = $cookieStore.get('globals') || {};
+        if ($rootScope.globals.currentUser) {
+            $rootScope.user = $rootScope.globals.currentUser.userData; // jshint ignore:line
+        }
 
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            // redirect to login page if not logged in and trying to access a restricted page
+            var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+            var loggedIn = $rootScope.globals.currentUser;
+            if (restrictedPage && !loggedIn) {
+                $location.path('/login');
+            }
+        });
+    }
 })();
