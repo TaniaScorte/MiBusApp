@@ -1,123 +1,100 @@
-
-<head>
-    <style>
-        .color {
-            background-color: #b4d3de;
-            padding: 2%;
-            margin: 2%;
-            border-style: solid;
-            border-color: #4d4948;
-            border-width: 2px;
-            border-radius: 20px;
+<div nav-driver></div>
+<style>
+        .menu {
+            height: 20em;
+            width: 20em;
+            padding: 2em;
         }
 
-        .boton {
-            margin: 2%;
-            width: 110%;
-            height: 80%;
-            border-radius: 20px;
-
+        .cuadro {
+            width: 100%;
+            height: 100%;
+           /* border: solid rgb(127, 214, 255) 2px;*/
+            border-radius: 10px;
         }
-
-        .left {
+        .contenedor{
+            width: 100%;
+            height: 100%;
+        }
+        .boton{
+            background-color: white;
+            border: solid rgb(127, 214, 255) 2px;
+            height: 30%;
+            width: 60%;
+            border-radius: 10px;
+            display: flex;
+            margin-bottom: 0px;
+            font-size: 180%;
+            font-weight: bold;
+            color: blue;
+        }
+        .dato-color{
+            color: blue;
+        }
+        .img-boton{
+            width: 30%;
+            height: 100%;
+            rotate: 100%
+        }
+        .rotar{
+            transform: rotate(180deg);
+        }
+        .img-float{
+            width: 30%;
+            height: 50%;
+            display: flex;
             float: left;
         }
 
-        .right {
-            float: right;
-        }
-
-        .center {
-            display: inline-block;
-        }
-
-        .boton-aqui {
-            border-radius: 20px;
-            margin-top: 10px;
-            width: 70%;
-            height: 60%;
-        }
-
-        .rojo{
-            color: rgb(168, 8, 8);
-            font-weight: bold;
-        }
-        .contenedor{
-            height: 100%;
-            width: 100%;
-            margin-top: 80px;
-        }
-
-        @media only screen and (min-width: 300px) {
-            .adapt {
-                height: 95%;
-            }
-        }
-    </style>
-</head>
-<style>
-        .bg-light {
-            background-color: #b4d3de !important;
-        }
+       
     </style>
 
+    <div class="row contenedor">
+        <div class="menu col-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="cuadro text-center">
+                        <img class="img-float" src="images/asiento.png" alt="">
 
-</body>
+                        <h3>Libres</h3>
+                        <h3 class="dato-color" class="center">{{libres}}</h3>
+                        <br>
+                                <button class="btn boton" ng-click='ocuparLibre()'><img class="rotar img-boton" src="images/flecha.png" alt="">Ocupar</button>
 
-<div nav-driver></div>
-<div class="row contenedor" >
-    <div class="col-md-6 col-sm-12">
-        <div class="color row ">
-            <div class="col-8 text-center">
-                <h4>Asientos libres:</h4>
-                <h3 class="rojo" class="center">{{libres}}</h3>
+                
             </div>
-            <div class="col-4 ">
-                <button class="btn boton btn-success " ng-click='ocuparLibre()'>Ocupar</button>
+        </div>
+        <div class="menu col-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="cuadro text-center">
+                        <img class="img-float" src="images/asiento.png" alt="">
+
+                        <h3>Comprados</h3>
+                        <h4 class="dato-color center">{{comprados}}</h4>
+                        <br>
+                        <button class="btn boton" ng-click='ocuparComprado()'><img class="rotar img-boton" src="images/flecha.png" alt=""> Ocupar</button>
+                
+
             </div>
         </div>
 
-        <div class="color row">
-            <div class="col-8 text-center">
-                <h4>Asientos comprados:</h4>
-                <h4 class="rojo center">{{comprados}}</h4>
-            </div>
-            <div class="col-4">
-                <button class="btn boton btn-success" ng-click='ocuparComprado()'>Ocupar</button>
+        <div class="menu col-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="cuadro text-center">
+                    <img class="img-cuadro img-float" src="images/asiento.png" alt="">
+
+                <h3>Ocupados</h3>
+                <h4 class="dato-color center">{{ocupados}}</h4>
+                <h4><br></h4>
+                <button class="btn boton" ng-click='liberar()'><img class="img-boton" src="images/flecha.png" alt="">Liberar</button>
             </div>
         </div>
+        <div class="menu col-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="cuadro text-center">
+                        <img class="img-float" src="images/marker.png" alt="">
 
-        <div class="color row">
-            <div class="col-8 text-center">
-                <h4>Asientos ocupados:</h4>
-                <h4 class="rojo center">{{ocupados}}</h4>
-            </div>
-            <div class="col-4">
-                <button class="btn boton btn-success" ng-click='liberar()'>Liberar</button>
-            </div>
+                    <h3>Próxima parada</h3>
+                    <h4 class="dato-color">{{proximaParada}}</h4>
+                    <h4 class="dato-color">{{horaLlegada}}</h4>
+                    <button class="btn boton" ng-click='marcarParada()'><img class="img-boton" src="images/check.png" alt="">Estoy aquí</button>
+
+                </div>
         </div>
 
     </div>
-
-    <div class="col-md-6 col-sm-12 text-center">
-        <div class="color adapt">
-            <h4>Siguiente parada:</h4>
-            <div class="center">
-                <h4 class="rojo">{{proximaParada}}</h4>
-            </div>
-            <hr>
-            <div class="col-12 center">
-                <h4 class="rojo">Hora de llegada:</h4>
-            </div>
-            <div class="center">
-                <h4 class="rojo">{{horaLlegada}}</h4>
-            </div>
-            <hr>
-            <div class="col-12">
-                <button class="btn btn-lg boton-aqui btn-block center btn-info" ng-click='marcarParada()'>Estoy aquí</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-
