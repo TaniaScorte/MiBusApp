@@ -11,8 +11,6 @@
     function DriverBusController(UserService, $rootScope, $scope) {
         var vm = this;
 
-        
-
     }
 
 
