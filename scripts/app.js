@@ -107,17 +107,29 @@
                 templateUrl: 'partials/SUadmin-home/SUadmin-home.view.html',
                 controllerAs: 'vm'
             })
-            .when('/logout', {
-                controller: 'AppController',
-                templateUrl: 'partials/login/login.view.html',
-                controllerAs: 'vm'
-            })
 
             .otherwise({ redirectTo: '/home' });            
     }
 
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http','AuthenticationService'];
     function run($rootScope, $location, $cookieStore, $http,AuthenticationService) {
+        $rootScope.logout = function(){
+            AuthenticationService.Logout($rootScope.user.Id, $rootScope.globals.currentUser.token)
+            .then(function (response) {
+                AuthenticationService.ClearCredentials();
+                $location.path('/login');
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
+                vm.dataLoading = false;
+            });         
+
+        }
         // keep user logged in after page refresh
         $rootScope.globals = $cookieStore.get('globals') || {};
         if ($rootScope.globals.currentUser) {

@@ -10,6 +10,7 @@
         var service = {};
 
         service.Login = Login;
+        service.Logout = Logout;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
 
@@ -42,6 +43,29 @@
                 return deferred.promise;
         }
 
+        function Logout(id, token) {
+            var deferred = $q.defer();
+            var data = {            
+                Id: id,
+                Token: token
+            };
+            
+            var urlUserLogout ='http://www.mellevas.com.ar/api/usuarios/logout'; 
+            var req = {
+                method: 'POST',
+                url: urlUserLogout,
+                data: data
+               }
+               
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al desloguearse");
+                });
+                return deferred.promise;
+        }
         function SetCredentials(userData, token) {
             $rootScope.globals = {
                 currentUser: {
