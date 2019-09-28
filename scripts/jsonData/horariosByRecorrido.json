@@ -1,0 +1,42 @@
+[
+    {
+        "Id":1,
+        "RecorridoId": 1,
+        "EmpresaId":1,
+        "RamalId":1,
+        "Fecha":"28/09-2019",
+        "Hora":"11:00 p.m"
+    },
+    {
+        "Id":2,
+        "RecorridoId": 1,
+        "EmpresaId":1,
+        "RamalId":1,
+        "Fecha":"28/09-2019",
+        "Hora":"12:00 p.m"
+    },
+    {
+        "Id":3,        
+        "RecorridoId": 1,
+        "EmpresaId":1,
+        "RamalId":1,
+        "Fecha":"28/09-2019",
+        "Hora":"13:00 p.m"
+    },
+    {
+        "Id":4,
+        "RecorridoId": 1,
+        "EmpresaId":1,
+        "RamalId":1,
+        "Fecha":"28/09-2019",
+        "Hora":"14:00 p.m"
+    },
+    {
+        "Id":5,
+        "RecorridoId": 1,
+        "EmpresaId":1,
+        "RamalId":1,
+        "Fecha":"28/09-2019",
+        "Hora":"15:00 p.m"
+    }
+]

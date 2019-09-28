@@ -1,11 +1,67 @@
 <div nav-user></div>
 <div class=" content" id="content">
     <div class="col-sm-12 col-md-12">
-        <h2>Compra pasaje MiBusApp</h2>
+        <h2>Compra pasaje MiBus</h2>
         <hr class="hr">
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: left;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                   <h5> Usted esta por comprar un pasaje</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                Empresa:
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <strong> <h6>{{paramsBuy.empresa.Nombre}}</h6></strong><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                Ramal:
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <strong><h6> {{paramsBuy.ramal.Nombre}} </h6></strong>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                Recorrido:
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                <strong> <h6>{{paramsBuy.recorrido.Nombre}} </h6></strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                Fecha: 
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <strong> <h6> {{paramsBuy.horario.Fecha}}</h6></strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                Hora: 
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <strong> <h6>{{paramsBuy.horario.Hora}}</h6></strong>  
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                Valor del pasaje: 
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <strong><h4>$160</h4></strong>
+            </div>
+        </div>
+    </div> 
     <div>
         <a class="btn btn-primary" mp-mode="dftl" href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=4296396-7419782e-a5c2-48e5-8ab0-6b2b2ec8c754" name="MP-payButton" class='blue-ar-l-rn-none'>Pagar</a>
+        <a href="#!/schedules" class="btn btn-danger">Cancelar</a>
     </div>
 </div>
 

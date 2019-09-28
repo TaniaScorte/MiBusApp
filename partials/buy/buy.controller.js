@@ -5,13 +5,10 @@
         .module('app')
         .controller('BuyController', BuyController);
 
-        BuyController.$inject = ['UserService', '$rootScope'];
-    function BuyController(UserService, $location,$rootScope) {
-        var vm = this;
-
-        vm.user = null;
-        vm.allUsers = [];
-        vm.deleteUser = deleteUser;
+        BuyController.$inject = ['$rootScope','$scope'];
+    function BuyController($rootScope,$scope) {
+        var vm = $scope;
+        vm.paramsBuy = $rootScope.paramsBuy;
 
         initController();
 

@@ -63,16 +63,16 @@
         function Create(user) {
             var deferred = $q.defer();
             var data ={
-                nombre: user.name,
-                apellido: user.surname,
-                tipoDni: user.dnitype.Id,
-                dni: user.dni,
-                email: user.email,
-                clave: user.password,
-                //telefono: user.tel,
-                empresaid: 0,
-                rolid:1,
-                token: "2019",
+                Nombre: user.name,
+                Apellido: user.surname,
+                TipoDni: user.dnitype.Id,
+                Dni: user.dni,
+                Email: user.email,
+                Clave: user.password,
+                Telefono: user.tel,
+                EmpresaId: 0,
+                RolId:1,
+                Token: "2019",
             }
             var urlUserCreate ='http://www.mellevas.com.ar/api/usuarios/create';   
             

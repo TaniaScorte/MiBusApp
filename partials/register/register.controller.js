@@ -14,15 +14,25 @@
             vm.dataLoading = true;
             UserService.Create(user)
                 .then(function (response) {
-                    if (response){
+                    if (response.Estado == 0){
                         SweetAlert.swal ({
                             type: "success", 
                             title: "La operacion se ha realizado con exito",
                             text: "El usuario ha sido creado, verifique su casilla de E-mail",
                             confirmButtonAriaLabel: 'Ok',
                         });
+                        clearRegister();
                        
-                    } else {
+                    } 
+                    if(response.Estado == 50){
+                        SweetAlert.swal ({
+                            type: "warning", 
+                            title: "Verifique!",
+                            text: response.Mensaje + " verifique su e-mail",
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    }
+                    else {
                         vm.dataLoading = false;
                         SweetAlert.swal ({
                             type: "error", 
@@ -45,7 +55,7 @@
             ResourcesService.GetTiposDNI()
             .then(function (response) {
                 if (response){
-                   vm.dnitypes = response;          
+                   $rootScope.dnitypes = response;          
                 } 
             })
             .catch(function(error){
@@ -64,6 +74,9 @@
             {name : "Empresa C"}
           ];
           
+        function clearRegister(){
+            vm.user=null;
+        }
         function openModal(error){
             var modalInstance = $uibModal.open({
                 animation:true,

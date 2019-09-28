@@ -1,17 +1,18 @@
 <div nav-user></div>
 <div class=" content" id="content">
     <div class="col-sm-12 col-md-12">
-        <h2>Bienvenidos a Mi Bus</h2>
+        <h2>Bienvenidos a Mi Bus , {{user.Nombre}} {{user.Apellido}}!</h2>
         <hr class="hr">
     </div>
     <div>
-    <h3>Hola , {{user.Nombre}} {{user.Apellido}}!</h3>
-    <h2>Gracias por unirte! Tendras todo lo que necesites en los siguientes links.</h2>    
-    <p>
-        <ul>
-            <li>Queres modificar informacion <a ng-src="user-edit"></a></li>
-        </ul>
-    </p>    
+        <h4>Gracias por unirte! </h4>
+        <h4>Tendras todo lo que necesites en los siguientes links.</h4>     
+        <ul class="list-group" style="text-align: left;">
+            <li class="list-group-item"><i class="fa fa-pencil" aria-hidden="true"></i><a href="#!/user-edit"> Edita la informacion de tu usuario</a> </li>
+            <li class="list-group-item"><i class="fa fa-archive" aria-hidden="true"></i><a href="#!/user-history"> Verifica tus ultimos pasajes</a></li>
+            <li class="list-group-item"><i class="fa fa-clock-o" aria-hidden="true"></i><a href="#!/schedules"> Mira los horarios disponibles</a> </li>
+            <li class="list-group-item"><i class="fa fa-map-o" aria-hidden="true"></i><a href="#!/bus-view"> Cheque MiBusApp en tiempo real!</a></li>
+        </ul>    
     </div>
 </div>
 <footer></footer>
