@@ -18,10 +18,10 @@
                     .then(function (response) {
                         $rootScope.user = response.data;
                         AuthenticationService.SetCredentials($rootScope.user, token);
-                        if(response.data.RolId == 1){
+                        if(response.data.RolId == 2){
                             $location.path('/');
                         }   
-                        if(response.data.RolId == 2){
+                        if(response.data.RolId == 1){
                             $location.path('/driver-home');
                         }  
                         if(response.data.RolId == 3){

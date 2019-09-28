@@ -49,7 +49,7 @@
        
     </style>
 
-    <div class="row contenedor">
+    <div class="row contenedor" id="swipeHome">
         <div class="menu col-12 col-sm-12 col-md-6 col-lg-6">
             <div class="cuadro text-center">
                         <img class="img-float" src="images/asiento.png" alt="">
@@ -67,7 +67,7 @@
                         <img class="img-float" src="images/asiento.png" alt="">
 
                         <h3>Comprados</h3>
-                        <h4 class="dato-color center">{{comprados}}</h4>
+                        <h3 class="dato-color center">{{comprados}}</h3>
                         <br>
                         <button class="btn boton" ng-click='ocuparComprado()'><img class="rotar img-boton" src="images/flecha.png" alt=""> Ocupar</button>
                 
@@ -80,7 +80,7 @@
                     <img class="img-cuadro img-float" src="images/asiento.png" alt="">
 
                 <h3>Ocupados</h3>
-                <h4 class="dato-color center">{{ocupados}}</h4>
+                <h3 class="dato-color center">{{ocupados}}</h3>
                 <h4><br></h4>
                 <button class="btn boton" ng-click='liberar()'><img class="img-boton" src="images/flecha.png" alt="">Liberar</button>
             </div>
@@ -90,8 +90,8 @@
                         <img class="img-float" src="images/marker.png" alt="">
 
                     <h3>Próxima parada</h3>
-                    <h4 class="dato-color">{{proximaParada}}</h4>
-                    <h4 class="dato-color">{{horaLlegada}}</h4>
+                    <h3 class="dato-color">{{proximaParada}}</h3>
+                    <h3 class="dato-color">{{horaLlegada}}</h3>
                     <button class="btn boton" ng-click='marcarParada()'><img class="img-boton" src="images/check.png" alt="">Estoy aquí</button>
 
                 </div>
