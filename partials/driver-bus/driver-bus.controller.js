@@ -27,7 +27,7 @@
 
             min_move_x: 200,
             min_move_y: 200,
-            preventDefaultEvents: true
+            preventDefaultEvents: false
         });
     }
 
