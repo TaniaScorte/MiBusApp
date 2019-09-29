@@ -13,6 +13,17 @@
         swipe();
 
 
+        $scope.compradosDefinidos= 10;
+        $scope.compradosOcupados= 7;
+        $scope.compradosRestantes= 3;
+
+        $scope.libresDefinidos=10;
+        $scope.libresOcupados= 4;
+        $scope.libresRestantes= 6;
+
+
+
+
     }
 
     function swipe() {

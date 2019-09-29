@@ -5,6 +5,11 @@ angular.module('app')
       scope: {
           //@ reads the attribute value, = provides two-way binding, & works with functions
           title: '@'         },
+           link: function($scope, element, attrs) {
+        $scope.logout = function() {
+            $rootScope.logout();
+        }
+    },
       templateUrl: 'scripts/app-directives/nav-driver/nav-driver.html'
   }
 });

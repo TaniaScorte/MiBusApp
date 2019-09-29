@@ -69,7 +69,7 @@
                         <h3>Comprados</h3>
                         <h3 class="dato-color center">{{comprados}}</h3>
                         <br>
-                        <button class="btn boton" ng-click='ocuparComprado()'><img class="rotar img-boton" src="images/flecha.png" alt=""> Ocupar</button>
+                        <button class="btn boton" ng-click='ocuparComprado()' data-toggle="modal" data-target="#modalCodigo"><img class="rotar img-boton" src="images/flecha.png" alt=""> Ocupar</button>
                 
 
             </div>
@@ -96,5 +96,31 @@
 
                 </div>
         </div>
+
+
+
+<!-- Modal -->
+<div id="modalCodigo" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+     
+      <div class="modal-body">
+          <h4>Código de compra</h4>
+          <br>
+          <input type="text" class="form-control" autofocus>
+          <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-lg btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-default btn-lg btn-success">Aceptar</button>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
     </div>

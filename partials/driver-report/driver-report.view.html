@@ -1,92 +1,114 @@
 <style>
-    .bg-light {
-        background-color: #b4d3de !important;
+  .bg-light {
+    background-color: #b4d3de !important;
+  }
+
+  .btn-menu {
+    background: transparent;
+    width: 30%;
+    height: 30%;
+    color: blue;
+    margin: 5%;
+    font-size: 170%;
+    font-weight: bold;
+  }
+
+  .btn-img {
+    width: 80%;
+    height: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .btn-menu {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      height: 50%;
+
     }
-
-    .btn-menu{
-        background: transparent;
-        width: 30%;
-        height: 30%;
-        color: blue;
-        margin: 5%;
-        font-size: 170%;
-        font-weight: bold;
-    }
-
-    .btn-img{
-        width: 80%;
-        height: 80%;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    @media only screen and (max-width: 600px) {
-        .btn-menu{
-            display: block;
-            margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-        height: 50%;
-        
-        }
-    }
-
-
-
+  }
 </style>
 
 
 
 <div nav-driver></div>
 <div id="swipeReport">
-    <H1>REPORTES</H1>
-    <button type="button" class="btn btn-menu btn-info btn-lg" data-toggle="modal" data-target="#mdlDemora"><img class="btn-img" src="images/reloj.png" alt=""> Aviso de <br> demora</button>
+  <H1>REPORTES</H1>
+  <button type="button" class="btn btn-menu btn-info btn-lg" data-toggle="modal" data-target="#mdlDemora"><img
+      class="btn-img" src="images/reloj.png" alt=""> Aviso de <br> demora</button>
 
-    <button type="button" class="btn btn-menu btn-info btn-lg" data-toggle="modal" data-target="#mdlReporte"><img class="btn-img" src="images/atencion.png" alt=""> Problemas <br> técnicos</button>
+  <button type="button" class="btn btn-menu btn-info btn-lg" data-toggle="modal" data-target="#mdlReporte"><img
+      class="btn-img" src="images/atencion.png" alt=""> Problemas <br> técnicos</button>
 
-<!-- Modal -->
-<div id="mdlDemora" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <!-- Modal -->
+  <div id="mdlReporte" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title">Reportar problema técnico</h4>
+        </div>
+        <div class="modal-body">
+
+          <form action="">
+
+            <h7>¿Necesita asistencia?</h7>
+            <div class="radio text-left">
+              <label>
+                <input type="radio" name="optradio" checked><span></span> Remolque</label>
+            </div>
+            <div class="radio text-left">
+              <label><input type="radio" name="optradio"><span></span> Asistencia mecanica</label>
+            </div>
+            <div class="radio text-left">
+              <label><input type="radio" name="optradio"><span></span> Ninguna</label>
+            </div>
+
+            <div class="form-group">
+              <label for="descripcion">Inconveniente:</label>
+              <textarea name="" id="descripcion" class="form-control" cols="30" rows="5"></textarea>
+            </div>
+
+
+          </form>
+
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-lg btn-success">Enviar</button> </div>
       </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+
     </div>
-
   </div>
-</div>
 
 
 
 
-<!-- Modal -->
-<div id="mdlReporte" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
+  <!-- Modal -->
+  <div id="mdlDemora" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+      <!-- Modal content-->
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <h1>¿Desea enviar un aviso de demora?</h1>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-lg btn-success">Enviar</button>
+
+        </div>
       </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+
     </div>
-
   </div>
-</div>
 </div>

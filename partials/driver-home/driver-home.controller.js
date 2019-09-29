@@ -50,12 +50,6 @@
                 window.location.replace('#!driver-report');
             },
 
-            wipeUp: function(){
-                
-            },
-
-            wipeDown : function(){},
-
             min_move_x: 200,
             min_move_y: 200,
             preventDefaultEvents: false
