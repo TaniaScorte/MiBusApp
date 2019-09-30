@@ -1,22 +1,15 @@
 (function () {
     'use strict';
 
-    var mi =angular
+    var SUhome = angular
         .module('app')
         .controller('SUAdminHomeController', SUAdminHomeController);
-
     SUAdminHomeController.$inject = ['UserService', '$rootScope', '$http', '$scope', '$uibModal'];
-
-
     function SUAdminHomeController(UserService, $rootScope, $http, $scope, $uibModal) {
         var vm = this;
 
-
-
-
         getEmpresas();
-
-
+        //get todas las empresas
         function getEmpresas() {
             var url = 'http://www.mellevas.com.ar/api/empresas/getEmpresas';
             var data = {
@@ -29,13 +22,13 @@
             $http(data)
                 .then(function (response) {
                     $scope.empresas = response.data;
-                         console.log(response.data);
+                    //      console.log(response.data);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
-
+        //nueva empresa
         $scope.nueva = function () {
             var url = 'http://www.mellevas.com.ar/api/empresas/Create';
             var data = {
@@ -52,23 +45,19 @@
 
             $http(data)
                 .then(function (response) {
-                    console.log(response);
+                    //   console.log(response);
                     getEmpresas();
+                    $('#modalNuevo').modal('hide');
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-
-
         }
 
-
+        //editar empresas
         $scope.editar = function (id) {
-
             var id = parseInt(id);
-
             var url = 'http://www.mellevas.com.ar/api/empresas/getEmpresa?id=';
-
             var data = {
                 method: 'GET',
                 url: url + id + "&token=" + 2019,
@@ -76,7 +65,6 @@
                     'Content-Type': 'application/json; charset=utf-8'
                 }
             }
-
             $http(data)
                 .then(function (response) {
                     $scope.txtNombreEdit = response.data.Nombre;
@@ -87,14 +75,9 @@
                     console.log(error);
                 });
 
-
-
-
             $('#btnEditar').on('click', function () {
                 var url = 'http://www.mellevas.com.ar/api/empresas/Update';
-
                 // console.log($scope.txtNombreEdit, $scope.txtDirEdit, id);
-
                 var data = {
                     method: 'POST',
                     url: url,
@@ -103,11 +86,11 @@
                     Direccion: $scope.txtDirEdit,
                     Token: "2019",
                 }
-
                 $http(data)
                     .then(function (response) {
                         console.log(response);
-                        getEmpresas();
+                        getEmpresas();  ////**********************************************************Terminar*********************** */
+                        $('#modalEditar').modal('hide');
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -115,12 +98,10 @@
             });
 
         }
-
+        //eliminar empresa
         $scope.eliminar = function (id) {
-
             $('#btnEliminar').on('click', function () {
                 var url = 'http://www.mellevas.com.ar/api/empresas/Delete?id=';
-
                 var data = {
                     method: 'GET',
                     url: url + id + "&token=" + 2019,
@@ -128,50 +109,36 @@
                         'Content-Type': 'application/json; charset=utf-8'
                     }
                 }
-
                 $http(data)
                     .then(function (response) {
                         getEmpresas();
-                        console.log(response);
+                        $('#modalEliminar').modal('hide');
+               //         console.log(response);
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-
             })
-
 
         }
 
-
-
-        
-       
     }
-    mi.filter('filterDate', function(){
-        var cambiarFiltro = function(datosOriginales){
-
-
-           var nuevosDatos = datosOriginales.replace(/([A-Za-z)(\\/])/g,"");
-          //var nuevosDatos = datosOriginales.replace(/o/g,primerValor);
-         //var nuevosDatos = datosOriginales.replace(RegExp(segundoValor,"g"),primerValor);
-         //   var nuevosDatos = 'hola';
-
+    //filtro personalizado para fechas
+    SUhome.filter('filterDate', function () {
+        var cambiarFiltro = function (datosOriginales) {
+            var millis = datosOriginales.replace(/([A-Za-z)(\\/])/g, "");
+            var date = new Date(parseInt(millis));
+            var hoy = new Date();
+            console.log('hoy'+hoy.getTime()+'input'+millis);
+            if (hoy.getTime() < parseInt(millis)) {
+                var nuevosDatos = 'Activo'
+            }else{
+                var nuevosDatos = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+            }
             return nuevosDatos;
-
         };
-
         return cambiarFiltro;
     });
-
-
-
-
-
-
-
-
-
 
 
 })();

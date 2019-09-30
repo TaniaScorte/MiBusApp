@@ -167,8 +167,8 @@
                         <tr ng-repeat="empresa in empresas">
                             <td>{{empresa.Nombre}}</td>
                             <td>{{empresa.Direccion}}</td>
-                            <td>{{empresa.FechaAlta | filterDate | date : 'dd-MM-yyyy'}}</td>
-                            <td>{{empresa.FechaBaja | filterDate | date : 'dd-MM-yyyy'}}</td>
+                            <td>{{empresa.FechaAlta | filterDate}}</td>
+                            <td>{{empresa.FechaBaja | filterDate}}</td>
                             <td>
                                 <a class="edit" data-toggle="modal" data-target="#modalEditar"><i class="fa fa-pencil"
                                         data-toggle="tooltip" title="" data-original-title="Editar"
