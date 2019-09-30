@@ -1,5 +1,5 @@
 angular.module('app')
-.directive('navDriver', function () {
+.directive('navDriver', function ($rootScope) {
   return {
       restrict: 'EA', //E = element, A = attribute, C = class, M = comment         
       scope: {
