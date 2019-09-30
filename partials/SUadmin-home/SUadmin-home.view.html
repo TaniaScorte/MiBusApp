@@ -149,7 +149,7 @@
                     </div>
                 </div>
 
-                
+
 
                 <table class="table table-striped table-hover">
                     <thead>
@@ -165,17 +165,17 @@
 
 
                         <tr ng-repeat="empresa in empresas">
-                            <td scope="row">{{empresa.Nombre}}</td>
+                            <td>{{empresa.Nombre}}</td>
                             <td>{{empresa.Direccion}}</td>
-                            <td>{{empresa.FechaAlta}}</td>
-                            <td>{{empresa.FechaBaja}}</td>
+                            <td>{{empresa.FechaAlta | filterDate | date : 'dd-MM-yyyy'}}</td>
+                            <td>{{empresa.FechaBaja | filterDate | date : 'dd-MM-yyyy'}}</td>
                             <td>
                                 <a class="edit" data-toggle="modal" data-target="#modalEditar"><i class="fa fa-pencil"
                                         data-toggle="tooltip" title="" data-original-title="Editar"
                                         ng-click="editar(empresa.Id)"></i></a>
-                                <a href="" class="delete" data-toggle="modal" data-target="#modalEliminar" ng-click="eliminar(empresa.Id)"><i
-                                        class="fa fa-trash" data-toggle="tooltip" title=""
-                                        data-original-title="Borrar"></i></a>
+                                <a href="" class="delete" data-toggle="modal" data-target="#modalEliminar"
+                                    ng-click="eliminar(empresa.Id)"><i class="fa fa-trash" data-toggle="tooltip"
+                                        title="" data-original-title="Borrar"></i></a>
                             </td>
                         </tr>
 
@@ -200,20 +200,20 @@
                     </div>
                     <div class="modal-body">
 
-                            <form>
-                                <div class="form-group">
-                                  <label for="txtNombreNew">Nombre</label>
-                                  <input type="text" ng-model='txtNombreNew' class="form-control" id="txtNombreNew">
-                                </div>
-                                <div class="form-group">
-                                  <label for="txtDirNew">Dirección</label>
-                                  <input type="text" ng-model='txtDirNew' class="form-control" id="txtDirNew">
-                                </div>
-                                
-                              </form>
+                        <form>
+                            <div class="form-group">
+                                <label for="txtNombreNew">Nombre</label>
+                                <input type="text" ng-model='txtNombreNew' class="form-control" id="txtNombreNew">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtDirNew">Dirección</label>
+                                <input type="text" ng-model='txtDirNew' class="form-control" id="txtDirNew">
+                            </div>
+
+                        </form>
 
                     </div>
-                    <div class="modal-footer bg-light">
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                         <button type="button" class="btn btn-success" ng-click='nueva()'>Guardar</button>
 
@@ -232,15 +232,28 @@
 
                 <!-- Modal content-->
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
+                    <div class="modal-header bg-warning">
+                        <h4 class="modal-title">Editar cliente</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Some text in the modal.</p>
+                        <form>
+                            <div class="form-group">
+                                <label for="txtNombreEdit">Nombre</label>
+                                <input type="text" ng-model='txtNombreEdit' class="form-control" id="txtNombreEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtDirEdit">Dirección</label>
+                                <input type="text" ng-model='txtDirEdit' class="form-control" id="txtDirEdit">
+                            </div>
+
+                        </form>
+
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" id="btnEditar" class="btn btn-success"
+                            data-dismiss="modal">Guardar</button>
+
                     </div>
                 </div>
 
@@ -253,18 +266,20 @@
         <!-- Modal eliminar-->
         <div id="modalEliminar" class="modal fade" role="dialog">
             <div class="modal-dialog">
-
                 <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
-                    </div>
+                <div class="modal-content ">
+                        <div class="modal-header bg-danger">
+                                <!--<h4 class="modal-title">Editar cliente</h4>-->
+                                <span></span>
+                        </div>
                     <div class="modal-body">
-                        <p>Some text in the modal.</p>
+                        <h4>Eliminar</h4>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-success" id="btnEliminar">Aceptar</button>
+
+                        
                     </div>
                 </div>
 
