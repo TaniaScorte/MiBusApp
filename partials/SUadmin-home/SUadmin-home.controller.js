@@ -129,7 +129,7 @@
             var millis = datosOriginales.replace(/([A-Za-z)(\\/])/g, "");
             var date = new Date(parseInt(millis));
             var hoy = new Date();
-            console.log('hoy'+hoy.getTime()+'input'+millis);
+   //         console.log('hoy'+hoy.getTime()+'input'+millis);
             if (hoy.getTime() < parseInt(millis)) {
                 var nuevosDatos = 'Activo'
             }else{

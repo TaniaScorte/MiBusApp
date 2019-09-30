@@ -92,14 +92,19 @@
                 templateUrl: 'partials/admin-routes/admin-routes.view.html',
                 controllerAs: 'vm'
             })
-            .when('/admin-journey', {
+            .when('/admin-bus', {
                 controller: 'AdminJourneyController',
-                templateUrl: 'partials/admin-journey/admin-journey.view.html',
+                templateUrl: 'partials/admin-bus/admin-bus.view.html',
                 controllerAs: 'vm'
             })
             .when('/admin-drivers', {
                 controller: 'AdminDriversController',
                 templateUrl: 'partials/admin-drivers/admin-drivers.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/admin-journey', {
+                controller: 'AdminDriversController',
+                templateUrl: 'partials/admin-journey/admin-journey.view.html',
                 controllerAs: 'vm'
             })
             .when('/SUadmin-home', {

@@ -3,7 +3,7 @@
 
     angular
         .module('app')
-        .controller('AdminJourneyController', AdminHomeController);
+        .controller('AdminBusController', AdminJourneyController);
 
         AdminJourneyController.$inject = ['UserService', '$rootScope', '$scope'];
 
