@@ -11,6 +11,7 @@
         getEmpresas();
         //get todas las empresas
         function getEmpresas() {
+            espera(true);
             var url = 'http://www.mellevas.com.ar/api/empresas/getEmpresas';
             var data = {
                 method: 'GET',
@@ -23,10 +24,16 @@
                 .then(function (response) {
                     $scope.empresas = response.data;
                     //      console.log(response.data);
+                    espera(false);
+
                 })
+
                 .catch(function (error) {
                     console.log(error);
+                    espera(false);
+
                 });
+                
         }
         //nueva empresa
         $scope.nueva = function () {
@@ -56,6 +63,7 @@
 
         //editar empresas
         $scope.editar = function (id) {
+            espera(true);
             var id = parseInt(id);
             var url = 'http://www.mellevas.com.ar/api/empresas/getEmpresa?id=';
             var data = {
@@ -70,9 +78,11 @@
                     $scope.txtNombreEdit = response.data.Nombre;
                     $scope.txtDirEdit = response.data.Direccion;
                     // console.log(response);
+                    espera(false);
                 })
                 .catch(function (error) {
                     console.log(error);
+                    espera(false);
                 });
 
             $('#btnEditar').on('click', function () {
@@ -113,7 +123,7 @@
                     .then(function (response) {
                         getEmpresas();
                         $('#modalEliminar').modal('hide');
-               //         console.log(response);
+                        //         console.log(response);
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -122,19 +132,36 @@
 
         }
 
+        function espera(e) {
+            if (e == true) {
+                $scope.espera = 'visible';
+            } else {
+                $scope.espera = 'oculto';
+
+            }
+        }
+
     }
     //filtro personalizado para fechas
     SUhome.filter('filterDate', function () {
         var cambiarFiltro = function (datosOriginales) {
-            var millis = datosOriginales.replace(/([A-Za-z)(\\/])/g, "");
-            var date = new Date(parseInt(millis));
-            var hoy = new Date();
-   //         console.log('hoy'+hoy.getTime()+'input'+millis);
-            if (hoy.getTime() < parseInt(millis)) {
-                var nuevosDatos = 'Activo'
-            }else{
-                var nuevosDatos = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+            if (datosOriginales == null) {
+                var nuevosDatos = 'No hay datos';
+
+            } else {
+                var millis = datosOriginales.replace(/([A-Za-z)(\\/])/g, "");
+                var date = new Date(parseInt(millis));
+                var hoy = new Date();
+                //         console.log('hoy'+hoy.getTime()+'input'+millis);
+                if (hoy.getTime() < parseInt(millis)) {
+                    var nuevosDatos = 'Activo'
+                } else {
+                    var nuevosDatos = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                }
+
             }
+
+
             return nuevosDatos;
         };
         return cambiarFiltro;

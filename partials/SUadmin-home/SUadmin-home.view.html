@@ -1,15 +1,7 @@
-<style>
-    .bg-light {
+    <style type="text/css">
+     .bg-light {
         background-color: #b4d3de !important;
     }
-</style>
-
-
-</body>
-
-<div nav-su></div>
-<div>
-    <style type="text/css">
         .table-wrapper {
             background: #fff;
             padding: 20px 25px;
@@ -123,6 +115,16 @@
             vertical-align: middle;
             margin-right: 10px;
         }
+        .oculto{
+            display: none;
+        }
+        .visible{
+            display: flex;
+        }
+        .contenedor{
+            width: 100%;
+            height: 100%;
+        }
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -131,11 +133,10 @@
 
         });
     </script>
-    </head>
 
-    <body>
+<div nav-su></div>
 
-        <div class="container">
+        <div class="contenedor">
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
@@ -150,7 +151,7 @@
                 </div>
 
 
-
+                <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -182,7 +183,7 @@
 
                     </tbody>
                 </table>
-                <h2 style="color: red;">{{result}}</h2>
+            </div>
 
             </div>
         </div>
@@ -241,6 +242,10 @@
                                 <label for="txtNombreEdit">Nombre</label>
                                 <input type="text" ng-model='txtNombreEdit' class="form-control" id="txtNombreEdit">
                             </div>
+                            <div id="espera" ng-class="espera" style="position: absolute;top: 30%;left: 45%;">
+                                    <img src="images/espera.gif" alt="reloj" style="width: 50px">
+                                </div>
+                    
                             <div class="form-group">
                                 <label for="txtDirEdit">Dirección</label>
                                 <input type="text" ng-model='txtDirEdit' class="form-control" id="txtDirEdit">
@@ -286,12 +291,12 @@
             </div>
         </div>
 
+        <div id="espera" ng-class="espera" style="position: absolute;top: 30%;left: 50%;">
+                <img src="images/espera.gif" alt="reloj" style="width: 50px">
+            </div>
 
 
 
 
 
-    </body>
-
-</div>
 <footer></footer>
