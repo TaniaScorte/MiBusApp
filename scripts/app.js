@@ -93,7 +93,7 @@
                 controllerAs: 'vm'
             })
             .when('/admin-bus', {
-                controller: 'AdminJourneyController',
+                controller: 'AdminBusController',
                 templateUrl: 'partials/admin-bus/admin-bus.view.html',
                 controllerAs: 'vm'
             })
@@ -103,7 +103,7 @@
                 controllerAs: 'vm'
             })
             .when('/admin-journey', {
-                controller: 'AdminDriversController',
+                controller: 'AdminJourneyController',
                 templateUrl: 'partials/admin-journey/admin-journey.view.html',
                 controllerAs: 'vm'
             })

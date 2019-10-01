@@ -3,17 +3,37 @@
 
     angular
         .module('app')
-        .controller('AdminBusController', AdminJourneyController);
+        .controller('AdminBusController', AdminBusController);
 
-        AdminJourneyController.$inject = ['UserService', '$rootScope', '$scope'];
+        AdminBusController.$inject = ['UserService', '$rootScope', '$scope'];
 
 
-    function AdminJourneyController(UserService, $rootScope, $scope) {
+    function AdminBusController(UserService, $rootScope, $scope) {
         var vm = this;
 
        
 
+ 
+
+    var swipe = function () {
+        $("#swipeBus").touchwipe({
+            wipeLeft: function () {
+                window.location.replace('#!admin-home');
+            },
+            wipeRight: function () {
+                window.location.replace('#!admin-drivers');
+            },
+
+            min_move_x: 200,
+            min_move_y: 200,
+            preventDefaultEvents: false
+        });
     }
+    swipe();
+
+
+
+}
 
 
 })();

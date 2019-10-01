@@ -13,7 +13,27 @@
 
        
 
+    
+    var swipe = function () {
+        $("#swipeDrivers").touchwipe({
+            wipeLeft: function () {
+                window.location.replace('#!admin-bus');
+            },
+            wipeRight: function () {
+                window.location.replace('#!admin-routes');
+            },
+
+            min_move_x: 200,
+            min_move_y: 200,
+            preventDefaultEvents: false
+        });
     }
+    swipe();
+
+
+
+
+}
 
 
 })();
