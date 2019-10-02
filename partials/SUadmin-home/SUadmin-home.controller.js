@@ -64,7 +64,7 @@
         //editar empresas
         $scope.editar = function (id) {
             espera(true);
-            var id = parseInt(id);
+            var id = id;
             var url = 'http://www.mellevas.com.ar/api/empresas/getEmpresa?id=';
             var data = {
                 method: 'GET',
@@ -88,14 +88,19 @@
             $('#btnEditar').on('click', function () {
                 var url = 'http://www.mellevas.com.ar/api/empresas/Update';
                 // console.log($scope.txtNombreEdit, $scope.txtDirEdit, id);
-                var data = {
-                    method: 'POST',
-                    url: url,
+                var data = { 
                     id: id,
                     Nombre: $scope.txtNombreEdit,
                     Direccion: $scope.txtDirEdit,
-                    Token: "2019",
+                    Token: "2019"
+                    
                 }
+                var data = {
+                    method: 'post',
+                    url: url,
+                    data: data
+                }
+               // console.log(data);
                 $http(data)
                     .then(function (response) {
                         console.log(response);
