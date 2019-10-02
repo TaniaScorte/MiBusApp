@@ -7,7 +7,7 @@
     <form class="col-sm-12 col-md-12">
         <div class="form-group row">
             <label for="empresa"  class="col-sm-2 col-form-label" >Empresa:</label>
-            <div class="col-sm-10">
+            <div class="col-sm-5">
                 <select ng-model="empresa" class="form-control" ng-change="updateRamalByEmpresa(empresa.Id)" ng-options="empresa.Nombre for empresa in empresas track by empresa.Id">
                     <option value="">Seleccione una opcion</option>
                 </select> 
@@ -15,7 +15,7 @@
         </div>
         <div class="form-group row">
             <label for="ramal"  class="col-sm-2 col-form-label" >Ramal:</label>
-            <div class="col-sm-10">
+            <div class="col-sm-5">
                 <select ng-model="ramal" class="form-control" ng-change="updateRecorridosByRamal(ramal.Id)" ng-options="ramal.Nombre for ramal in ramales track by ramal.Id">
                     <option value="">Seleccione una opcion</option>
                 </select> 
@@ -23,7 +23,7 @@
         </div>
         <div class="form-group row">
             <label for="recorrido"  class="col-sm-2 col-form-label" >Recorrido:</label>
-            <div class="col-sm-10">
+            <div class="col-sm-5">
                 <select ng-model="recorrido" class="form-control" ng-change="updateHorariosByRecorrido(recorrido.Id)" ng-options="recorrido.Nombre for recorrido in recorridos track by recorrido.Id">
                     <option value="">Seleccione una opcion</option>
                 </select> 
