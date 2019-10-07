@@ -33,7 +33,7 @@
                     espera(false);
 
                 });
-                
+
         }
         //nueva empresa
         $scope.nueva = function () {
