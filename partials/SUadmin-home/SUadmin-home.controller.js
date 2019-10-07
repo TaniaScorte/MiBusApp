@@ -9,6 +9,7 @@
         var vm = this;
 
         getEmpresas();
+        getTiposDNI();
         //get todas las empresas
         function getEmpresas() {
             espera(true);
@@ -52,9 +53,12 @@
 
             $http(data)
                 .then(function (response) {
-                    //   console.log(response);
-                    getEmpresas();
-                    $('#modalNuevo').modal('hide');
+                    console.log(response);
+                    if (response.data.Estado == 0) {
+                        console.log(response.data.id);
+                        CreateUser(response.data.id);
+                    } else (console.log('ha ocurrido un error'));
+
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -77,7 +81,7 @@
                 .then(function (response) {
                     $scope.txtNombreEdit = response.data.Nombre;
                     $scope.txtDirEdit = response.data.Direccion;
-                    // console.log(response);
+                    console.log(response);
                     espera(false);
                 })
                 .catch(function (error) {
@@ -88,19 +92,18 @@
             $('#btnEditar').on('click', function () {
                 var url = 'http://www.mellevas.com.ar/api/empresas/Update';
                 // console.log($scope.txtNombreEdit, $scope.txtDirEdit, id);
-                var data = { 
+                var data = {
                     id: id,
                     Nombre: $scope.txtNombreEdit,
                     Direccion: $scope.txtDirEdit,
                     Token: "2019"
-                    
                 }
                 var data = {
                     method: 'post',
                     url: url,
                     data: data
                 }
-               // console.log(data);
+                // console.log(data);
                 $http(data)
                     .then(function (response) {
                         console.log(response);
@@ -146,6 +149,64 @@
             }
         }
 
+        function CreateUser(idEmpresa) {
+            var data = {
+                Nombre: $scope.nombre,
+                Apellido: $scope.apellido,
+                TipoDni: $scope.tipoDni.Id,
+                Dni: $scope.dni,
+                Email: $scope.email,
+                Clave: $scope.clave,
+                Telefono: $scope.telefono,
+                EmpresaId: idEmpresa,
+                RolId: 3,
+                Token: "2019",
+            }
+            var urlUser = 'http://www.mellevas.com.ar/api/usuarios/create';
+
+            var req = {
+                method: 'POST',
+                url: urlUser,
+                data: data
+            }
+            console.log(req);
+
+            $http(req)
+                .then(function (response) {
+                    console.log(response.data);
+                    getEmpresas();
+                    $('#modalNuevo').modal('hide');
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    console.log("Error al crear el usuario");
+                });
+        }
+
+
+
+        function getTiposDNI() {
+            var url = 'http://www.mellevas.com.ar/api/tiposdni/getTiposDni';
+
+            var req = {
+                method: 'GET',
+                url: url,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }
+
+            $http(req)
+                .then(function (response) {
+                    $scope.dnitypes = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    console.log("Error al cargar los tipos de dni");
+                });
+        }
+
+
     }
     //filtro personalizado para fechas
     SUhome.filter('filterDate', function () {
@@ -174,3 +235,7 @@
 
 
 })();
+
+
+
+
