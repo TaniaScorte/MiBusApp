@@ -10,7 +10,6 @@
 
     function DriverBusController(UserService, $rootScope, $scope) {
         var vm = this;
-        swipe();
 
 
         $scope.compradosDefinidos= 10;
@@ -22,25 +21,27 @@
         $scope.libresRestantes= 6;
 
 
+        function swipe() {
+            $("#swipeBus").touchwipe({
+                wipeLeft: function () {
+                    window.location.replace('#!driver-report');
+                },
+                wipeRight: function () {
+                    window.location.replace('#!driver-map');
+    
+                },
+    
+                min_move_x: 200,
+                min_move_y: 200,
+                preventDefaultEvents: false
+            });
+        }
+        swipe();
 
 
     }
 
-    function swipe() {
-        $("#swipeBus").touchwipe({
-            wipeLeft: function () {
-                window.location.replace('#!driver-report');
-            },
-            wipeRight: function () {
-                window.location.replace('#!driver-map');
-
-            },
-
-            min_move_x: 200,
-            min_move_y: 200,
-            preventDefaultEvents: false
-        });
-    }
+   
 
 
 })();
