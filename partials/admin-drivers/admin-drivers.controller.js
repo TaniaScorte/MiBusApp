@@ -5,7 +5,7 @@
         .module('app')
         .controller('AdminDriversController', AdminDriversController);
 
-        AdminDriversController.$inject = ['UserService','ResourcesSetService','ResourcesService', '$rootScope', '$scope','$uibModal'];
+        AdminDriversController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService'];
 
 
     function AdminDriversController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService) {
@@ -91,10 +91,10 @@
         }
 
         function openModalDriverCreate(){
-            var modalInstanceCreate = $uibModal.open({
+            var modalInstance = $uibModal.open({
                 animation:true,
-                templateUrl: 'partials/modals/modal-driver-create.view.html',
-                controller: 'ModalAdminController',
+                templateUrl: 'partials/admin-drivers/modal-driver-create.view.html',
+                controller: 'ModalDriverController',
                 size: 'lg',
                 windowClass: 'show',
                 resolve: {
@@ -105,10 +105,10 @@
               });
         }
         function openModalDriverEdit(userEdit){
-            var modalInstanceEdit = $uibModal.open({
+            var modalInstance = $uibModal.open({
                 animation:true,
-                templateUrl: 'partials/modals/modal-driver-edit.view.html',
-                controller: 'ModalAdminController',
+                templateUrl: 'partials/admin-drivers/modal-driver-edit.view.html',
+                controller: 'ModalDriverController',
                 size: 'lg',
                 windowClass: 'show',
                 resolve: {
@@ -119,10 +119,10 @@
               });
         }
         function openModalDriverDelete(userDelete){
-            var modalInstanceDelete = $uibModal.open({
+            var modalInstance = $uibModal.open({
                 animation:true,
-                templateUrl: 'partials/modals/modal-driver-delete.view.html',
-                controller: 'ModalAdminController',
+                templateUrl: 'partials/admin-drivers/modal-driver-delete.view.html',
+                controller: 'ModalDriverController',
                 size: 'lg',
                 windowClass: 'show',
                 resolve: {
