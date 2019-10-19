@@ -90,8 +90,7 @@
                 var data = {
                     id: id,
                     Nombre: $scope.txtNombreEdit,
-                    Direccion: $scope.txtDirEdit,
-                    Token: "2019"
+                    Direccion: $scope.txtDirEdit
                 }
                 var data = {
                     method: 'post',
@@ -149,8 +148,7 @@
                 Clave: $scope.clave,
                 Telefono: $scope.telefono,
                 EmpresaId: idEmpresa,
-                RolId: 3,
-                Token: "2019",
+                RolId: 3
             }
             UserService.Create(data)
             .then(function (response) {
