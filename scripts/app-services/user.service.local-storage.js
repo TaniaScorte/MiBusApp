@@ -9,24 +9,35 @@
         function UserService($timeout, $filter, $q,$http,$rootScope) {
         var service = {};
 
-        service.GetAll = GetAll;
+        service.GetAllUsers = GetAllUsers;
         service.GetById = GetById;
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
+        service.GetAllUserByEmpresaRol = GetAllUserByEmpresaRol;
 
         return service;
       
-        function GetAll() {
+        function GetAllUserByEmpresaRol(empresaid) {
             var deferred = $q.defer();
-            $http.get('https://api.mellevas.com.ar/usuarios/getusuarios?empresaid=1',headers)
-            .then(function(response){
-               deferred.resolve(response.data);
-            })
-            .catch(function(response){
-              deferred.reject(response);
-            });
-            return deferred.promise;
+            var urlUserGetEmpresaId ='https://www.mellevas.com.ar/api/usuarios/getusuario?id=';   
+            
+            var req = {
+                method: 'GET',
+                url: urlUserGetEmpresaId + id + "&token=" + 2019,//$rootScope.globals.currentUser.token,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+               }
+               
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al iniciar");
+                });
+                return deferred.promise;
         }
 
         function GetById(id) {
@@ -109,14 +120,24 @@
 
         // private functions
 
-        function getUsers() {
-                var deferred = $q.defer();
-                $http.get('usuarios/getusuarios',headers)
+        function GetAllUsers() {
+            var deferred = $q.defer();
+            var urlGetAllUserst ='https://www.mellevas.com.ar/api/usuarios/getusuarios';   
+            
+            var req = {
+                method: 'GET',
+                url: urlGetAllUsers + "&token=" + 2019,//$rootScope.globals.currentUser.token,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+               }
+               
+            $http(req)
                 .then(function(response){
-                   deferred.resolve(response.data);
+                    deferred.resolve(response);
                 })
-                .catch(function(response){
-                  deferred.reject(response);
+                .catch(function(error){
+                    deferred.reject("Error al cargar los usuarios");
                 });
                 return deferred.promise;
         }

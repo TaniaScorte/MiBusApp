@@ -1,8 +1,29 @@
-angular.module('app').controller('ModalMessageCtrl', function ($uibModalInstance, message, $scope) {
- $scope.message = message;
-  $scope.okError = function () {
-      $uibModalInstance.close();
+(function () {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('ModalAdminController', ModalAdminController);
+
+        ModalAdminController.$inject = ['$uibModalInstance', 'user', '$scope'];
+
+
+    function ModalAdminController($uibModalInstance, user, $scope) {
+    $scope.user = user;
+
+    $scope.okDriverCreate = function () {
+        $uibModalInstance.close();
+    };  
+    $scope.cancelDriverCreate = function () {
+        $uibModalInstance.close();
     };  
 
-});
 
+
+
+
+
+
+}
+
+})();

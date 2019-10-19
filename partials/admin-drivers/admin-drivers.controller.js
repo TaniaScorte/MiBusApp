@@ -5,12 +5,20 @@
         .module('app')
         .controller('AdminDriversController', AdminDriversController);
 
-        AdminDriversController.$inject = ['UserService', '$rootScope', '$scope','$uibModal'];
+        AdminDriversController.$inject = ['UserService','ResourcesSetService','ResourcesService', '$rootScope', '$scope','$uibModal'];
 
 
-    function AdminDriversController(UserService, $rootScope, $scope,$uibModal) {
+    function AdminDriversController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService) {
         var vm = $scope;     
         vm.openModalDriverCreate = openModalDriverCreate;
+        vm.openModalDriverEdit = openModalDriverEdit;
+        vm.openModalDriverDelete = openModalDriverDelete;
+
+        initController();
+        
+        function initController(){
+            
+        }
         var swipe = function () {
             $("#swipeDrivers").touchwipe({
                 wipeLeft: function () {
@@ -81,27 +89,49 @@
         function clearRegister(){
             vm.user=null;
         }
-        $scope.okDriverCreate = function () {
-            modalInstanceCreate.close();
-          };  
-          $scope.cancelDriverCreate = function () {
-            modalInstanceCreate.close();
-          };  
+
         function openModalDriverCreate(){
             var modalInstanceCreate = $uibModal.open({
                 animation:true,
-                templateUrl: 'modalCreateDriver.view.html',
-                controller: 'AdminDriversController',
+                templateUrl: 'partials/modals/modal-driver-create.view.html',
+                controller: 'ModalAdminController',
                 size: 'lg',
                 windowClass: 'show',
                 resolve: {
-                  message: function () {
+                  user: function () {
                     return "Hola";
                   }
                 }
               });
         }
-
+        function openModalDriverEdit(userEdit){
+            var modalInstanceEdit = $uibModal.open({
+                animation:true,
+                templateUrl: 'partials/modals/modal-driver-edit.view.html',
+                controller: 'ModalAdminController',
+                size: 'lg',
+                windowClass: 'show',
+                resolve: {
+                  user: function () {
+                    return userEdit;
+                  }
+                }
+              });
+        }
+        function openModalDriverDelete(userDelete){
+            var modalInstanceDelete = $uibModal.open({
+                animation:true,
+                templateUrl: 'partials/modals/modal-driver-delete.view.html',
+                controller: 'ModalAdminController',
+                size: 'lg',
+                windowClass: 'show',
+                resolve: {
+                  user: function () {
+                    return userDelete;
+                  }
+                }
+              });
+        }
 
 }
 
