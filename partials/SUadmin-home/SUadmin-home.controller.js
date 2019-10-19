@@ -4,8 +4,8 @@
     var SUhome = angular
         .module('app')
         .controller('SUAdminHomeController', SUAdminHomeController);
-    SUAdminHomeController.$inject = ['UserService','ResourcesService', '$rootScope', '$http', '$scope', '$uibModal'];
-    function SUAdminHomeController(UserService,ResourcesService, $rootScope, $http, $scope, $uibModal) {
+    SUAdminHomeController.$inject = ['UserService','ResourcesService', 'ResourcesSetService','$rootScope', '$http', '$scope', '$uibModal'];
+    function SUAdminHomeController(UserService,ResourcesService,ResourcesSetService, $rootScope, $http, $scope, $uibModal) {
         var vm = this;
 
 
