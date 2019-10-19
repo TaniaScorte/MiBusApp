@@ -18,6 +18,7 @@
         
         function initController(){
             getTiposDNI();
+            
         }
         var swipe = function () {
             $("#swipeDrivers").touchwipe({

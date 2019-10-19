@@ -64,7 +64,7 @@
         $scope.editar = function (id) {
             espera(true);
             var id = id;
-            var url = 'http://www.mellevas.com.ar/api/empresas/getEmpresa?id=';
+            var url = 'https://www.mellevas.com.ar/api/empresas/getEmpresa?id=';
             var data = {
                 method: 'GET',
                 url: url + id + "&token=" + 2019,
@@ -85,7 +85,7 @@
                 });
 
             $('#btnEditar').on('click', function () {
-                var url = 'http://www.mellevas.com.ar/api/empresas/Update';
+                var url = 'https://www.mellevas.com.ar/api/empresas/Update';
                 // console.log($scope.txtNombreEdit, $scope.txtDirEdit, id);
                 var data = {
                     id: id,
@@ -114,7 +114,7 @@
         //eliminar empresa
         $scope.eliminar = function (id) {
             $('#btnEliminar').on('click', function () {
-                var url = 'http://www.mellevas.com.ar/api/empresas/Delete?id=';
+                var url = 'https://www.mellevas.com.ar/api/empresas/Delete?id=';
                 var data = {
                     method: 'GET',
                     url: url + id + "&token=" + 2019,
