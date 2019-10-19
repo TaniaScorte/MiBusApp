@@ -3,51 +3,29 @@
 
     angular
         .module('app')
-        .factory('ResourcesSetService', ResourcesSetService);
+        .factory('ResourcesUpdateService', ResourcesUpdateService);
 
-        ResourcesSetService.$inject = ['$http','$q', '$cookies', '$rootScope', '$timeout'];
-    function ResourcesSetService($http,$q ,$cookies, $rootScope, $timeout) {
+        ResourcesUpdateService.$inject = ['$http','$q', '$cookies', '$rootScope', '$timeout'];
+    function ResourcesUpdateService($http,$q ,$cookies, $rootScope, $timeout) {
         var service = {};
 
-        service.SetTipoDNI = SetTipoDNI;
-        service.SetEmpresa = SetEmpresa;
-        service.SetRamal = SetRamal;
-        service.SetRecorrido = SetRecorrido;
-        service.SetHorario = SetHorario;
+        service.UpdateEmpresa = UpdateEmpresa;
+        service.UpdateRamal = UpdateRamal;
+        service.UpdateRecorrido = UpdateRecorrido;
+        service.UpdateHorario = UpdateHorario;
 
         return service;
 
-        function SetTipoDNI() {
-
+        function UpdateEmpresa(id) {
             var deferred = $q.defer();
-            var urlGetTiposDNI ='https://www.mellevas.com.ar/api/tiposdni/getTiposDni';       
-        
-            var req = {
-                method: 'GET',
-                url: urlGetTiposDNI,
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8'
-                }
-            }
-               
-            $http(req)
-                .then(function(response){
-                    deferred.resolve(response.data);
-                })
-                .catch(function(error){
-                    deferred.reject("Error al cargar los tipos de dni");
-                });
-                return deferred.promise;
-        }
-        function SetEmpresa(data) {
-            var deferred = $q.defer();
-            var urlSetEmpresa ='https://www.mellevas.com.ar/api/empresas/Create&token=' + 2019;//$rootScope.globals.currentUser.token;       
-            
+            var urlDeleteEmpresa = 'https://www.mellevas.com.ar/api/empresas/Delete?id=';
             var req = {
                 method: 'POST',
-                url: urlSetEmpresa,
-                data: data
-            }     
+                url: urlDeleteEmpresa + id + "&token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }  
 
             $http(req)
             .then(function(response){
@@ -58,7 +36,7 @@
             });
             return deferred.promise;
         }
-        function SetRamal(empresaID) {
+        function UpdateRamal(empresaID) {
             var deferred = $q.defer();
             var urlGetRamales ='https://www.mellevas.com.ar/api/ramales/GetRamalesxEmpresa?empresaid=' + empresaID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
             var req = {
@@ -77,7 +55,7 @@
                 });
                 return deferred.promise;
         }
-        function SetRecorrido(ramalID) {
+        function UpdateRecorrido(ramalID) {
             var deferred = $q.defer();
             var urlGetRecorridos ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxRamal?ramalid=' + ramalID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
             
@@ -98,7 +76,7 @@
                 });
                 return deferred.promise;
         }
-        function SetHorario(recorridoID) {
+        function UpdateHorario(recorridoID) {
             var deferred = $q.defer();
             var urlGetJson ='scripts/jsonData/horariosByRecorrido.json';       
         /*

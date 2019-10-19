@@ -4,8 +4,8 @@
     var SUhome = angular
         .module('app')
         .controller('SUAdminHomeController', SUAdminHomeController);
-    SUAdminHomeController.$inject = ['UserService','ResourcesService', 'ResourcesSetService','$rootScope', '$http', '$scope', '$uibModal'];
-    function SUAdminHomeController(UserService,ResourcesService,ResourcesSetService, $rootScope, $http, $scope, $uibModal) {
+    SUAdminHomeController.$inject = ['UserService','ResourcesService','ResourcesUpdateService', 'ResourcesSetService','$rootScope', '$http', '$scope', '$uibModal'];
+    function SUAdminHomeController(UserService,ResourcesService,ResourcesUpdateService,ResourcesSetService, $rootScope, $http, $scope, $uibModal) {
         var vm = this;
 
 
@@ -113,26 +113,21 @@
         }
         //eliminar empresa
         $scope.eliminar = function (id) {
-            $('#btnEliminar').on('click', function () {
-                var url = 'https://www.mellevas.com.ar/api/empresas/Delete?id=';
-                var data = {
-                    method: 'GET',
-                    url: url + id + "&token=" + 2019,
-                    headers: {
-                        'Content-Type': 'application/json; charset=utf-8'
-                    }
-                }
-                $http(data)
-                    .then(function (response) {
-                        getEmpresas();
-                        $('#modalEliminar').modal('hide');
-                        //         console.log(response);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+            ResourcesUpdateService.UpdateEmpresas(id)
+            .then(function (response) {
+                if (response){
+                    getEmpresas();
+                    $('#modalEliminar').modal('hide');
+                } 
             })
-
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
+            });
         }
 
         function espera(e) {
