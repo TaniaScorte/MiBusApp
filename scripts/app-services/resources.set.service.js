@@ -41,7 +41,7 @@
         }
         function SetEmpresa(data) {
             var deferred = $q.defer();
-            var urlSetEmpresa ='https://www.mellevas.com.ar/api/empresas/Create&token=' + 2019;//$rootScope.globals.currentUser.token;       
+            var urlSetEmpresa ='https://www.mellevas.com.ar/api/empresas/Create?token=' + 2019;//$rootScope.globals.currentUser.token;       
             
             var req = {
                 method: 'POST',
