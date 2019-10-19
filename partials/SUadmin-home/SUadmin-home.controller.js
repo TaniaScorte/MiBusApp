@@ -4,65 +4,59 @@
     var SUhome = angular
         .module('app')
         .controller('SUAdminHomeController', SUAdminHomeController);
-    SUAdminHomeController.$inject = ['UserService', '$rootScope', '$http', '$scope', '$uibModal'];
-    function SUAdminHomeController(UserService, $rootScope, $http, $scope, $uibModal) {
+    SUAdminHomeController.$inject = ['UserService','ResourcesService','UserService', '$rootScope', '$http', '$scope', '$uibModal'];
+    function SUAdminHomeController(UserService,ResourcesService,UserService, $rootScope, $http, $scope, $uibModal) {
         var vm = this;
 
-        getEmpresas();
-        getTiposDNI();
-        //get todas las empresas
-        function getEmpresas() {
-            espera(true);
-            var url = 'http://www.mellevas.com.ar/api/empresas/getEmpresas';
-            var data = {
-                method: 'GET',
-                url: url,
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
-                }
+
+        initController();
+
+        function initController(){
+            if(!$rootScope.empresas){
+                getEmpresas();
             }
-            $http(data)
-                .then(function (response) {
-                    $scope.empresas = response.data;
-                    //      console.log(response.data);
-                    espera(false);
-
-                })
-
-                .catch(function (error) {
-                    console.log(error);
-                    espera(false);
-
+            if(!$rootScope.dnitypes){
+                getTiposDNI();
+            }
+           
+        }
+        function getEmpresas(){
+            ResourcesService.GetEmpresas()
+            .then(function (response) {
+                if (response){
+                    $rootScope.empresas = response;      
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
                 });
-
+            });
         }
         //nueva empresa
         $scope.nueva = function () {
-            var url = 'http://www.mellevas.com.ar/api/empresas/Create';
             var data = {
                 Nombre: $scope.txtNombreNew,
                 Direccion: $scope.txtDirNew,
                 Token: "2019",
             }
-
-            var data = {
-                method: 'post',
-                url: url,
-                data: data
-            }
-
-            $http(data)
-                .then(function (response) {
-                    console.log(response);
-                    if (response.data.Estado == 0) {
-                        console.log(response.data.id);
-                        CreateUser(response.data.id);
-                    } else (console.log('ha ocurrido un error'));
-
-                })
-                .catch(function (error) {
-                    console.log(error);
+            ResourcesSetService.SetEmpresas(data)
+            .then(function (response) {
+                if (response.data.Estado == 0) {
+                    CreateUser(response.data.id);  
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
                 });
+            });
         }
 
         //editar empresas
@@ -162,49 +156,64 @@
                 RolId: 3,
                 Token: "2019",
             }
-            var urlUser = 'http://www.mellevas.com.ar/api/usuarios/create';
-
-            var req = {
-                method: 'POST',
-                url: urlUser,
-                data: data
-            }
-            console.log(req);
-
-            $http(req)
-                .then(function (response) {
-                    console.log(response.data);
+            UserService.Create(data)
+            .then(function (response) {
+                if (response.Estado == 0){
+                    SweetAlert.swal ({
+                        type: "success", 
+                        title: "La operacion se ha realizado con exito",
+                        text: "El usuario ha sido creado, verifique su casilla de E-mail",
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                     getEmpresas();
                     $('#modalNuevo').modal('hide');
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    console.log("Error al crear el usuario");
-                });
-        }
-
-
-
-        function getTiposDNI() {
-            var url = 'http://www.mellevas.com.ar/api/tiposdni/getTiposDni';
-
-            var req = {
-                method: 'GET',
-                url: url,
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
+                   
+                } 
+                if(response.Estado == 50){
+                    SweetAlert.swal ({
+                        type: "warning", 
+                        title: "Verifique!",
+                        text: response.Mensaje + " verifique su e-mail",
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                 }
-            }
-
-            $http(req)
-                .then(function (response) {
-                    $scope.dnitypes = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    console.log("Error al cargar los tipos de dni");
+                else {
+                    vm.dataLoading = false;
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: "Error al crear el usuario",
+                        confirmButtonAriaLabel: 'Ok',
+                    });
+                }
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
                 });
+            });
         }
+
+
+        function getTiposDNI(){
+            ResourcesService.GetTiposDNI()
+            .then(function (response) {
+                if (response){
+                   $rootScope.dnitypes = response;          
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
+            });
+         }
 
 
     }
