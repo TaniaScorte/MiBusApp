@@ -93,9 +93,9 @@
                 <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
             </div>
             <div class="form-actions">
-                <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Registrarse</button>
+                <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Guardar chofer</button>
                 <img ng-if="vm.dataLoading" src="images/descarga.gif" />
-                <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                <button class="btn btn-danger" type="button" ng-click="cancelDriverCreate()">Cancel</button>
             </div>
         </form>
     </div>

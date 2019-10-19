@@ -50,7 +50,7 @@
                 Token: token
             };
             
-            var urlUserLogout ='http://www.mellevas.com.ar/api/usuarios/logout'; 
+            var urlUserLogout ='https://www.mellevas.com.ar/api/usuarios/logout'; 
             var req = {
                 method: 'POST',
                 url: urlUserLogout,

@@ -9,11 +9,11 @@
     function ResourcesSetService($http,$q ,$cookies, $rootScope, $timeout) {
         var service = {};
 
-        service.SetTiposDNI = GetTiposDNI;
-        service.SetEmpresas = GetEmpresas;
-        service.SetRamales = GetRamales;
-        service.SetRecorridos = GetRecorridos;
-        service.SetHorarios = GetHorarios;
+        service.SetTiposDNI = SetTiposDNI;
+        service.SetEmpresas = SetEmpresas;
+        service.SetRamales = SetRamales;
+        service.SetRecorridos = SetRecorridos;
+        service.SetHorarios = SetHorarios;
         service.SetParadas = SetParadas;
 
         return service;

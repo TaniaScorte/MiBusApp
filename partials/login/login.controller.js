@@ -16,7 +16,7 @@
                     UserService.GetById(response.id)
                     .then(function (response) {
                         $rootScope.user = response.data;
-                        AuthenticationService.SetCredentials(response.user, response.token);                        
+                        AuthenticationService.SetCredentials( $rootScope.user, response.token);                        
                         if(response.data.RolId == 1){
                             $location.path('/');
                         }   

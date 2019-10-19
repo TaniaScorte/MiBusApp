@@ -82,13 +82,13 @@
             vm.user=null;
         }
         $scope.okDriverCreate = function () {
-            $uibModalInstance.close();
+            modalInstanceCreate.close();
           };  
-          $scope.cancel = function () {
-            $uibModalInstance.close();
+          $scope.cancelDriverCreate = function () {
+            modalInstanceCreate.close();
           };  
         function openModalDriverCreate(){
-            var modalInstance = $uibModal.open({
+            var modalInstanceCreate = $uibModal.open({
                 animation:true,
                 templateUrl: 'modalCreateDriver.view.html',
                 controller: 'AdminDriversController',
