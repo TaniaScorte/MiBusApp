@@ -12,6 +12,7 @@
         initController();
 
         function initController(){
+            espera(false);
             if(!$rootScope.empresas){
                 getEmpresas();
             }
