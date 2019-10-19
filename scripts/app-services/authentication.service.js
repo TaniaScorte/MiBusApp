@@ -23,7 +23,7 @@
                 clave: user.password
             };
             
-            var urlUserAuthenticate ='http://www.mellevas.com.ar/api/usuarios/authenticate'; 
+            var urlUserAuthenticate ='https://www.mellevas.com.ar/api/usuarios/authenticate'; 
             var req = {
                 method: 'POST',
                 url: urlUserAuthenticate,
@@ -65,6 +65,26 @@
                     deferred.reject("Error al desloguearse");
                 });
                 return deferred.promise;
+        }
+        function ReenvioPassword(email){
+            var urlReenvioClave ='https://www.mellevas.com.ar/api/usuarios/reenvioClave'; 
+            var deferred = $q.defer();
+            var req = {
+                    method: 'GET',
+                    url: urlReenvioClave,
+                    data: {
+                        email: email
+                    }
+                   }
+                   
+                $http(req)
+                    .then(function(response){
+                        deferred.resolve(response.data);
+                    })
+                    .catch(function(error){
+                        deferred.reject("Error al reenviar clave");
+                    });
+            return deferred.promise;
         }
         function SetCredentials(userData, token) {
             $rootScope.globals = {

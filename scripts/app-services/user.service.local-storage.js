@@ -11,7 +11,6 @@
 
         service.GetAll = GetAll;
         service.GetById = GetById;
-        service.GetByUsername = GetByUsername;
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
@@ -20,7 +19,7 @@
       
         function GetAll() {
             var deferred = $q.defer();
-            $http.get('http://api.mellevas.com.ar/usuarios/getusuarios?empresaid=1',headers)
+            $http.get('https://api.mellevas.com.ar/usuarios/getusuarios?empresaid=1',headers)
             .then(function(response){
                deferred.resolve(response.data);
             })
@@ -30,13 +29,13 @@
             return deferred.promise;
         }
 
-        function GetById(id,token) {
+        function GetById(id) {
             var deferred = $q.defer();
-            var urlUserGetId ='http://www.mellevas.com.ar/api/usuarios/getusuario?id=';   
+            var urlUserGetId ='https://www.mellevas.com.ar/api/usuarios/getusuario?id=';   
             
             var req = {
                 method: 'GET',
-                url: urlUserGetId + id + "&token=" + 2019,
+                url: urlUserGetId + id + "&token=" + 2019,//$rootScope.globals.currentUser.token,
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }
@@ -52,30 +51,10 @@
                 return deferred.promise;
         }
 
-        function GetByUsername(username) {
+        function Create(data) {
             var deferred = $q.defer();
-            var filtered = $filter('filter')(getUsers(), { username: username });
-            var user = filtered.length ? filtered[0] : null;
-            deferred.resolve(user);
-            return deferred.promise;
-        }
-
-        function Create(user) {
-            var deferred = $q.defer();
-            var data ={
-                Nombre: user.name,
-                Apellido: user.surname,
-                TipoDni: user.dnitype.Id,
-                Dni: user.dni,
-                Email: user.email,
-                Clave: user.password,
-                Telefono: user.tel,
-                EmpresaId: 0,
-                RolId:1,
-                Token: "2019",
-            }
-            var urlUserCreate ='http://www.mellevas.com.ar/api/usuarios/create';   
-            
+            var urlUserCreate ='https://www.mellevas.com.ar/api/usuarios/create'; 
+            data.token = 2019;//$rootScope.globals.currentUser.token;              
             var req = {
                 method: 'POST',
                 url: urlUserCreate,
@@ -94,18 +73,21 @@
 
         function Update(user) {
             var deferred = $q.defer();
-
-            var users = getUsers();
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].id === user.id) {
-                    users[i] = user;
-                    break;
-                }
-            }
-            setUsers(users);
-            deferred.resolve();
-
-            return deferred.promise;
+            var urlUserUpdate ='https://www.mellevas.com.ar/api/usuarios/update';               
+            var req = {
+                method: 'POST',
+                url: urlUserUpdate,
+                data: data
+               }
+               
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al actualizar el usuario");
+                });
+                return deferred.promise;
         }
 
         function Delete(id) {

@@ -12,12 +12,11 @@
             vm.dataLoading = true;
             AuthenticationService.Login(vm.user)
             .then(function (response) {
-                if (response.token.length > 10){
-                    var token = response.token;                    
-                    UserService.GetById(response.id, response.token)
+                if (response.token.length > 10){                                       
+                    UserService.GetById(response.id)
                     .then(function (response) {
                         $rootScope.user = response.data;
-                        AuthenticationService.SetCredentials($rootScope.user, token);
+                        AuthenticationService.SetCredentials(response.user, response.token);                        
                         if(response.data.RolId == 1){
                             $location.path('/');
                         }   

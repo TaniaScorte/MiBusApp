@@ -5,25 +5,18 @@
         .module('app')
         .controller('ResetPasswordController', ResetPasswordController);
 
-    RegisterController.$inject = ['UserService', '$location','$scope' ,'$rootScope','$uibModal','SweetAlert','ResourcesService'];
-    function ResetPasswordController(UserService, $location,$scope, $rootScope, $uibModal,SweetAlert,ResourcesService) {
-        var vm = $scope;
-        vm.reset = reset;
-        function reset (user) {
+    ResetPasswordController.$inject = ['$location', 'AuthenticationService','SweetAlert','UserService','$rootScope'];
+    function ResetPasswordController($location, AuthenticationService,SweetAlert,UserService,$rootScope) {
+        var vm = this;
+        vm.showMensaje = false;
+        vm.mensaje = '';
+        vm.resetPassword = function(){
             vm.dataLoading = true;
-            UserService.Create(user)
-                .then(function (response) {
-                    if (response){
-                        SweetAlert.swal ({
-                            type: "success", 
-                            title: "La operacion se ha realizado con exito",
-                            text: "ssss",
-                            confirmButtonAriaLabel: 'Ok',
-                        });
-                       
-                    } else {
-                        //FlashService.Error(response.message);
-                        vm.dataLoading = false;
+            AuthenticationService.ReenvioPassword(vm.email)
+                .then(function(response){
+                    if(response.Estado == 0){
+                        vm.showMensaje = true;
+                        vm.mensaje = 'Se ha enviado el codigo a su casilla de correo electronico verifique';
                     }
                 })
                 .catch(function(error){
@@ -33,23 +26,8 @@
                         text: error,
                         confirmButtonAriaLabel: 'Ok',
                     });
-                });
-         }
-
-          
-        function openModal(error){
-            var modalInstance = $uibModal.open({
-                animation:true,
-                templateUrl: 'partials/modals/modal-error.view.html',
-                controller: 'ModalMessageCtrl',
-                size: 'lg',
-                windowClass: 'show',
-                resolve: {
-                  message: function () {
-                    return error;
-                  }
-                }
-              });
+                    vm.showMensaje = false;
+                });    
         }
     }
 

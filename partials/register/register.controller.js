@@ -12,7 +12,18 @@
         getTiposDNI();
         function register (user) {
             vm.dataLoading = true;
-            UserService.Create(user)
+            var data ={
+                Nombre: user.name,
+                Apellido: user.surname,
+                TipoDni: user.dnitype.Id,
+                Dni: user.dni,
+                Email: user.email,
+                Clave: user.password,
+                Telefono: user.tel,
+                EmpresaId: 0,
+                RolId:1
+            }
+            UserService.Create(data)
                 .then(function (response) {
                     if (response.Estado == 0){
                         SweetAlert.swal ({

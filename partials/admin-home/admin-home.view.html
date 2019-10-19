@@ -22,21 +22,20 @@
 
 <div nav-admin></div>
 <div class="row contenedor" id="swipeHome">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 menu">
-        <a href="#!admin-journey"  class="btn btn-info boton"><h1>Viajes</h1></a>
-        
+    <div class="col-sm-12 col-md-12 col-lg-12 content" id="content">
+        <div class="col-sm-12 col-md-12">
+            <h2>Bienvenidos a Mi Bus , {{user.Nombre}} {{user.Apellido}}!</h2>
+            <hr class="hr">
+        </div>
+        <div>
+            <h4>Gracias por unirte! </h4>
+            <h4>Tendras todo lo que necesites en los siguientes links.</h4>     
+            <ul class="list-group" style="text-align: left;">
+                <li class="list-group-item"><i class="fa fa-pencil" aria-hidden="true"></i><a href="#!admin-journey"> Viajes</a> </li>
+                <li class="list-group-item"><i class="fa fa-map-o" aria-hidden="true"></i><a href="#!admin-routes"> Verifica los recorridos</a></li>
+                <li class="list-group-item"><i class="fa fa-clock-o" aria-hidden="true"></i><a  href="#!admin-drivers"> Mira los choferes disponibles</a> </li>
+                <li class="list-group-item"><i class="fa fa-map-o" aria-hidden="true"></i><a href="#!admin-bus"> Vehiculos disponibles</a></li>
+            </ul>    
+        </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 menu">
-        <a href="#!admin-routes" class="btn btn-info boton"><H1>Recorridos</H1></a>
-        
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 menu">
-        <a href="#!admin-drivers" class="btn btn-info boton"><h1>Choferes</h1></a>
-       
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 menu">
-        <a href="#!admin-bus" class="btn btn-info boton"><h1>Vehiculos</h1></a>
-        
-    </div>
-
 </div>
