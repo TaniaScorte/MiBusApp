@@ -44,7 +44,7 @@
                 Direccion: $scope.txtDirNew,
                 Token: "2019",
             }
-            ResourcesSetService.SetEmpresas(data)
+            ResourcesSetService.SetEmpresa(data)
             .then(function (response) {
                 if (response.data.Estado == 0) {
                     CreateUser(response.data.id);  
