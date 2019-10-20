@@ -33,6 +33,7 @@
                             confirmButtonAriaLabel: 'Ok',
                         });
                         clearRegister();
+                        return;
                        
                     } 
                     if(response.Estado == 50){
@@ -79,11 +80,6 @@
             });
          }
 
-          vm.empresas=[
-            {name : "Empresa A"},
-            {name : "Empresa B"},
-            {name : "Empresa C"}
-          ];
           
         function clearRegister(){
             vm.user=null;

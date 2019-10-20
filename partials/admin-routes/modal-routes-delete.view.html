@@ -1,0 +1,12 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Datos del chofer</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form name="form.deletedriver" ng-submit="deleteDriver()" class="form-deletedriver">
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Borrar</button>
+            <img ng-if="vm.dataLoading" src="images/descarga.gif" />
+            <button class="btn btn-danger" type="button" ng-click="cancelDriverModal()">Cancel</button>
+        </div>
+    </form>
+</div>

@@ -18,13 +18,13 @@
 
         return service;
       
-        function GetAllUserByEmpresaRol(empresaid) {
+        function GetAllUserByEmpresaRol(rolId) {
             var deferred = $q.defer();
-            var urlUserGetEmpresaId ='https://www.mellevas.com.ar/api/usuarios/getusuario?id=';   
+            var urlUserGetEmpresaRol ='https://www.mellevas.com.ar/api/usuarios/getusuarios?empresaid=';   
             
             var req = {
                 method: 'GET',
-                url: urlUserGetEmpresaId + id + "&token=" + 2019,//$rootScope.globals.currentUser.token,
+                url: urlUserGetEmpresaRol + $rootScope.globals.currentUser.userData.EmpresaId + "&rolId=" + rolId+ "&token=" + 2019,//$rootScope.globals.currentUser.token,
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }
@@ -35,7 +35,7 @@
                     deferred.resolve(response);
                 })
                 .catch(function(error){
-                    deferred.reject("Error al iniciar");
+                    deferred.reject("Error al cargar los choferes");
                 });
                 return deferred.promise;
         }
@@ -82,12 +82,12 @@
                 return deferred.promise;
         }
 
-        function Update(user) {
+        function Update(data) {
             var deferred = $q.defer();
-            var urlUserUpdate ='https://www.mellevas.com.ar/api/usuarios/update';               
+            var urlUserUpdate ='https://www.mellevas.com.ar/api/usuarios/update?';  
             var req = {
                 method: 'POST',
-                url: urlUserUpdate,
+                url: urlUserUpdate + "token=" + 2019,
                 data: data
                }
                
@@ -100,25 +100,6 @@
                 });
                 return deferred.promise;
         }
-
-        function Delete(id) {
-            var deferred = $q.defer();
-
-            var users = getUsers();
-            for (var i = 0; i < users.length; i++) {
-                var user = users[i];
-                if (user.id === id) {
-                    users.splice(i, 1);
-                    break;
-                }
-            }
-            setUsers(users);
-            deferred.resolve();
-
-            return deferred.promise;
-        }
-
-        // private functions
 
         function GetAllUsers() {
             var deferred = $q.defer();
@@ -138,6 +119,27 @@
                 })
                 .catch(function(error){
                     deferred.reject("Error al cargar los usuarios");
+                });
+                return deferred.promise;
+        }
+        function Delete(id) {
+            var deferred = $q.defer();
+            var urlUserDeleteId ='https://www.mellevas.com.ar/api/usuarios/delete?id=';   
+            
+            var req = {
+                method: 'GET',
+                url: urlUserDeleteId + id + "&token=" + 2019,//$rootScope.globals.currentUser.token,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+               }
+               
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al eliminar el usuario");
                 });
                 return deferred.promise;
         }

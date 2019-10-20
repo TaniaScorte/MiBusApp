@@ -5,20 +5,18 @@
         .module('app')
         .controller('AdminDriversController', AdminDriversController);
 
-        AdminDriversController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService'];
+        AdminDriversController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService','SweetAlert'];
 
 
-    function AdminDriversController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService) {
+    function AdminDriversController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService,SweetAlert) {
         var vm = $scope;     
         vm.openModalDriverCreate = openModalDriverCreate;
         vm.openModalDriverEdit = openModalDriverEdit;
         vm.openModalDriverDelete = openModalDriverDelete;
 
-        initController();
-        
         function initController(){
             getTiposDNI();
-            
+            $rootScope.getUserDrivers();
         }
         var swipe = function () {
             $("#swipeDrivers").touchwipe({
@@ -35,62 +33,33 @@
             });
         }
         swipe();
-        function registerDriver (user) {
-            vm.dataLoading = true;
-            var data ={
-                Nombre: user.name,
-                Apellido: user.surname,
-                TipoDni: user.dnitype.Id,
-                Dni: user.dni,
-                Email: user.email,
-                Clave: user.password,
-                Telefono: user.tel,
-                EmpresaId: 0,
-                RolId:2
-            }
-            UserService.Create(data)
-                .then(function (response) {
-                    if (response.Estado == 0){
-                        SweetAlert.swal ({
-                            type: "success", 
-                            title: "La operacion se ha realizado con exito",
-                            text: "El usuario ha sido creado, verifique su casilla de E-mail",
-                            confirmButtonAriaLabel: 'Ok',
-                        });
-                        clearRegister();
-                       
-                    } 
-                    if(response.Estado == 50){
-                        SweetAlert.swal ({
-                            type: "warning", 
-                            title: "Verifique!",
-                            text: response.Mensaje + " verifique su e-mail",
-                            confirmButtonAriaLabel: 'Ok',
-                        });
-                    }
-                    else {
-                        vm.dataLoading = false;
-                        SweetAlert.swal ({
-                            type: "error", 
-                            title: "Error",
-                            text: "Error al crear el usuario",
-                            confirmButtonAriaLabel: 'Ok',
-                        });
-                    }
-                })
-                .catch(function(error){
-                    SweetAlert.swal ({
-                        type: "error", 
-                        title: "Error",
-                        text: error,
-                        confirmButtonAriaLabel: 'Ok',
-                    });
+        $rootScope.$on("refreshListDrivers", function(evt,data){ 
+            $rootScope.getUserDrivers();
+        });
+        $rootScope.getUserDrivers= function(){
+            UserService.GetAllUserByEmpresaRol(2)
+            .then(function (response) {
+                if (response){                  
+                   $rootScope.drivers = response.data;          
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
                 });
-         }
-        function clearRegister(){
-            vm.user=null;
+            });
         }
-
+        if(!$rootScope.formatDate){
+            $rootScope.formatDate = formatDate;
+            $scope.dateToday = new Date();
+        }
+        function formatDate(date){
+            var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
+            return dateOut;
+        };
         function openModalDriverCreate(){
             var modalInstance = $uibModal.open({
                 animation:true,
@@ -98,6 +67,7 @@
                 controller: 'ModalDriverController',
                 size: 'lg',
                 windowClass: 'show',
+                backdrop: 'static',
                 resolve: {
                   user: function () {
                     return "Hola";
@@ -106,12 +76,14 @@
               });
         }
         function openModalDriverEdit(userEdit){
+            userEdit.edit=true;
             var modalInstance = $uibModal.open({
                 animation:true,
                 templateUrl: 'partials/admin-drivers/modal-driver-edit.view.html',
                 controller: 'ModalDriverController',
                 size: 'lg',
                 windowClass: 'show',
+                backdrop: 'static',
                 resolve: {
                   user: function () {
                     return userEdit;
@@ -120,12 +92,14 @@
               });
         }
         function openModalDriverDelete(userDelete){
+            userDelete.delete = true;
             var modalInstance = $uibModal.open({
                 animation:true,
                 templateUrl: 'partials/admin-drivers/modal-driver-delete.view.html',
                 controller: 'ModalDriverController',
                 size: 'lg',
                 windowClass: 'show',
+                backdrop: 'static',
                 resolve: {
                   user: function () {
                     return userDelete;
@@ -149,6 +123,8 @@
                 });
             });
         }
+        
+        initController();
 
 }
 

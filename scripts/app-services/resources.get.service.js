@@ -16,13 +16,32 @@
         service.GetHorariosByRecorrido = GetHorariosByRecorrido;
         service.GetParadasByRecorrido = GetParadasByRecorrido;
         service.GetParadas = GetParadas;
+        service.GetRecorridosByEmpresa = GetRecorridosByEmpresa;
 
         return service;
-
+        function GetRecorridosByEmpresa() {            
+            var deferred = $q.defer();
+            var urlGetRecorrido ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxEmpresa?empresaId=' + $rootScope.globals.currentUser.userData.EmpresaId;       
+            var req = {
+                method: 'GET',
+                url: urlGetRecorrido,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }                
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar los recorridos");
+                });
+                return deferred.promise;
+        }
         function GetTiposDNI() {
 
             var deferred = $q.defer();
-            var urlGetTiposDNI ='http://www.mellevas.com.ar/api/tiposdni/getTiposDni';       
+            var urlGetTiposDNI ='https://www.mellevas.com.ar/api/tiposdni/getTiposDni';       
         
             var req = {
                 method: 'GET',
@@ -43,7 +62,7 @@
         }
         function GetEmpresas() {
             var deferred = $q.defer();
-            var urlGetEmpresas ='http://www.mellevas.com.ar/api/empresas/getEmpresas';       
+            var urlGetEmpresas ='https://www.mellevas.com.ar/api/empresas/getEmpresas';       
 
             var req = {
                 method: 'GET',
