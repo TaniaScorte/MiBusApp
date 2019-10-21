@@ -77,16 +77,14 @@
                 });
                 return deferred.promise;
         }
-        function SetRecorrido(ramalID) {
+        function SetRecorrido(data) {
             var deferred = $q.defer();
-            var urlGetRecorridos ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxRamal?ramalid=' + ramalID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
-            
+            var urlSetRecorridos ='https://www.mellevas.com.ar/api/recorridos/create'; //$rootScope.globals.currentUser.token;       
+            data.Token = 2019;
             var req = {
-                method: 'GET',
-                url: urlGetRecorridos,
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8'
-                }
+                method: 'POST',
+                url: urlSetRecorridos,
+                data : data
                }     
             
             $http(req)

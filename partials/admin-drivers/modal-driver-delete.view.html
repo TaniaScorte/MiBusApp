@@ -15,8 +15,8 @@
 <div class="modal-footer">
     <form name="form.deletedriver" ng-submit="deleteDriver()" class="form-deletedriver">
         <div class="form-actions">
-            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary"><i class="fa fa-trash"></i> Borrar</button>
-            <img ng-if="vm.dataLoading" src="images/descarga.gif" />
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary"><i class="fa fa-trash"></i> Borrar</button>
+            <img ng-if="dataLoading" src="images/descarga.gif" />
             <button class="btn btn-danger" type="button" ng-click="cancelDriverModal()">Cancelar</button>
         </div>
     </form>

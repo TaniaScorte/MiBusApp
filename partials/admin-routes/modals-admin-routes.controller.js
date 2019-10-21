@@ -21,17 +21,14 @@
     function setRecorrido (recorrido) {
         vm.dataLoading = true;
         var data ={
-            Nombre: user.name,
-            Apellido: user.surname,
-            TipoDni: user.dnitype.Id,
-            Dni: user.dni,
-            Email: user.email,
-            Clave: user.password,
-            Telefono: user.tel,
-            EmpresaId:  $rootScope.globals.currentUser.userData.empresaId,
-            RolId:2,
+            Nombre: recorrido.name,
+            Descripcion: recorrido.descripcion,
+            Duracion: recorrido.duracion,
+            RamalId: recorrido.ramal.Id,
+            Importe:0,
+            EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
         }
-        ResourcesSetService.SetHorario(data)
+        ResourcesSetService.SetRecorrido(data)
             .then(function (response) {
                 if (response.Estado == 0){
                     SweetAlert.swal ({
@@ -39,23 +36,22 @@
                         title: "La operacion se ha realizado con exito",
                         text: "El recorrido ha sido creado",
                         confirmButtonAriaLabel: 'Ok',
-                    });
-                   
+                    },
+                    function(isConfirm) {
+                    if (isConfirm) {
+                        vm.dataLoading = false;
+                        $rootScope.$emit("refreshListRecorridos","ok");
+                        $uibModalInstance.close();
+                    } 
+                    });               
+                    return;
                 } 
-                if(response.Estado == 50){
-                    SweetAlert.swal ({
-                        type: "warning", 
-                        title: "Verifique!",
-                        text: response.Mensaje + " verifique su e-mail",
-                        confirmButtonAriaLabel: 'Ok',
-                    });
-                }
                 else {
                     vm.dataLoading = false;
                     SweetAlert.swal ({
                         type: "error", 
                         title: "Error",
-                        text: "Error al crear el usuario",
+                        text: "Error al crear el recorrido",
                         confirmButtonAriaLabel: 'Ok',
                     });
                 }

@@ -84,10 +84,11 @@
 
         function Update(data) {
             var deferred = $q.defer();
-            var urlUserUpdate ='https://www.mellevas.com.ar/api/usuarios/update?';  
+            var urlUserUpdate ='https://www.mellevas.com.ar/api/usuarios/update';  
+            data.Token = 2019;
             var req = {
                 method: 'POST',
-                url: urlUserUpdate + "token=" + 2019,
+                url: urlUserUpdate,
                 data: data
                }
                
@@ -136,7 +137,7 @@
                
             $http(req)
                 .then(function(response){
-                    deferred.resolve(response);
+                    deferred.resolve(response.data);
                 })
                 .catch(function(error){
                     deferred.reject("Error al eliminar el usuario");

@@ -16,7 +16,7 @@
 
         function initController(){
             getTiposDNI();
-            $rootScope.getUserDrivers();
+            getUserDrivers();
         }
         var swipe = function () {
             $("#swipeDrivers").touchwipe({
@@ -34,9 +34,9 @@
         }
         swipe();
         $rootScope.$on("refreshListDrivers", function(evt,data){ 
-            $rootScope.getUserDrivers();
+            getUserDrivers();
         });
-        $rootScope.getUserDrivers= function(){
+        function getUserDrivers(){
             UserService.GetAllUserByEmpresaRol(2)
             .then(function (response) {
                 if (response){                  

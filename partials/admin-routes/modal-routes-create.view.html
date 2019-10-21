@@ -1,51 +1,33 @@
 <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">Datos del chofer</h3>
-    </div>
-    <div class="modal-body" id="modal-body">
-        <form name="form.registerdriver" ng-submit="registerDriver(user)" class="form-registerdriver">
-            <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-                <label for="name">Nombre</label>
-                <input type="text" name="name" id="name" class="form-control" ng-model="user.name"  required autofocus />
-                <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">El nombre es requerido</span>
+    <h3 class="modal-title" id="modal-title">Datos del chofer</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form name="form.saverecorrido" ng-submit="setRecorrido(recorrido)" class="form-saverecorrido">
+        <div class="form-group">
+            <label for="ramal">Ramal:</label>
+            <select ng-model="recorrido.ramal" class="form-control" ng-options="ramal.Nombre for ramal in ramales track by ramal.Id">
+                <option value="">Seleccione una opcion</option>
+            </select> 
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" id="name" class="form-control" ng-model="recorrido.name"  required autofocus />
+            <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">El nombre es requerido</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
+            <label for="descripcion">Descripcion</label>
+            <input type="text" name="descripcion" id="descripcion" class="form-control" ng-model="recorrido.descripcion" required />
+            <span ng-show="form.descripcion.$dirty && form.descripcion.$error.required" class="help-block">La descripcion es requerido</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
+                <label for="duracion">Duracion aproximada</label>
+                <input type="text" name="duracion" id="duracion" class="form-control" ng-model="recorrido.duracion" required />
+                <span ng-show="form.duracion.$dirty && form.duracion.$error.required" class="help-block">La duracion es requerido</span>
             </div>
-            <div class="form-group" ng-class="{ 'has-error': form.surname.$dirty && form.surname.$error.required }">
-                <label for="surname">Apellido</label>
-                <input type="text" name="surname" id="surname" class="form-control" ng-model="user.surname" required />
-                <span ng-show="form.surname.$dirty && form.inpSurname.$error.required" class="help-block">El apellido es requerido</span>
-            </div>
-            <div class="form-group">
-                <label for="dnitype">Tipo de Documento:</label>
-                <select ng-model="user.dnitype" class="form-control" ng-options="dnitype.Nombre for dnitype in dnitypes track by dnitype.Id">
-                    <option value="">Seleccione una opcion</option>
-                </select> 
-            </div>
-            <div class="form-group">
-                <label for="dni">Numero de documeto:</label>
-                <input type="number" class="form-control" name="dni" id="dni" ng-minlength="7" ng-model="user.dni" ng-maxlength="10">    
-            </div>
-            <div class="form-group">
-                <label for="tel">Telefono:</label>
-                <input type="number" class="form-control" name="tel" id="tel" ng-minlength="7" ng-model="user.tel" ng-maxlength="10">    
-            </div>
-            <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email"  ng-model="user.email" class="form-control" />
-                <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email es requerido</span>
-                </div>
-            <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control" ng-model="user.password" required />
-                <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-                <label for="password">Confirmar Password</label>
-                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" ng-model="user.confirmPassword" required />
-                <span ng-show="form.confirmPassword.$dirty && form.confirmPassword.$error.required" class="help-block">Confirmar el Password es requerido</span>
-            </div>
-            <div class="form-actions">
-                <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Guardar</button>
-                <img ng-if="vm.dataLoading" src="images/descarga.gif" />
-                <button class="btn btn-danger" type="button" ng-click="cancelDriverModal()">Cancel</button>
-            </div>
-        </form>
-    </div>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Guardar</button>
+            <img ng-if="dataLoading" src="images/descarga.gif" />
+            <button class="btn btn-danger" type="button" ng-click="cancelRoutesModal()">Cancel</button>
+        </div>
+    </form>
+</div>

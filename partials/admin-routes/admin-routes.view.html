@@ -5,8 +5,8 @@
     }
 </style>
 <div nav-admin></div>
-<div id="swipeRoutes">
-    <div class="contenedor">
+<div id="swipeRoutes"  class="container">
+    <div class="contenedor" >
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row" style="padding-top:5px;">
@@ -25,26 +25,24 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Tipo de documento</th>
-                            <th>Documento</th>
+                            <th>Descripcion</th>
+                            <th>Duracion Aprox.</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>        
-                        <tr ng-repeat="driver in drivers">
+                        <tr ng-repeat="recorrido in recorridos">
                             <td>{{driver.Nombre}}</td>
-                            <td>{{driver.Apellido}}</td>
-                            <td>{{driver.dniTipo}}</td>
-                            <td>{{driver.Dni}}</td>
+                            <td>{{driver.Descripcion}}</td>
+                            <td>{{driver.Duracion}}</td>
                             <td>
                                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Disabled tooltip">
-                                    <button class="btn btn-warning" style="pointer-events: none;" type="button" ng-click="openModalRoutesEdit(driver)" >
+                                    <button class="btn btn-warning" style="pointer-events: none;" type="button" ng-click="openModalRoutesEdit(recorrido)" >
                                         <i class="fa fa-pencil"></i>
                                     </button>
                                 </span>
                                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Disabled tooltip">
-                                    <button class="btn btn-danger" style="pointer-events: none;" type="button" ng-click="openModalRoutesDelete(driver)">
+                                    <button class="btn btn-danger" style="pointer-events: none;" type="button" ng-click="openModalRoutesDelete(recorrido)">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </span>
