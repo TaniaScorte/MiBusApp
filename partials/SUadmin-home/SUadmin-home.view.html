@@ -34,7 +34,9 @@
                         <th>Nombre</th>
                         <th>Direccion</th>
                         <th>Fecha de alta</th>
-                        <th>Fecha de baja</th>
+                        <th>Estado</th>
+                        <th>CUIT</th>
+                        <th>Descripcion</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -46,6 +48,8 @@
                         <td>{{empresa.Direccion}}</td>
                         <td>{{empresa.FechaAlta | filterDate}}</td>
                         <td>{{empresa.FechaBaja | filterDate}}</td>
+                        <td>{{empresa.Cuit}}</td>
+                        <td>{{empresa.Descripcion}}</td>
                         <td>
                             <a class="edit" data-toggle="modal" data-target="#modalEditar"><i class="fa fa-pencil"
                                     data-toggle="tooltip" title="" data-original-title="Editar"
@@ -86,7 +90,15 @@
                         <label for="txtDirNew">Dirección</label>
                         <input type="text" ng-model='txtDirNew' class="form-control" id="txtDirNew">
                     </div>
-                    <button class="btn btn-info btn-lg" id="mostrarForm" >Datos del usuario inicial</button>
+                    <div class="form-group">
+                        <label for="txtCuitNew">CUIT</label>
+                        <input type="text" ng-model='txtCuitNew' class="form-control" id="txtCuitNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtDescNew">Descripcion</label>
+                        <input type="text" ng-model='txtDescNew' class="form-control" id="txtDescNew">
+                    </div>
+                    <button class="btn btn-info btn-lg" id="mostrarForm" >Agregar los datos del usuario inicial</button>
                     <br>
                     <div class="oculto" id="formUser">
                         <div class="form-group">
@@ -105,11 +117,11 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="dni">Numero de documeto:</label>
+                            <label for="dni">Numero de documento:</label>
                             <input type="number" class="form-control" id="dni" ng-model="dni">
                         </div>
                         <div class="form-group">
-                            <label for="telefono">Telefono:</label>
+                            <label for="telefono">Teléfono:</label>
                             <input type="number" class="form-control" name="telefono" id="telefono" ng-model="telefono">
                         </div>
                         <div class="form-group">
@@ -152,6 +164,14 @@
                     <div class="form-group">
                         <label for="txtNombreEdit">Nombre</label>
                         <input type="text" ng-model='txtNombreEdit' class="form-control" id="txtNombreEdit">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtCuitEdit">CUIT</label>
+                        <input type="text" ng-model='txtCuitEdit' class="form-control" id="txtCuitEdit">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtDescEdit">Descripcion</label>
+                        <input type="text" ng-model='txtDescEdit' class="form-control" id="txtDescEdit">
                     </div>
                     <div id="espera" ng-class="espera" style="position: absolute;top: 30%;left: 45%;">
                         <img src="images/espera.gif" alt="reloj" style="width: 50px">

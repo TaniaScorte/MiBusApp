@@ -4,8 +4,8 @@
     var SUhome = angular
         .module('app')
         .controller('SUAdminHomeController', SUAdminHomeController);
-    SUAdminHomeController.$inject = ['UserService','ResourcesService','ResourcesUpdateService', 'ResourcesSetService','$rootScope', '$http', '$scope', '$uibModal'];
-    function SUAdminHomeController(UserService,ResourcesService,ResourcesUpdateService,ResourcesSetService, $rootScope, $http, $scope, $uibModal) {
+    SUAdminHomeController.$inject = ['UserService','SweetAlert','ResourcesService','ResourcesUpdateService','ResourcesDeleteService', 'ResourcesSetService','$rootScope', '$http', '$scope'];
+    function SUAdminHomeController(UserService,SweetAlert,ResourcesService,ResourcesUpdateService,ResourcesDeleteService,ResourcesSetService, $rootScope, $http, $scope) {
         var vm = this;
 
 
@@ -29,6 +29,7 @@
                 } 
             })
             .catch(function(error){
+                //console.log(error);
                 SweetAlert.swal ({
                     type: "error", 
                     title: "Error",
@@ -42,6 +43,8 @@
             var data = {
                 Nombre: $scope.txtNombreNew,
                 Direccion: $scope.txtDirNew,
+                Cuit: $scope.txtCuitNew,
+                Descripcion: $scope.txtDescNew,
                 Token: "2019",
             }
             ResourcesSetService.SetEmpresa(data)
@@ -51,6 +54,7 @@
                 } 
             })
             .catch(function(error){
+              //  console.log(error);
                 SweetAlert.swal ({
                     type: "error", 
                     title: "Error",
@@ -63,25 +67,24 @@
         //editar empresas
         $scope.editar = function (id) {
             espera(true);
-            var id = id;
-            var url = 'https://www.mellevas.com.ar/api/empresas/getEmpresa?id=';
-            var data = {
-                method: 'GET',
-                url: url + id + "&token=" + 2019,
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
-                }
-            }
-            $http(data)
+           ResourcesService.GetEmpresa(id)
                 .then(function (response) {
-                    $scope.txtNombreEdit = response.data.Nombre;
-                    $scope.txtDirEdit = response.data.Direccion;
+                    $scope.txtNombreEdit = response.Nombre;
+                    $scope.txtDirEdit = response.Direccion;
+                    $scope.txtCuitEdit = response.Cuit;
+                    $scope.txtDescEdit = response.Descripcion;
                     console.log(response);
                     espera(false);
                 })
                 .catch(function (error) {
                     console.log(error);
                     espera(false);
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                 });
 
             $('#btnEditar').on('click', function () {
@@ -90,15 +93,12 @@
                 var data = {
                     id: id,
                     Nombre: $scope.txtNombreEdit,
-                    Direccion: $scope.txtDirEdit
+                    Direccion: $scope.txtDirEdit,
+                    Cuit: $scope.txtCuitEdit,
+                    Descripcion: $scope.txtDescEdit,
+                    Token: '2019'
                 }
-                var data = {
-                    method: 'post',
-                    url: url,
-                    data: data
-                }
-                // console.log(data);
-                $http(data)
+                ResourcesUpdateService.UpdateEmpresa(data)
                     .then(function (response) {
                         console.log(response);
                         getEmpresas();  ////**********************************************************Terminar*********************** */
@@ -112,21 +112,26 @@
         }
         //eliminar empresa
         $scope.eliminar = function (id) {
-            ResourcesUpdateService.UpdateEmpresas(id)
-            .then(function (response) {
-                if (response){
-                    getEmpresas();
-                    $('#modalEliminar').modal('hide');
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+
+            $('#btnEliminar').on('click', function(){
+                ResourcesDeleteService.DeleteEmpresa(id)
+                .then(function (response) {
+                    if (response){
+                        getEmpresas();
+                        $('#modalEliminar').modal('hide');
+                    } 
+                })
+                .catch(function(error){
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                 });
-            });
+
+            })
+           
         }
 
         function espera(e) {
@@ -163,7 +168,7 @@
                     $('#modalNuevo').modal('hide');
                    
                 } 
-                if(response.Estado == 50){
+               else if(response.Estado == 50){
                     SweetAlert.swal ({
                         type: "warning", 
                         title: "Verifique!",
@@ -182,6 +187,7 @@
                 }
             })
             .catch(function(error){
+                console.log(error);
                 SweetAlert.swal ({
                     type: "error", 
                     title: "Error",

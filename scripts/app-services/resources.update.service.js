@@ -9,33 +9,35 @@
     function ResourcesUpdateService($http,$q ,$cookies, $rootScope, $timeout) {
         var service = {};
 
-        service.UpdateEmpresa = UpdateEmpresa;
         service.UpdateRamal = UpdateRamal;
         service.UpdateRecorrido = UpdateRecorrido;
         service.UpdateHorario = UpdateHorario;
+        service.UpdateEmpresa = UpdateEmpresa;
 
         return service;
 
-        function UpdateEmpresa(id) {
+        function UpdateEmpresa(data) {
+            console.log(data);
             var deferred = $q.defer();
-            var urlDeleteEmpresa = 'https://www.mellevas.com.ar/api/empresas/Delete?id=';
+            var url = 'https://www.mellevas.com.ar/api/empresas/Update';
             var req = {
                 method: 'POST',
-                url: urlDeleteEmpresa + id + "&token=" + 2019,
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
-                }
-            }  
-
+                url: url,
+                data: data
+            }
             $http(req)
             .then(function(response){
+                console.log(response);
                 deferred.resolve(response.data);
             })
             .catch(function(error){
-                deferred.reject("Error al cargar los recorridos");
+                console.log(error);
+                deferred.reject("Error al actualizar la empresa");
             });
             return deferred.promise;
         }
+
+        
         function UpdateRamal(empresaID) {
             var deferred = $q.defer();
             var urlGetRamales ='https://www.mellevas.com.ar/api/ramales/GetRamalesxEmpresa?empresaid=' + empresaID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       

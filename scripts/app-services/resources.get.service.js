@@ -11,6 +11,7 @@
 
         service.GetTiposDNI = GetTiposDNI;
         service.GetEmpresas = GetEmpresas;
+        service.GetEmpresa = GetEmpresa;
         service.GetRamalesByEmpresa = GetRamalesByEmpresa;
         service.GetRecorridosByRamal = GetRecorridosByRamal;
         service.GetHorariosByRecorrido = GetHorariosByRecorrido;
@@ -78,6 +79,27 @@
                 })
                 .catch(function(error){
                     deferred.reject("Error al cargar las empresas");
+                });
+                return deferred.promise;
+        }
+        function GetEmpresa(id) {
+            var deferred = $q.defer();
+            var id = id;
+            var url = 'https://www.mellevas.com.ar/api/empresas/getEmpresa?id=';
+            var req = {
+                method: 'GET',
+                url: url + id + "&token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }
+
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar la empresa");
                 });
                 return deferred.promise;
         }
