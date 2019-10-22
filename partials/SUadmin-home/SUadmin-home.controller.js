@@ -96,6 +96,7 @@
                     Direccion: $scope.txtDirEdit,
                     Cuit: $scope.txtCuitEdit,
                     Descripcion: $scope.txtDescEdit,
+                    TokenMP: '',
                     Token: '2019'
                 }
                 ResourcesUpdateService.UpdateEmpresa(data)
@@ -213,6 +214,16 @@
                     confirmButtonAriaLabel: 'Ok',
                 });
             });
+         }
+
+
+         function validar(tipo){
+            if(tipo == 'new'){
+                
+            }
+            if(tipo == 'edit'){
+
+            }
          }
 
 

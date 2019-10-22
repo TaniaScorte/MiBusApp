@@ -82,65 +82,79 @@
             <div class="modal-body">
 
                 <form>
-                    <div class="form-group">
+                    <h4>Datos de la empresa</h4>
+                    <div class="form-group" ng-class="validNewNom">
                         <label for="txtNombreNew">Nombre</label>
                         <input type="text" ng-model='txtNombreNew' class="form-control" id="txtNombreNew">
+                        <span ng-show="errorNewNom" class="help-block">Ingrese el nombre de la empresa</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="validNewDir">
                         <label for="txtDirNew">Dirección</label>
                         <input type="text" ng-model='txtDirNew' class="form-control" id="txtDirNew">
+                        <span ng-show="errorNewDir" class="help-block">Ingrese la dirección de la empresa</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="validNewCuit">
                         <label for="txtCuitNew">CUIT</label>
                         <input type="text" ng-model='txtCuitNew' class="form-control" id="txtCuitNew">
+                        <span ng-show="errorNewCuit" class="help-block">Ingrese el CUIT de la empresa</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="validNewDesc">
                         <label for="txtDescNew">Descripcion</label>
                         <input type="text" ng-model='txtDescNew' class="form-control" id="txtDescNew">
+                        <span ng-show="errorNewDesc" class="help-block">Ingrese una descripción de la empresa</span>
                     </div>
+
                     <button class="btn btn-info btn-lg" id="mostrarForm" >Agregar los datos del usuario inicial</button>
                     <br>
                     <div class="oculto" id="formUser">
-                        <div class="form-group">
+                            <h4>Datos del usuario</h4>
+                        <div class="form-group" ng-class="validNom">
                             <label for="nombre">Nombre</label>
                             <input type="text" id="nombre" class="form-control" ng-model="nombre" />
+                            <span ng-show="errorNom" class="help-block">Ingrese el nombre del usuario</span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="validApe">
                             <label for="apellido">Apellido</label>
                             <input type="text" id="apellido" class="form-control" ng-model="apellido" />
+                            <span ng-show="errorApe" class="help-block">Ingrese el apellido del usuario</span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="validTipoDoc">
                             <label for="tipoDni">Tipo de Documento:</label>
                             <select ng-model="tipoDni" class="form-control"
                                 ng-options="dnitype.Nombre for dnitype in dnitypes track by dnitype.Id">
                                 <option value="">Seleccione una opcion</option>
                             </select>
+                            <span ng-show="errorTipoDoc" class="help-block">Seleccione un tipo de documento</span>
                         </div>
-                        <div class="form-group">
-                            <label for="dni">Numero de documento:</label>
+                        <div class="form-group" ng-class="validNumDoc">
+                            <label for="dni">Número de documento:</label>
                             <input type="number" class="form-control" id="dni" ng-model="dni">
+                            <span ng-show="errorNumDoc" class="help-block">Ingrese un número de documento valido</span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="validTel">
                             <label for="telefono">Teléfono:</label>
                             <input type="number" class="form-control" name="telefono" id="telefono" ng-model="telefono">
+                            <span ng-show="errorTel" class="help-block">Ingrese un número de telefono valido</span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="validEmail">
                             <label for="email">Email</label>
                             <input type="email" id="email" ng-model="email" class="form-control" />
+                            <span ng-show="errorEmail" class="help-block">Ingrese un email valido</span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="validPass">
                             <label for="clave">Contraseña</label>
-                            <input type="clave" id="clave" class="form-control" ng-model="clave" />
+                            <input type="password" id="clave" class="form-control" ng-model="clave" />
+                            <span ng-show="errorNumDoc" class="help-block">Ingrese una contraseña</span>
                         </div>
-
+                        <button type="button" class="btn btn-info" ng-click='nueva()'>Guardar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     </div>
-
+                
                 </form>
-
+                
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info" ng-click='nueva()'>Guardar</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                
             </div>
         </div>
 
@@ -161,15 +175,15 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="validEditNombre">
                         <label for="txtNombreEdit">Nombre</label>
                         <input type="text" ng-model='txtNombreEdit' class="form-control" id="txtNombreEdit">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="validEditCuit">
                         <label for="txtCuitEdit">CUIT</label>
                         <input type="text" ng-model='txtCuitEdit' class="form-control" id="txtCuitEdit">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="validEditDesc">
                         <label for="txtDescEdit">Descripcion</label>
                         <input type="text" ng-model='txtDescEdit' class="form-control" id="txtDescEdit">
                     </div>
@@ -177,7 +191,7 @@
                         <img src="images/espera.gif" alt="reloj" style="width: 50px">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" ng-class="validEditDir">
                         <label for="txtDirEdit">Dirección</label>
                         <input type="text" ng-model='txtDirEdit' class="form-control" id="txtDirEdit">
                     </div>
