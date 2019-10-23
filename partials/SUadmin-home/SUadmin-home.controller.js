@@ -4,40 +4,77 @@
     var SUhome = angular
         .module('app')
         .controller('SUAdminHomeController', SUAdminHomeController);
-    SUAdminHomeController.$inject = ['UserService','SweetAlert','ResourcesService','ResourcesUpdateService','ResourcesDeleteService', 'ResourcesSetService','$rootScope', '$http', '$scope'];
-    function SUAdminHomeController(UserService,SweetAlert,ResourcesService,ResourcesUpdateService,ResourcesDeleteService,ResourcesSetService, $rootScope, $http, $scope) {
+    SUAdminHomeController.$inject = ['UserService', 'SweetAlert', 'ResourcesService', 'ResourcesUpdateService', 'ResourcesDeleteService', 'ResourcesSetService', '$rootScope', '$http', '$filter', '$scope'];
+    function SUAdminHomeController(UserService, SweetAlert, ResourcesService, ResourcesUpdateService, ResourcesDeleteService, ResourcesSetService, $rootScope, $http, $filter, $scope) {
         var vm = this;
 
 
         initController();
 
-        function initController(){
+        function initController() {
             espera(false);
-            if(!$rootScope.empresas){
+            if (!$rootScope.empresas) {
                 getEmpresas();
             }
-            if(!$rootScope.dnitypes){
+            if (!$rootScope.dnitypes) {
                 getTiposDNI();
             }
-           
+
         }
-        function getEmpresas(){
-            ResourcesService.GetEmpresas()
-            .then(function (response) {
-                if (response){
-                    $rootScope.empresas = response;      
-                } 
-            })
-            .catch(function(error){
-                //console.log(error);
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+        function getEmpresas() {
+
+            $scope.items = []; // JSON 
+            $scope.filtroItems = [];
+            $scope.currentPage = 1;
+            $scope.numPerPage = 10;
+
+            $scope.inicializar = function () {
+                ResourcesService.GetEmpresas()
+                    .then(function (response) {
+                        if (response) {
+                            if (response) {
+                                $scope.items = response;
+                                // console.log($scope.items);
+                                $scope.hacerPagineo($scope.items);
+                                $scope.totalItems = $scope.items.length;
+                                console.log('total items', $scope.totalItems);
+                            }
+
+                        }
+                    })
+                    .catch(function (error) {
+                        //console.log(error);
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: error,
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    });
+            };
+            $scope.inicializar();
+
+            $scope.hacerPagineo = function (arreglo) {
+                var principio = (($scope.currentPage - 1) * $scope.numPerPage); //0, 3
+                var fin = principio + $scope.numPerPage; //3, 6
+                $scope.filtroItems = arreglo.slice(principio, fin); // 
+            };
+
+            $scope.buscar = function (busqueda) {
+                var buscados = $filter('filter')($scope.items, function (item) {
+                    return (item.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); // matches, contains
                 });
+                $scope.totalItems = buscados.length;
+                $scope.hacerPagineo(buscados);
+            };
+
+            $scope.$watch('currentPage', function () {
+                $scope.hacerPagineo($scope.items);
             });
+
         }
+
+
         //nueva empresa
         $scope.nueva = function () {
             var data = {
@@ -48,26 +85,26 @@
                 Token: "2019",
             }
             ResourcesSetService.SetEmpresa(data)
-            .then(function (response) {
-                if (response.Estado == 0) {
-                    CreateUser(response.id);  
-                } 
-            })
-            .catch(function(error){
-              //  console.log(error);
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+                .then(function (response) {
+                    if (response.Estado == 0) {
+                        CreateUser(response.id);
+                    }
+                })
+                .catch(function (error) {
+                    //  console.log(error);
+                    SweetAlert.swal({
+                        type: "error",
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                 });
-            });
         }
 
         //editar empresas
         $scope.editar = function (id) {
             espera(true);
-           ResourcesService.GetEmpresa(id)
+            ResourcesService.GetEmpresa(id)
                 .then(function (response) {
                     $scope.txtNombreEdit = response.Nombre;
                     $scope.txtDirEdit = response.Direccion;
@@ -79,8 +116,8 @@
                 .catch(function (error) {
                     console.log(error);
                     espera(false);
-                    SweetAlert.swal ({
-                        type: "error", 
+                    SweetAlert.swal({
+                        type: "error",
                         title: "Error",
                         text: error,
                         confirmButtonAriaLabel: 'Ok',
@@ -114,25 +151,25 @@
         //eliminar empresa
         $scope.eliminar = function (id) {
 
-            $('#btnEliminar').on('click', function(){
+            $('#btnEliminar').on('click', function () {
                 ResourcesDeleteService.DeleteEmpresa(id)
-                .then(function (response) {
-                    if (response){
-                        getEmpresas();
-                        $('#modalEliminar').modal('hide');
-                    } 
-                })
-                .catch(function(error){
-                    SweetAlert.swal ({
-                        type: "error", 
-                        title: "Error",
-                        text: error,
-                        confirmButtonAriaLabel: 'Ok',
+                    .then(function (response) {
+                        if (response) {
+                            getEmpresas();
+                            $('#modalEliminar').modal('hide');
+                        }
+                    })
+                    .catch(function (error) {
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: error,
+                            confirmButtonAriaLabel: 'Ok',
+                        });
                     });
-                });
 
             })
-           
+
         }
 
         function espera(e) {
@@ -157,83 +194,83 @@
                 RolId: 3
             }
             UserService.Create(data)
-            .then(function (response) {
-                if (response.Estado == 0){
-                    SweetAlert.swal ({
-                        type: "success", 
-                        title: "La operacion se ha realizado con exito",
-                        text: "El usuario ha sido creado, verifique su casilla de E-mail",
-                        confirmButtonAriaLabel: 'Ok',
-                    });
-                    getEmpresas();
-                    $('#modalNuevo').modal('hide');
-                   
-                } 
-               else if(response.Estado == 50){
-                    SweetAlert.swal ({
-                        type: "warning", 
-                        title: "Verifique!",
-                        text: response.Mensaje + " verifique su e-mail",
-                        confirmButtonAriaLabel: 'Ok',
-                    });
-                }
-                else {
-                    vm.dataLoading = false;
-                    SweetAlert.swal ({
-                        type: "error", 
+                .then(function (response) {
+                    if (response.Estado == 0) {
+                        SweetAlert.swal({
+                            type: "success",
+                            title: "La operacion se ha realizado con exito",
+                            text: "El usuario ha sido creado, verifique su casilla de E-mail",
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                        getEmpresas();
+                        $('#modalNuevo').modal('hide');
+
+                    }
+                    else if (response.Estado == 50) {
+                        SweetAlert.swal({
+                            type: "warning",
+                            title: "Verifique!",
+                            text: response.Mensaje + " verifique su e-mail",
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    }
+                    else {
+                        vm.dataLoading = false;
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: "Error al crear el usuario",
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    SweetAlert.swal({
+                        type: "error",
                         title: "Error",
-                        text: "Error al crear el usuario",
+                        text: error,
                         confirmButtonAriaLabel: 'Ok',
                     });
-                }
-            })
-            .catch(function(error){
-                console.log(error);
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
                 });
-            });
         }
 
 
-        function getTiposDNI(){
+        function getTiposDNI() {
             ResourcesService.GetTiposDNI()
-            .then(function (response) {
-                if (response){
-                   $rootScope.dnitypes = response;          
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+                .then(function (response) {
+                    if (response) {
+                        $rootScope.dnitypes = response;
+                    }
+                })
+                .catch(function (error) {
+                    SweetAlert.swal({
+                        type: "error",
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                 });
-            });
-         }
+        }
 
-         $scope.siguiente = function(){
-             $scope.formEmpresa = 'formOculto';
-             $scope.formUsuario = 'formVisible';
-         }
+        $scope.siguiente = function () {
+            $scope.formEmpresa = 'formOculto';
+            $scope.formUsuario = 'formVisible';
+        }
 
-         $scope.clearForm= function(){
+        $scope.clearForm = function () {
             $scope.formEmpresa = 'formVisible';
             $scope.formUsuario = 'formOculto';
-         }
+        }
 
-         function validar(tipo){
-            if(tipo == 'new'){
-                
-            }
-            if(tipo == 'edit'){
+        function validar(tipo) {
+            if (tipo == 'new') {
 
             }
-         }
+            if (tipo == 'edit') {
+
+            }
+        }
 
 
     }
