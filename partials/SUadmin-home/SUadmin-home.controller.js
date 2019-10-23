@@ -216,6 +216,15 @@
             });
          }
 
+         $scope.siguiente = function(){
+             $scope.formEmpresa = 'formOculto';
+             $scope.formUsuario = 'formVisible';
+         }
+
+         $scope.clearForm= function(){
+            $scope.formEmpresa = 'formVisible';
+            $scope.formUsuario = 'formOculto';
+         }
 
          function validar(tipo){
             if(tipo == 'new'){

@@ -1,13 +1,22 @@
 <link rel="stylesheet" href="css/table/table.style.css">
+<link rel="stylesheet" href="css/table/pagination.css">
+
+<style>
+    .formVisible {
+        display: block;
+    }
+
+    .formOculto {
+        display: none;
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
         // Activate tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
     });
-    $("#mostrarForm").click(function () {
-        $("#formUser").fadeIn(1000);
-    });
+
 </script>
 
 <div nav-su></div>
@@ -20,8 +29,8 @@
                     <h2>Gestión de <b>Clientes</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalNuevo"><i
-                            class="fa fa-plus-circle"></i> <span>Agregar cliente</span></a>
+                    <a href="" class="btn btn-info" data-toggle="modal" ng-click='clearForm()'
+                        data-target="#modalNuevo"><i class="fa fa-plus-circle"></i> <span>Agregar cliente</span></a>
                 </div>
             </div>
         </div>
@@ -81,7 +90,7 @@
             </div>
             <div class="modal-body">
 
-                <form>
+                <form ng-class='formEmpresa'>
                     <h4>Datos de la empresa</h4>
                     <div class="form-group" ng-class="validNewNom">
                         <label for="txtNombreNew">Nombre</label>
@@ -102,63 +111,64 @@
                         <label for="txtDescNew">Descripcion</label>
                         <input type="text" ng-model='txtDescNew' class="form-control" id="txtDescNew">
                         <span ng-show="errorNewDesc" class="help-block">Ingrese una descripción de la empresa</span>
-                    </div>
-
-                    <button class="btn btn-info btn-lg" id="mostrarForm" >Agregar los datos del usuario inicial</button>
-                    <br>
-                    <div class="oculto" id="formUser">
-                            <h4>Datos del usuario</h4>
-                        <div class="form-group" ng-class="validNom">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" id="nombre" class="form-control" ng-model="nombre" />
-                            <span ng-show="errorNom" class="help-block">Ingrese el nombre del usuario</span>
-                        </div>
-                        <div class="form-group" ng-class="validApe">
-                            <label for="apellido">Apellido</label>
-                            <input type="text" id="apellido" class="form-control" ng-model="apellido" />
-                            <span ng-show="errorApe" class="help-block">Ingrese el apellido del usuario</span>
-                        </div>
-                        <div class="form-group" ng-class="validTipoDoc">
-                            <label for="tipoDni">Tipo de Documento:</label>
-                            <select ng-model="tipoDni" class="form-control"
-                                ng-options="dnitype.Nombre for dnitype in dnitypes track by dnitype.Id">
-                                <option value="">Seleccione una opcion</option>
-                            </select>
-                            <span ng-show="errorTipoDoc" class="help-block">Seleccione un tipo de documento</span>
-                        </div>
-                        <div class="form-group" ng-class="validNumDoc">
-                            <label for="dni">Número de documento:</label>
-                            <input type="number" class="form-control" id="dni" ng-model="dni">
-                            <span ng-show="errorNumDoc" class="help-block">Ingrese un número de documento valido</span>
-                        </div>
-                        <div class="form-group" ng-class="validTel">
-                            <label for="telefono">Teléfono:</label>
-                            <input type="number" class="form-control" name="telefono" id="telefono" ng-model="telefono">
-                            <span ng-show="errorTel" class="help-block">Ingrese un número de telefono valido</span>
-                        </div>
-                        <div class="form-group" ng-class="validEmail">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" ng-model="email" class="form-control" />
-                            <span ng-show="errorEmail" class="help-block">Ingrese un email valido</span>
-                        </div>
-                        <div class="form-group" ng-class="validPass">
-                            <label for="clave">Contraseña</label>
-                            <input type="password" id="clave" class="form-control" ng-model="clave" />
-                            <span ng-show="errorNumDoc" class="help-block">Ingrese una contraseña</span>
-                        </div>
-                        <button type="button" class="btn btn-info" ng-click='nueva()'>Guardar</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                    </div>
-                
                 </form>
-                
+                <br>
+                <button type="button" class="btn btn-success" ng-click="siguiente()">Siguiente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <br>
             </div>
-            <div class="modal-footer">
-                
-            </div>
-        </div>
+            <form ng-class="formUsuario" id="formUser">
+                <h4>Datos del usuario</h4>
+                <div class="form-group" ng-class="validNom">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" class="form-control" ng-model="nombre" />
+                    <span ng-show="errorNom" class="help-block">Ingrese el nombre del usuario</span>
+                </div>
+                <div class="form-group" ng-class="validApe">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" class="form-control" ng-model="apellido" />
+                    <span ng-show="errorApe" class="help-block">Ingrese el apellido del usuario</span>
+                </div>
+                <div class="form-group" ng-class="validTipoDoc">
+                    <label for="tipoDni">Tipo de Documento:</label>
+                    <select ng-model="tipoDni" class="form-control"
+                        ng-options="dnitype.Nombre for dnitype in dnitypes track by dnitype.Id">
+                        <option value="">Seleccione una opcion</option>
+                    </select>
+                    <span ng-show="errorTipoDoc" class="help-block">Seleccione un tipo de documento</span>
+                </div>
+                <div class="form-group" ng-class="validNumDoc">
+                    <label for="dni">Número de documento:</label>
+                    <input type="number" class="form-control" id="dni" ng-model="dni">
+                    <span ng-show="errorNumDoc" class="help-block">Ingrese un número de documento valido</span>
+                </div>
+                <div class="form-group" ng-class="validTel">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="number" class="form-control" name="telefono" id="telefono" ng-model="telefono">
+                    <span ng-show="errorTel" class="help-block">Ingrese un número de telefono valido</span>
+                </div>
+                <div class="form-group" ng-class="validEmail">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" ng-model="email" class="form-control" />
+                    <span ng-show="errorEmail" class="help-block">Ingrese un email valido</span>
+                </div>
+                <div class="form-group" ng-class="validPass">
+                    <label for="clave">Contraseña</label>
+                    <input type="password" id="clave" class="form-control" ng-model="clave" />
+                    <span ng-show="errorNumDoc" class="help-block">Ingrese una contraseña</span>
+                </div>
+                <button type="button" class="btn btn-info" ng-click='nueva()'>Guardar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </form>
 
+
+        </div>
+       <!-- <div class="modal-footer">
+
+        </div>-->
     </div>
+
+</div>
 </div>
 
 
@@ -184,8 +194,8 @@
                         <input type="text" ng-model='txtCuitEdit' class="form-control" id="txtCuitEdit">
                     </div>
                     <div class="form-group" ng-class="validEditDesc">
-                        <label for="txtDescEdit">Descripcion</label>
-                        <input type="text" ng-model='txtDescEdit' class="form-control" id="txtDescEdit">
+                        <label for="txtDescEdit">Descripción</label>
+                        <textarea name="" id="" cols="30" rows="4" ng-model='txtDescEdit' class="form-control" id="txtDescEdit"></textarea>
                     </div>
                     <div id="espera" ng-class="espera" style="position: absolute;top: 30%;left: 45%;">
                         <img src="images/espera.gif" alt="reloj" style="width: 50px">
@@ -217,11 +227,12 @@
         <!-- Modal content-->
         <div class="modal-content ">
             <div class="modal-header bg-danger">
-                <!--<h4 class="modal-title">Editar cliente</h4>-->
+                <h4 class="modal-title">Eliminar empresa</h4>
                 <span></span>
             </div>
             <div class="modal-body">
-                <h4>Eliminar</h4>
+                <h4>Está seguro que desea eliminar esta empresa?</h4>
+                <p>No podrá revertir esta operación</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info" id="btnEliminar">Aceptar</button>
