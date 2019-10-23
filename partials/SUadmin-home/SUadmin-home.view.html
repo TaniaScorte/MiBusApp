@@ -8,6 +8,10 @@
     .formOculto {
         display: none;
     }
+    .error{
+        background-color: rgb(240, 148, 163);
+        padding: 2px;
+    }
 
 </style>
 <script type="text/javascript">
@@ -101,27 +105,27 @@
             </div>
             <div class="modal-body">
 
-                <form ng-class='formEmpresa'>
+                <form ng-class='formEmpresa' role="form">
                     <h4>Datos de la empresa</h4>
                     <div class="form-group" ng-class="validNewNom">
                         <label for="txtNombreNew">Nombre</label>
                         <input type="text" ng-model='txtNombreNew' class="form-control" id="txtNombreNew">
-                        <span ng-show="errorNewNom" class="help-block">Ingrese el nombre de la empresa</span>
+                        <span ng-show="errorNewNom" class="help-block error">Ingrese el nombre de la empresa</span>
                     </div>
                     <div class="form-group" ng-class="validNewDir">
                         <label for="txtDirNew">Dirección</label>
                         <input type="text" ng-model='txtDirNew' class="form-control" id="txtDirNew">
-                        <span ng-show="errorNewDir" class="help-block">Ingrese la dirección de la empresa</span>
+                        <span ng-show="errorNewDir" class="help-block error">Ingrese la dirección de la empresa</span>
                     </div>
                     <div class="form-group" ng-class="validNewCuit">
                         <label for="txtCuitNew">CUIT</label>
                         <input type="text" ng-model='txtCuitNew' class="form-control" id="txtCuitNew">
-                        <span ng-show="errorNewCuit" class="help-block">Ingrese el CUIT de la empresa</span>
+                        <span ng-show="errorNewCuit" class="help-block error">Ingrese el CUIT de la empresa</span>
                     </div>
                     <div class="form-group" ng-class="validNewDesc">
                         <label for="txtDescNew">Descripcion</label>
                         <input type="text" ng-model='txtDescNew' class="form-control" id="txtDescNew">
-                        <span ng-show="errorNewDesc" class="help-block">Ingrese una descripción de la empresa</span>
+                        <span ng-show="errorNewDesc" class="help-block error">Ingrese una descripción de la empresa</span>
                 </form>
                 <br>
                 <button type="button" class="btn btn-success" ng-click="siguiente()">Siguiente</button>

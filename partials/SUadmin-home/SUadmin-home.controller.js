@@ -251,8 +251,13 @@
         }
 
         $scope.siguiente = function () {
-            $scope.formEmpresa = 'formOculto';
-            $scope.formUsuario = 'formVisible';
+            
+            if(validarEmpresa('new')){
+                $scope.formEmpresa = 'formOculto';
+                $scope.formUsuario = 'formVisible';
+            }else{
+                //alert('error');
+            }
         }
 
         $scope.clearForm = function () {
@@ -260,13 +265,35 @@
             $scope.formUsuario = 'formOculto';
         }
 
-        function validar(tipo) {
+        function validarEmpresa(tipo) {
             if (tipo == 'new') {
+                console.log($scope.txtNombreNew);
+                if($scope.txtNombreNew == "" || $scope.txtNombreNew == undefined){
+                    $scope.errorNewNom = true;
+                    return false;
+                }
+                if($scope.txtDirNew == "" || $scope.txtDirNew == undefined){
+                    $scope.errorNewDir = true;
+                    return false;
+                }
+                if($scope.txtCuitNew == "" || $scope.txtCuitNew == undefined){
+                    $scope.errorNewCuit = true;
+                    return false;
+                }
+                if($scope.txtDescNew == "" || $scope.txtDescNew == undefined){
+                    $scope.errorNewDesc = true;
+                    return false;
+                }
+                return true;
 
             }
             if (tipo == 'edit') {
 
             }
+        }
+
+        function validarUsuario(){
+
         }
 
 
