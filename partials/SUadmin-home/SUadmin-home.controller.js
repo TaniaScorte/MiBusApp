@@ -12,22 +12,20 @@
         initController();
 
         function initController() {
-            espera(false);
             if (!$rootScope.empresas) {
                 getEmpresas();
+                espera(false);
+
             }
             if (!$rootScope.dnitypes) {
                 getTiposDNI();
             }
-
         }
         function getEmpresas() {
-
             $scope.items = []; // JSON 
             $scope.filtroItems = [];
             $scope.currentPage = 1;
             $scope.numPerPage = 10;
-
             $scope.inicializar = function () {
                 ResourcesService.GetEmpresas()
                     .then(function (response) {
@@ -37,7 +35,7 @@
                                 // console.log($scope.items);
                                 $scope.hacerPagineo($scope.items);
                                 $scope.totalItems = $scope.items.length;
-                                console.log('total items', $scope.totalItems);
+                                // console.log('total items', $scope.totalItems);
                             }
 
                         }
@@ -74,7 +72,6 @@
 
         }
 
-
         //nueva empresa
         $scope.nueva = function () {
             var data = {
@@ -110,7 +107,7 @@
                     $scope.txtDirEdit = response.Direccion;
                     $scope.txtCuitEdit = response.Cuit;
                     $scope.txtDescEdit = response.Descripcion;
-                    console.log(response);
+                   // console.log(response);
                     espera(false);
                 })
                 .catch(function (error) {
