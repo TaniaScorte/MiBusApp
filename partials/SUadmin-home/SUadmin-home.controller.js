@@ -122,9 +122,8 @@
                 });
 
             $('#btnEditar').on('click', function () {
-                var url = 'https://www.mellevas.com.ar/api/empresas/Update';
-                // console.log($scope.txtNombreEdit, $scope.txtDirEdit, id);
-                var data = {
+                if(validarEmpresa('edit')){
+                    var data = {
                     id: id,
                     Nombre: $scope.txtNombreEdit,
                     Direccion: $scope.txtDirEdit,
@@ -135,13 +134,16 @@
                 }
                 ResourcesUpdateService.UpdateEmpresa(data)
                     .then(function (response) {
-                        console.log(response);
-                        getEmpresas();  ////**********************************************************Terminar*********************** */
+                        //console.log(response);
+                        getEmpresas();  
                         $('#modalEditar').modal('hide');
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
+
+                }
+
             });
 
         }
@@ -267,7 +269,6 @@
 
         function validarEmpresa(tipo) {
             if (tipo == 'new') {
-                console.log($scope.txtNombreNew);
                 if($scope.txtNombreNew == "" || $scope.txtNombreNew == undefined){
                     $scope.errorNewNom = true;
                     return false;
@@ -284,10 +285,29 @@
                     $scope.errorNewDesc = true;
                     return false;
                 }
-                return true;
-
             }
             if (tipo == 'edit') {
+                console.log($scope.txtCuitEdit);
+                if($scope.txtNombreEdit == "" || $scope.txtNombreEdit == undefined || $scope.txtNombreEdit == null){
+                    $scope.errorEditNom = true;
+                    return false;
+                }
+                if($scope.txtDirEdit == "" || $scope.txtDirEdit == undefined){
+                    $scope.errorEditDir = true;
+                    return false;
+                }
+                if($scope.txtCuitEdit == "" || $scope.txtCuitEdit == undefined || $scope.txtCuitEdit == null){
+                    $scope.errorEditCuit = true;
+                    console.log('paso');
+
+                    return false;
+                }
+                if($scope.txtDescEdit == "" || $scope.txtDescEdit == undefined || null){
+                    $scope.errorEditDesc = true;
+                    return false;
+                }
+
+                return true;
 
             }
         }

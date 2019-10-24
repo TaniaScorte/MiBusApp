@@ -203,29 +203,34 @@
                     <div class="form-group" ng-class="validEditNombre">
                         <label for="txtNombreEdit">Nombre</label>
                         <input type="text" ng-model='txtNombreEdit' class="form-control" id="txtNombreEdit">
+                        <span ng-show="errorEditNom" class="help-block error">Ingrese el nombre de la empresa</span>
+                    </div>
+                    <div class="form-group" ng-class="validEditDir">
+                        <label for="txtDirEdit">Dirección</label>
+                        <input type="text" ng-model='txtDirEdit' class="form-control" id="txtDirEdit">
+                        <span ng-show="errorNewEdit" class="help-block error">Ingrese la dirección de la empresa</span>
                     </div>
                     <div class="form-group" ng-class="validEditCuit">
                         <label for="txtCuitEdit">CUIT</label>
                         <input type="text" ng-model='txtCuitEdit' class="form-control" id="txtCuitEdit">
+                        <span ng-show="errorEditCuit" class="help-block error">Ingrese el CUIT de la empresa</span>
                     </div>
                     <div class="form-group" ng-class="validEditDesc">
                         <label for="txtDescEdit">Descripción</label>
                         <textarea name="" id="" cols="30" rows="4" ng-model='txtDescEdit' class="form-control" id="txtDescEdit"></textarea>
+                        <span ng-show="errorEditDesc" class="help-block error">Ingrese una descripción de la empresa</span>
                     </div>
                     <div id="espera" ng-class="espera" style="position: absolute;top: 30%;left: 45%;">
                         <img src="images/espera.gif" alt="reloj" style="width: 50px">
                     </div>
 
-                    <div class="form-group" ng-class="validEditDir">
-                        <label for="txtDirEdit">Dirección</label>
-                        <input type="text" ng-model='txtDirEdit' class="form-control" id="txtDirEdit">
-                    </div>
+                   
 
                 </form>
 
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnEditar" class="btn btn-info" data-dismiss="modal">Guardar</button>
+                <button type="button" id="btnEditar" class="btn btn-info">Guardar</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
