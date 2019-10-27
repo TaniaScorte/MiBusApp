@@ -13,7 +13,8 @@
         vm.openModalDriverCreate = openModalDriverCreate;
         vm.openModalDriverEdit = openModalDriverEdit;
         vm.openModalDriverDelete = openModalDriverDelete;
-
+        vm.formatDate = formatDate;
+        vm.dateToday = new Date();
         function initController(){
             getTiposDNI();
             getUserDrivers();
@@ -51,10 +52,6 @@
                     confirmButtonAriaLabel: 'Ok',
                 });
             });
-        }
-        if(!$rootScope.formatDate){
-            $rootScope.formatDate = formatDate;
-            $scope.dateToday = new Date();
         }
         function formatDate(date){
             var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");

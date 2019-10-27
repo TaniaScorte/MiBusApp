@@ -132,7 +132,7 @@
         vm.dataLoading = true;
         ResourcesDeleteService.DeleteRecorrido(vm.idRoute)
         .then(function (response) {
-            if (response == 1){
+            if (response.Estado == 0){
                 SweetAlert.swal ({
                     type: "success", 
                     title: "La operacion se ha realizado con exito",
@@ -159,6 +159,7 @@
             }
         })
         .catch(function(error){
+            vm.dataLoading = false;
             SweetAlert.swal ({
                 type: "error", 
                 title: "Error",

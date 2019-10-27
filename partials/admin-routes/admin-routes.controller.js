@@ -13,6 +13,8 @@
         vm.openModalRoutesCreate = openModalRoutesCreate;
         vm.openModalRoutesEdit = openModalRoutesEdit;
         vm.openModalRoutesDelete = openModalRoutesDelete;    
+        vm.formatDate = formatDate;
+        vm.dateToday = new Date();
         initController();        
         function initController(){
             getTiposDNI();
@@ -56,10 +58,6 @@
                     confirmButtonAriaLabel: 'Ok',
                 });
             });
-        }
-        if(!$rootScope.formatDate){
-            $rootScope.formatDate = formatDate;
-            $scope.dateToday = new Date();
         }
         function formatDate(date){
             var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");

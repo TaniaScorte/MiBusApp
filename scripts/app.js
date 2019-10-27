@@ -97,9 +97,9 @@
                 templateUrl: 'partials/admin-routes/admin-routes.view.html',
                 controllerAs: 'vm'
             })
-            .when('/admin-bus', {
-                controller: 'AdminBusController',
-                templateUrl: 'partials/admin-bus/admin-bus.view.html',
+            .when('/admin-vehicles', {
+                controller: 'AdminVehiclesController',
+                templateUrl: 'partials/admin-vehicles/admin-vehicles.view.html',
                 controllerAs: 'vm'
             })
             .when('/admin-drivers', {

@@ -3,48 +3,54 @@
 
     angular
         .module('app')
-        .controller('ModalBranchController', ModalBranchController);
+        .controller('AdminParametersController', AdminParametersController);
 
-        ModalBranchController.$inject = ['$uibModalInstance', 'ramal', '$scope','$rootScope','ResourcesSetService','SweetAlert','ResourcesUpdateService','ResourcesDeleteService'];
+        AdminParametersController.$inject = ['$uibModalInstance', 'route', '$scope','$rootScope','ResourcesSetService','SweetAlert','ResourcesUpdateService','ResourcesDeleteService','$filter'];
 
 
-    function ModalBranchController($uibModalInstance, ramal, $scope,$rootScope,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService) {
+    function AdminParametersController($uibModalInstance, route, $scope,$rootScope,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService,$filter) {
     var vm = $scope;
-    vm.okBranchCreate = function () {
+    vm.okRoutesCreate = function () {
         $uibModalInstance.close();
     };  
-    vm.cancelBranchModal = function () {
+    vm.cancelRoutesModal = function () {
         $uibModalInstance.close();
     };  
-    if(ramal.edit){
-        vm.branchEdit = {};
-        vm.branchEdit.name = ramal.Nombre;
-        vm.branchEdit.description = ramal.Descripcion;
+    if(route.edit){
+        vm.routeEdit = {};
+        vm.routeEdit.ramal = $filter('filter')($rootScope.ramales, {Id:  route.RamalId})[0],
+        vm.routeEdit.name = route.Nombre;
+        vm.routeEdit.description = route.Descripcion;
+        vm.routeEdit.amount = route.Importe;
+        vm.routeEdit.duration = route.Duracion;
     }
-    if(ramal.delete){
-        vm.idRamal = ramal.Id;
-        vm.branchDelete = ramal;
+    if(route.delete){
+        vm.idRoute = route.Id;
+        vm.routeDelete = route;
     }
-    vm.setBranch = function(ramal) {
+    vm.setRoutes = function(route) {
         vm.dataLoading = true;
         var data ={
-            Nombre: ramal.name,
-            Descripcion: ramal.description,
+            Nombre: route.name,
+            Descripcion: route.description,
+            Duracion: route.duration,
+            RamalId: route.ramal.Id,
+            Importe:route.amount,
             EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
         }
-        ResourcesSetService.SetRamal(data)
+        ResourcesSetService.SetRecorrido(data)
             .then(function (response) {
                 if (response.Estado == 0){
                     SweetAlert.swal ({
                         type: "success", 
                         title: "La operacion se ha realizado con exito",
-                        text: "El ramal ha sido creado",
+                        text: "El item ha sido creado",
                         confirmButtonAriaLabel: 'Ok',
                     },
                     function(isConfirm) {
                     if (isConfirm) {
                         vm.dataLoading = false;
-                        $rootScope.$emit("refreshListBranch","ok");
+                        $rootScope.$emit("refreshListRoutes","ok");
                         $uibModalInstance.close();
                     } 
                     });               
@@ -55,7 +61,7 @@
                     SweetAlert.swal ({
                         type: "error", 
                         title: "Error",
-                        text: "Error al crear el ramal",
+                        text: "Error al crear el item",
                         confirmButtonAriaLabel: 'Ok',
                     });
                 }
@@ -73,27 +79,30 @@
     function clearRegister(){
         vm.user=null;
     }
-    vm.updateBranch = function(ramalEdit){
+    vm.updateRoutes = function(routeEdit){
         vm.dataLoading = true;
         var data ={
-            Nombre: ramalEdit.name,
-            Descripcion: ramalEdit.description,
+            Nombre: routeEdit.name,
+            Descripcion: routeEdit.description,
+            Duracion: routeEdit.duration,
+            RamalId: routeEdit.ramal.Id,
+            Importe:routeEdit.amount,
             EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId,
-            Id: ramal.Id
+            Id: route.Id
         }
-        ResourcesUpdateService.UpdateRamal(data)
+        ResourcesUpdateService.UpdateRecorrido(data)
             .then(function (response) {
                 if (response.Estado == 0){
                     SweetAlert.swal ({
                         type: "success", 
                         title: "La operacion se ha realizado con exito",
-                        text: "El ramal ha sido creado",
+                        text: "El item ha sido creado",
                         confirmButtonAriaLabel: 'Ok',
                     },
                     function(isConfirm) {
                     if (isConfirm) {
                         vm.dataLoading = false;
-                        $rootScope.$emit("refreshListBranch","ok");
+                        $rootScope.$emit("refreshListRoutes","ok");
                         $uibModalInstance.close();
                     } 
                     });               
@@ -104,7 +113,7 @@
                     SweetAlert.swal ({
                         type: "error", 
                         title: "Error",
-                        text: "Error al crear el ramal",
+                        text: "Error al crear el item",
                         confirmButtonAriaLabel: 'Ok',
                     });
                 }
@@ -119,9 +128,9 @@
                 });
             });
     }
-    vm.deleteBranch = function(ramalDelete){
+    vm.deleteRoutes = function(routesDelete){
         vm.dataLoading = true;
-        ResourcesDeleteService.DeleteRamal(vm.idRamal)
+        ResourcesDeleteService.DeleteRecorrido(vm.idRoute)
         .then(function (response) {
             if (response.Estado == 0){
                 SweetAlert.swal ({
@@ -133,7 +142,7 @@
                 function(isConfirm) {
                 if (isConfirm) {
                     vm.dataLoading = false;
-                    $rootScope.$emit("refreshListBranch","ok");
+                    $rootScope.$emit("refreshListRoutes","ok");
                     $uibModalInstance.close();
                 } 
                 });               
@@ -150,6 +159,7 @@
             }
         })
         .catch(function(error){
+            vm.dataLoading = false;
             SweetAlert.swal ({
                 type: "error", 
                 title: "Error",
@@ -159,7 +169,6 @@
             vm.dataLoading = false;
         });
     }
-
 
 }
 

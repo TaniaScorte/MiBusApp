@@ -18,6 +18,7 @@
         service.GetParadasByRecorrido = GetParadasByRecorrido;
         service.GetParadas = GetParadas;
         service.GetRecorridosByEmpresa = GetRecorridosByEmpresa;
+        service.GetVehiculosByEmpresa = GetVehiculosByEmpresa;
 
         return service;
         function GetRecorridosByEmpresa() {            
@@ -26,6 +27,25 @@
             var req = {
                 method: 'GET',
                 url: urlGetRecorrido + "&token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }                
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar los recorridos");
+                });
+                return deferred.promise;
+        }
+        function GetVehiculosByEmpresa() {            
+            var deferred = $q.defer();
+            var urlGetVehiculo ='https://www.mellevas.com.ar/api/vehiculos/GetVehiculosxEmpresa?EmpresaId=' + $rootScope.globals.currentUser.userData.EmpresaId;       
+            var req = {
+                method: 'GET',
+                url: urlGetVehiculo + "&Token=" + 2019,
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }

@@ -13,6 +13,9 @@
         vm.openModalBranchCreate = openModalBranchCreate;
         vm.openModalBranchEdit = openModalBranchEdit;
         vm.openModalBranchDelete = openModalBranchDelete;    
+        vm.formatDate = formatDate;
+        vm.dateToday = new Date();
+        
         initController();        
         function initController(){
             getRamalesByEmpresa();
@@ -37,10 +40,7 @@
         $rootScope.$on("refreshListBranch", function(evt,data){ 
             getRamalesByEmpresa();
         });
-        if(!$rootScope.formatDate){
-            $rootScope.formatDate = formatDate;
-            $scope.dateToday = new Date();
-        }
+
         function formatDate(date){
             var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
             return dateOut;
