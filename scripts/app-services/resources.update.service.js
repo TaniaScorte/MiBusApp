@@ -50,20 +50,19 @@
                     deferred.resolve(response.data);
                 })
                 .catch(function(error){
-                    deferred.reject("Error al cargar los ramales");
+                    deferred.reject("Error al actualizar el ramal");
                 });
                 return deferred.promise;
         }
-        function UpdateRecorrido(ramalID) {
+        function UpdateRecorrido(data) {
             var deferred = $q.defer();
-            var urlGetRecorridos ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxRamal?ramalid=' + ramalID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
+            var urlRecorridos ='https://www.mellevas.com.ar/api/recorridos/update'
+            data.Token = 2019;//$rootScope.globals.currentUser.token;       
             
             var req = {
-                method: 'GET',
-                url: urlGetRecorridos,
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8'
-                }
+                method: 'POST',
+                url: urlRecorridos,
+                data:data
                }     
             
             $http(req)
@@ -71,7 +70,7 @@
                     deferred.resolve(response.data);
                 })
                 .catch(function(error){
-                    deferred.reject("Error al cargar los recorridos");
+                    deferred.reject("Error al actualizar el recorrido");
                 });
                 return deferred.promise;
         }

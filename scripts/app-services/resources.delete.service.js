@@ -10,16 +10,18 @@
         var service = {};
 
         service.DeleteEmpresa = DeleteEmpresa;
+        service.DeleteRamal = DeleteRamal;
+        service.DeleteRecorrido =DeleteRecorrido;
 
 
         return service;
 
         function DeleteEmpresa(id) {
             var deferred = $q.defer();
-            var urlDeleteEmpresa = 'https://www.mellevas.com.ar/api/empresas/Delete?id=';
+            var urlDeleteEmpresa = 'https://www.mellevas.com.ar/api/empresas/Delete?Id=';
             var req = {
                 method: 'GET',
-                url: urlDeleteEmpresa + id + "&token=" + 2019,
+                url: urlDeleteEmpresa + id + "&Token=" + 2019,
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }
@@ -37,7 +39,46 @@
             });
             return deferred.promise;
         }
-        
+        function DeleteRamal(id) {
+            var deferred = $q.defer();
+            var urlDeleteRamal = 'https://www.mellevas.com.ar/api/ramales/Delete?Id=';
+            var req = {
+                method: 'GET',
+                url: urlDeleteRamal + id + "&Token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }  
+
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Ha ocurrido un error");
+            });
+            return deferred.promise;
+        }
+        function DeleteRecorrido(id) {
+            var deferred = $q.defer();
+            var urlDeleteRecorrido = 'https://www.mellevas.com.ar/api/recorridos/Delete?Id=';
+            var req = {
+                method: 'GET',
+                url: urlDeleteRecorrido + id + "&Token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }  
+
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Ha ocurrido un error");
+            });
+            return deferred.promise;
+        }
 
     }
 

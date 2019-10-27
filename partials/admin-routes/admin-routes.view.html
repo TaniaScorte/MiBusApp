@@ -27,22 +27,31 @@
                             <th>Nombre</th>
                             <th>Descripcion</th>
                             <th>Duracion Aprox.</th>
+                            <th>Importe</th>
+                            <th>Fecha de Baja</th>
+                            <th>Ramal</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>        
-                        <tr ng-repeat="recorrido in recorridos">
-                            <td>{{driver.Nombre}}</td>
-                            <td>{{driver.Descripcion}}</td>
-                            <td>{{driver.Duracion}}</td>
+                        <tr ng-repeat="route in routes">
+                            <td>{{route.Nombre}}</td>
+                            <td><span ng-show="route.Descripcion == null"> No hay descripcion</span><span ng-show="route.Descripcion != null">{{route.Descripcion}}</span></td>
+                            <td><span ng-show="route.Duracion == null"> No hay duracion</span><span ng-show="route.Duracion != null">{{route.Duracion}}</span></td>
+                            <td>{{route.Importe}}</td>
                             <td>
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Disabled tooltip">
-                                    <button class="btn btn-warning" style="pointer-events: none;" type="button" ng-click="openModalRoutesEdit(recorrido)" >
+                                <label ng-show="formatDate(route.FechaBaja) < dateToday" ng-bind="formatDate(route.FechaBaja) |  date:'dd/MM/yyyy'"></label>
+                                <label ng-show="formatDate(route.FechaBaja) > dateToday"> <i class="fa fa-check"></i> Activo</label>
+                            </td> 
+                            <td>{{route.RamalDescripcion}}</td>
+                            <td>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Editar">
+                                    <button class="btn btn-warning"  ng-click="openModalRoutesEdit(route)" >
                                         <i class="fa fa-pencil"></i>
                                     </button>
                                 </span>
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Disabled tooltip">
-                                    <button class="btn btn-danger" style="pointer-events: none;" type="button" ng-click="openModalRoutesDelete(recorrido)">
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Eliminar">
+                                    <button class="btn btn-danger" ng-click="openModalRoutesDelete(route)">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </span>

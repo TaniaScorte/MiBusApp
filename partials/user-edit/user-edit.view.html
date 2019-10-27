@@ -31,22 +31,19 @@
                         <label for="tel">Telefono:</label>
                         <input type="number" class="form-control" name="tel" id="tel" ng-minlength="7" ng-model="userEdit.tel" ng-maxlength="10">    
                     </div>
-                    <div class="form-check">
-                            <input type="checkbox" ng-model="changePassEmailCheckbox" id="changePassEmailCheckbox" ng-init="changePassEmailCheckbox == false"/> 
-                        <label class="form-check-label" for="changePassEmailCheckbox">Cambiar Email o Password</label>
-                    </div>
+
                     <div style="border: 1px solid #c5b4b4!important;border-radius: 16px;">
                         <div style="padding-top:5px;padding-right: 5px;padding-left: 5px;padding-bottom: 5px;">
-                            <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
-                                <label for="email">Email</label>
-                                <input type="email" name="email" id="email"  ng-model="userEdit.email" class="form-control" ng-disabled="!changePassEmailCheckbox" />
-                                <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email es requerido</span>
-                            </div>
                             <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
                                 <label for="password">Password</label>
-                                <input type="password" name="password" id="password" class="form-control" ng-model="userEdit.password" ng-disabled="!changePassEmailCheckbox" />
+                                <input type="password" name="password" id="password" class="form-control" ng-model="userEdit.password" />
                                 <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
-                            </div>                            
+                            </div>   
+                            <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                                <label for="password">Confirmar Password</label>
+                                <input type="password" name="password" id="password" class="form-control" ng-model="userEdit.confirmPassword" />
+                                <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+                            </div>                           
                         </div>
                     </div>
                     <br>

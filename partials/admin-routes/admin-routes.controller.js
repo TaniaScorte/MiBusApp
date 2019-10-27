@@ -5,19 +5,21 @@
         .module('app')
         .controller('AdminRoutesController', AdminRoutesController);
 
-        AdminRoutesController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService','SweetAlert'];
+        AdminRoutesController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService','SweetAlert','$filter'];
 
 
-    function AdminRoutesController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService,SweetAlert) {
+    function AdminRoutesController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService,SweetAlert,$filter) {
         var vm = $scope;     
         vm.openModalRoutesCreate = openModalRoutesCreate;
         vm.openModalRoutesEdit = openModalRoutesEdit;
         vm.openModalRoutesDelete = openModalRoutesDelete;    
+        vm.formatDate = formatDate;
+        vm.dateToday = new Date();
         initController();        
         function initController(){
             getTiposDNI();
-            getRecorridosByEmpresa();
             getRamalesByEmpresa();
+            getRecorridosByEmpresa();           
         }
 
         var swipe = function () {
@@ -28,7 +30,6 @@
             wipeRight: function () {
                 window.location.replace('#!admin-journey');
             },
-
             min_move_x: 200,
             min_move_y: 200,
             preventDefaultEvents: false
@@ -36,14 +37,17 @@
         }
         swipe();
 
-        $rootScope.$on("refreshListRecorridos", function(evt,data){ 
+        $rootScope.$on("refreshListRoutes", function(evt,data){ 
             getRecorridosByEmpresa();
         });
         function getRecorridosByEmpresa(){
             ResourcesService.GetRecorridosByEmpresa()
             .then(function (response) {
                 if (response){                  
-                   $rootScope.recorridos = response.data;          
+                   $rootScope.routes = response; 
+                   for(var x = 0 ; x < $rootScope.routes.length ; x++){
+                       $rootScope.routes[x].RamalDescripcion = $filter('filter')($rootScope.ramales, {Id:  $rootScope.routes[x].RamalId})[0].Nombre;
+                   }         
                 } 
             })
             .catch(function(error){
@@ -54,10 +58,6 @@
                     confirmButtonAriaLabel: 'Ok',
                 });
             });
-        }
-        if(!$rootScope.formatDate){
-            $rootScope.formatDate = formatDate;
-            $scope.dateToday = new Date();
         }
         function formatDate(date){
             var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
@@ -72,14 +72,14 @@
                 windowClass: 'show',
                 backdrop: 'static',
                 resolve: {
-                  recorrido: function () {
+                  route: function () {
                     return "Create";
                   }
                 }
               });
         }
-        function openModalRoutesEdit(recorridoEdit){
-            recorridoEdit.edit=true;
+        function openModalRoutesEdit(routeEdit){
+            routeEdit.edit=true;
             var modalInstance = $uibModal.open({
                 animation:true,
                 templateUrl: 'partials/admin-routes/modal-routes-edit.view.html',
@@ -88,14 +88,14 @@
                 windowClass: 'show',
                 backdrop: 'static',
                 resolve: {
-                  recorrido: function () {
-                    return recorridoEdit;
+                  route: function () {
+                    return routeEdit;
                   }
                 }
               });
         }
-        function openModalRoutesDelete(recorridoDelete){
-            recorridoDelete.delete = true;
+        function openModalRoutesDelete(routeDelete){
+            routeDelete.delete = true;
             var modalInstance = $uibModal.open({
                 animation:true,
                 templateUrl: 'partials/admin-routes/modal-routes-delete.view.html',
@@ -104,8 +104,8 @@
                 windowClass: 'show',
                 backdrop: 'static',
                 resolve: {
-                  recorrido: function () {
-                    return recorridoDelete;
+                  route: function () {
+                    return routeDelete;
                   }
                 }
               });

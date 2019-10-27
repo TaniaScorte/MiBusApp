@@ -53,7 +53,7 @@
             }
             UserService.Update(data)
             .then(function (response) {
-                if (response == 1){
+                if (response.Estado == 0){
                     SweetAlert.swal ({
                         type: "success", 
                         title: "La operacion se ha realizado con exito",
@@ -74,7 +74,7 @@
                     SweetAlert.swal ({
                         type: "error", 
                         title: "Error",
-                        text: "Error al crear el usuario",
+                        text: "Error al actualizar el usuario",
                         confirmButtonAriaLabel: 'Ok',
                     });
                 }
@@ -155,7 +155,7 @@
             vm.dataLoading = true;
             UserService.Delete(vm.idUser)
             .then(function (response) {
-                if (response == 1){
+                if (response.Estado == 0){
                     SweetAlert.swal ({
                         type: "success", 
                         title: "La operacion se ha realizado con exito",
