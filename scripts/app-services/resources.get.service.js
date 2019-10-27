@@ -22,10 +22,10 @@
         return service;
         function GetRecorridosByEmpresa() {            
             var deferred = $q.defer();
-            var urlGetRecorrido ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxEmpresa?empresaId=' + $rootScope.globals.currentUser.userData.EmpresaId;       
+            var urlGetRecorrido ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxEmpresa?EmpresaId=' + $rootScope.globals.currentUser.userData.EmpresaId;       
             var req = {
                 method: 'GET',
-                url: urlGetRecorrido,
+                url: urlGetRecorrido + "&token=" + 2019,
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }

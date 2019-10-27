@@ -2,28 +2,33 @@
     <h3 class="modal-title" id="modal-title">Datos del chofer</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <form name="form.saverecorrido" ng-submit="setRecorrido(recorrido)" class="form-saverecorrido">
+    <form name="form.saveroute" ng-submit="setRoutes(route)" class="form-saveroute">
         <div class="form-group">
             <label for="ramal">Ramal:</label>
-            <select ng-model="recorrido.ramal" class="form-control" ng-options="ramal.Nombre for ramal in ramales track by ramal.Id">
+            <select ng-model="route.ramal" class="form-control" ng-options="ramal.Nombre for ramal in ramales track by ramal.Id">
                 <option value="">Seleccione una opcion</option>
             </select> 
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
             <label for="name">Nombre</label>
-            <input type="text" name="name" id="name" class="form-control" ng-model="recorrido.name"  required autofocus />
+            <input type="text" name="name" id="name" class="form-control" ng-model="route.name"  required autofocus />
             <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">El nombre es requerido</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
             <label for="descripcion">Descripcion</label>
-            <input type="text" name="descripcion" id="descripcion" class="form-control" ng-model="recorrido.descripcion" required />
+            <input type="text" name="descripcion" id="descripcion" class="form-control" ng-model="route.descripcion" required />
             <span ng-show="form.descripcion.$dirty && form.descripcion.$error.required" class="help-block">La descripcion es requerido</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
-                <label for="duracion">Duracion aproximada</label>
-                <input type="text" name="duracion" id="duracion" class="form-control" ng-model="recorrido.duracion" required />
-                <span ng-show="form.duracion.$dirty && form.duracion.$error.required" class="help-block">La duracion es requerido</span>
-            </div>
+            <label for="duration">Duracion aproximada</label>
+            <input type="text" name="duration" id="duration" class="form-control" ng-model="route.duration" required />
+            <span ng-show="form.duration.$dirty && form.duration.$error.required" class="help-block">La duracion es requerido</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.amount.$dirty && form.amount.$error.required }">
+            <label for="amount">Importe</label>
+            <input type="text" name="amount" id="amount" class="form-control" ng-model="route.amount" required />
+            <span ng-show="form.amount.$dirty && form.amount.$error.required" class="help-block">El importe es requerido</span>
+        </div>
         <div class="form-actions">
             <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Guardar</button>
             <img ng-if="dataLoading" src="images/descarga.gif" />
