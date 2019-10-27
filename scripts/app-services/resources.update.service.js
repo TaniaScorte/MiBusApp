@@ -36,13 +36,8 @@
             });
             return deferred.promise;
         }
-<<<<<<< HEAD
-        function UpdateRamal(data) {
-=======
 
-        
-        function UpdateRamal(empresaID) {
->>>>>>> 9fdfbfbfb27a37a1cbf8796064a9c7cecadc8768
+        function UpdateRamal(data) {
             var deferred = $q.defer();
             var urlRamales ='https://www.mellevas.com.ar/api/ramales/update'
             data.Token = 2019;//$rootScope.globals.currentUser.token;       

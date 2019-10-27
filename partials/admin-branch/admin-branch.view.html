@@ -33,7 +33,10 @@
                     <tbody>        
                         <tr ng-repeat="ramal in ramales">
                             <td>{{ramal.Nombre}}</td>
-                            <td>{{ramal.Descripcion}}</td>
+                            <td>
+                                <label ng-if="formatDate(driver.FechaBaja) < dateToday" ng-bind="formatDate(driver.FechaBaja) |  date:'dd/MM/yyyy'"></label>
+                                <label ng-if="formatDate(driver.FechaBaja) > dateToday"> <i class="fa fa-check"></i> Activo</label>
+                            </td>                 <td>{{ramal.Descripcion}}</td>
                             <td>{{ramal.FechaBaja}}</td>
                             <td>
                                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Editar">
