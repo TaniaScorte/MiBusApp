@@ -5,15 +5,15 @@
         .module('app')
         .controller('ModalBranchController', ModalBranchController);
 
-        ModalBranchController.$inject = ['$uibModalInstance', 'ramal', '$scope','$rootScope','ResourcesSetService','SweetAlert','ResourcesUpdateService'];
+        ModalBranchController.$inject = ['$uibModalInstance', 'ramal', '$scope','$rootScope','ResourcesSetService','SweetAlert','ResourcesUpdateService','ResourcesDeleteService'];
 
 
-    function ModalBranchController($uibModalInstance, ramal, $scope,$rootScope,ResourcesSetService,SweetAlert,ResourcesUpdateService) {
+    function ModalBranchController($uibModalInstance, ramal, $scope,$rootScope,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService) {
     var vm = $scope;
-    $scope.okBranchCreate = function () {
+    vm.okBranchCreate = function () {
         $uibModalInstance.close();
     };  
-    $scope.cancelBranchModal = function () {
+    vm.cancelBranchModal = function () {
         $uibModalInstance.close();
     };  
     if(ramal.edit){
@@ -22,9 +22,10 @@
         vm.branchEdit.description = ramal.Descripcion;
     }
     if(ramal.delete){
+        vm.idRamal = ramal.Id;
         vm.branchDelete = ramal;
     }
-    $scope.setBranch = function(ramal) {
+    vm.setBranch = function(ramal) {
         vm.dataLoading = true;
         var data ={
             Nombre: ramal.name,
@@ -60,6 +61,7 @@
                 }
             })
             .catch(function(error){
+                vm.dataLoading = false;
                 SweetAlert.swal ({
                     type: "error", 
                     title: "Error",
@@ -71,7 +73,7 @@
     function clearRegister(){
         vm.user=null;
     }
-    $scope.updateBranch = function(ramalEdit){
+    vm.updateBranch = function(ramalEdit){
         vm.dataLoading = true;
         var data ={
             Nombre: ramalEdit.name,
@@ -108,6 +110,7 @@
                 }
             })
             .catch(function(error){
+                vm.dataLoading = false;
                 SweetAlert.swal ({
                     type: "error", 
                     title: "Error",
@@ -116,7 +119,46 @@
                 });
             });
     }
-
+    vm.deleteBranch = function(ramalDelete){
+        vm.dataLoading = true;
+        ResourcesDeleteService.DeleteRamal(vm.idRamal)
+        .then(function (response) {
+            if (response == 1){
+                SweetAlert.swal ({
+                    type: "success", 
+                    title: "La operacion se ha realizado con exito",
+                    text: "El item ha sido eliminado",
+                    confirmButtonAriaLabel: 'Ok',
+                },
+                function(isConfirm) {
+                if (isConfirm) {
+                    vm.dataLoading = false;
+                    $rootScope.$emit("refreshListBranch","ok");
+                    $uibModalInstance.close();
+                } 
+                });               
+                return;                
+            } 
+            else {
+                vm.dataLoading = false;
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: "Error al eliminar",
+                    confirmButtonAriaLabel: 'Ok',
+                });
+            }
+        })
+        .catch(function(error){
+            SweetAlert.swal ({
+                type: "error", 
+                title: "Error",
+                text: error,
+                confirmButtonAriaLabel: 'Ok',
+            });
+            vm.dataLoading = false;
+        });
+    }
 
 
 }

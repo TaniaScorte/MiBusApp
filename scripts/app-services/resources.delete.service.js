@@ -10,6 +10,7 @@
         var service = {};
 
         service.DeleteEmpresa = DeleteEmpresa;
+        service.DeleteRamal = DeleteRamal;
 
 
         return service;
@@ -33,6 +34,26 @@
             .catch(function(error){
                 console.log(error);
 
+                deferred.reject("Ha ocurrido un error");
+            });
+            return deferred.promise;
+        }
+        function DeleteRamal(id) {
+            var deferred = $q.defer();
+            var urlDeleteRamal = 'https://www.mellevas.com.ar/api/ramales/Delete?id=';
+            var req = {
+                method: 'GET',
+                url: urlDeleteRamal + id + "&token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }  
+
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
                 deferred.reject("Ha ocurrido un error");
             });
             return deferred.promise;
