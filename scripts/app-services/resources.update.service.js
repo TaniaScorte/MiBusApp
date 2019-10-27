@@ -17,6 +17,7 @@
         return service;
 
         function UpdateEmpresa(id) {
+            console.log(data);
             var deferred = $q.defer();
             var urlDeleteEmpresa = 'https://www.mellevas.com.ar/api/empresas/Delete?id=';
             var req = {
@@ -29,14 +30,21 @@
 
             $http(req)
             .then(function(response){
+                console.log(response);
                 deferred.resolve(response.data);
             })
             .catch(function(error){
                 deferred.reject("Error al cargar los recorridos");
+                console.log(error);
             });
             return deferred.promise;
         }
+<<<<<<< HEAD
         function UpdateRamal(data) {
+=======
+
+        
+>>>>>>> 9fdfbfbfb27a37a1cbf8796064a9c7cecadc8768
             var deferred = $q.defer();
             var urlRamales ='https://www.mellevas.com.ar/api/ramales/update'
             data.Token = 2019;//$rootScope.globals.currentUser.token;       

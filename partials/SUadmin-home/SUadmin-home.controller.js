@@ -4,129 +4,171 @@
     var SUhome = angular
         .module('app')
         .controller('SUAdminHomeController', SUAdminHomeController);
-    SUAdminHomeController.$inject = ['UserService','ResourcesService','ResourcesUpdateService', 'ResourcesSetService','$rootScope', '$http', '$scope', '$uibModal'];
-    function SUAdminHomeController(UserService,ResourcesService,ResourcesUpdateService,ResourcesSetService, $rootScope, $http, $scope, $uibModal) {
+    SUAdminHomeController.$inject = ['UserService', 'SweetAlert', 'ResourcesService', 'ResourcesUpdateService', 'ResourcesDeleteService', 'ResourcesSetService', '$rootScope', '$http', '$filter', '$scope'];
+    function SUAdminHomeController(UserService, SweetAlert, ResourcesService, ResourcesUpdateService, ResourcesDeleteService, ResourcesSetService, $rootScope, $http, $filter, $scope) {
         var vm = this;
 
 
         initController();
 
-        function initController(){
-            espera(false);
-            if(!$rootScope.empresas){
+        function initController() {
+            if (!$rootScope.empresas) {
                 getEmpresas();
+                espera(false);
+
             }
-            if(!$rootScope.dnitypes){
+            if (!$rootScope.dnitypes) {
                 getTiposDNI();
             }
-           
         }
-        function getEmpresas(){
-            ResourcesService.GetEmpresas()
-            .then(function (response) {
-                if (response){
-                    $rootScope.empresas = response;      
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+        function getEmpresas() {
+            $scope.items = []; // JSON 
+            $scope.filtroItems = [];
+            $scope.currentPage = 1;
+            $scope.numPerPage = 10;
+            $scope.inicializar = function () {
+                ResourcesService.GetEmpresas()
+                    .then(function (response) {
+                        if (response) {
+                            if (response) {
+                                $scope.items = response;
+                                // console.log($scope.items);
+                                $scope.hacerPagineo($scope.items);
+                                $scope.totalItems = $scope.items.length;
+                                // console.log('total items', $scope.totalItems);
+                            }
+
+                        }
+                    })
+                    .catch(function (error) {
+                        //console.log(error);
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: error,
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    });
+            };
+            $scope.inicializar();
+
+            $scope.hacerPagineo = function (arreglo) {
+                var principio = (($scope.currentPage - 1) * $scope.numPerPage); //0, 3
+                var fin = principio + $scope.numPerPage; //3, 6
+                $scope.filtroItems = arreglo.slice(principio, fin); // 
+            };
+
+            $scope.buscar = function (busqueda) {
+                var buscados = $filter('filter')($scope.items, function (item) {
+                    return (item.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); // matches, contains
                 });
+                $scope.totalItems = buscados.length;
+                $scope.hacerPagineo(buscados);
+            };
+
+            $scope.$watch('currentPage', function () {
+                $scope.hacerPagineo($scope.items);
             });
+
         }
+
         //nueva empresa
         $scope.nueva = function () {
             var data = {
                 Nombre: $scope.txtNombreNew,
                 Direccion: $scope.txtDirNew,
+                Cuit: $scope.txtCuitNew,
+                Descripcion: $scope.txtDescNew,
                 Token: "2019",
             }
             ResourcesSetService.SetEmpresa(data)
-            .then(function (response) {
-                if (response.Estado == 0) {
-                    CreateUser(response.id);  
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+                .then(function (response) {
+                    if (response.Estado == 0) {
+                        CreateUser(response.id);
+                    }
+                })
+                .catch(function (error) {
+                    //  console.log(error);
+                    SweetAlert.swal({
+                        type: "error",
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                 });
-            });
         }
 
         //editar empresas
         $scope.editar = function (id) {
             espera(true);
-            var id = id;
-            var url = 'https://www.mellevas.com.ar/api/empresas/getEmpresa?id=';
-            var data = {
-                method: 'GET',
-                url: url + id + "&token=" + 2019,
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
-                }
-            }
-            $http(data)
+            ResourcesService.GetEmpresa(id)
                 .then(function (response) {
-                    $scope.txtNombreEdit = response.data.Nombre;
-                    $scope.txtDirEdit = response.data.Direccion;
-                    console.log(response);
+                    $scope.txtNombreEdit = response.Nombre;
+                    $scope.txtDirEdit = response.Direccion;
+                    $scope.txtCuitEdit = response.Cuit;
+                    $scope.txtDescEdit = response.Descripcion;
+                   // console.log(response);
                     espera(false);
                 })
                 .catch(function (error) {
                     console.log(error);
                     espera(false);
+                    SweetAlert.swal({
+                        type: "error",
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                 });
 
             $('#btnEditar').on('click', function () {
-                var url = 'https://www.mellevas.com.ar/api/empresas/Update';
-                // console.log($scope.txtNombreEdit, $scope.txtDirEdit, id);
-                var data = {
+                if(validarEmpresa('edit')){
+                    var data = {
                     id: id,
                     Nombre: $scope.txtNombreEdit,
-                    Direccion: $scope.txtDirEdit
+                    Direccion: $scope.txtDirEdit,
+                    Cuit: $scope.txtCuitEdit,
+                    Descripcion: $scope.txtDescEdit,
+                    TokenMP: '',
+                    Token: '2019'
                 }
-                var data = {
-                    method: 'post',
-                    url: url,
-                    data: data
-                }
-                // console.log(data);
-                $http(data)
+                ResourcesUpdateService.UpdateEmpresa(data)
                     .then(function (response) {
-                        console.log(response);
-                        getEmpresas();  ////**********************************************************Terminar*********************** */
+                        //console.log(response);
+                        getEmpresas();  
                         $('#modalEditar').modal('hide');
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
+
+                }
+
             });
 
         }
         //eliminar empresa
         $scope.eliminar = function (id) {
-            ResourcesUpdateService.UpdateEmpresas(id)
-            .then(function (response) {
-                if (response){
-                    getEmpresas();
-                    $('#modalEliminar').modal('hide');
-                } 
+
+            $('#btnEliminar').on('click', function () {
+                ResourcesDeleteService.DeleteEmpresa(id)
+                    .then(function (response) {
+                        if (response) {
+                            getEmpresas();
+                            $('#modalEliminar').modal('hide');
+                        }
+                    })
+                    .catch(function (error) {
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: error,
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    });
+
             })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
-                });
-            });
+
         }
 
         function espera(e) {
@@ -151,63 +193,128 @@
                 RolId: 3
             }
             UserService.Create(data)
-            .then(function (response) {
-                if (response.Estado == 0){
-                    SweetAlert.swal ({
-                        type: "success", 
-                        title: "La operacion se ha realizado con exito",
-                        text: "El usuario ha sido creado, verifique su casilla de E-mail",
-                        confirmButtonAriaLabel: 'Ok',
-                    });
-                    getEmpresas();
-                    $('#modalNuevo').modal('hide');
-                   
-                } 
-                if(response.Estado == 50){
-                    SweetAlert.swal ({
-                        type: "warning", 
-                        title: "Verifique!",
-                        text: response.Mensaje + " verifique su e-mail",
-                        confirmButtonAriaLabel: 'Ok',
-                    });
-                }
-                else {
-                    vm.dataLoading = false;
-                    SweetAlert.swal ({
-                        type: "error", 
+                .then(function (response) {
+                    if (response.Estado == 0) {
+                        SweetAlert.swal({
+                            type: "success",
+                            title: "La operacion se ha realizado con exito",
+                            text: "El usuario ha sido creado, verifique su casilla de E-mail",
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                        getEmpresas();
+                        $('#modalNuevo').modal('hide');
+
+                    }
+                    else if (response.Estado == 50) {
+                        SweetAlert.swal({
+                            type: "warning",
+                            title: "Verifique!",
+                            text: response.Mensaje + " verifique su e-mail",
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    }
+                    else {
+                        vm.dataLoading = false;
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: "Error al crear el usuario",
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    SweetAlert.swal({
+                        type: "error",
                         title: "Error",
-                        text: "Error al crear el usuario",
+                        text: error,
                         confirmButtonAriaLabel: 'Ok',
                     });
-                }
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
                 });
-            });
         }
 
 
-        function getTiposDNI(){
+        function getTiposDNI() {
             ResourcesService.GetTiposDNI()
-            .then(function (response) {
-                if (response){
-                   $rootScope.dnitypes = response;          
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+                .then(function (response) {
+                    if (response) {
+                        $rootScope.dnitypes = response;
+                    }
+                })
+                .catch(function (error) {
+                    SweetAlert.swal({
+                        type: "error",
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                 });
-            });
-         }
+        }
+
+        $scope.siguiente = function () {
+            
+            if(validarEmpresa('new')){
+                $scope.formEmpresa = 'formOculto';
+                $scope.formUsuario = 'formVisible';
+            }else{
+                //alert('error');
+            }
+        }
+
+        $scope.clearForm = function () {
+            $scope.formEmpresa = 'formVisible';
+            $scope.formUsuario = 'formOculto';
+        }
+
+        function validarEmpresa(tipo) {
+            if (tipo == 'new') {
+                if($scope.txtNombreNew == "" || $scope.txtNombreNew == undefined){
+                    $scope.errorNewNom = true;
+                    return false;
+                }
+                if($scope.txtDirNew == "" || $scope.txtDirNew == undefined){
+                    $scope.errorNewDir = true;
+                    return false;
+                }
+                if($scope.txtCuitNew == "" || $scope.txtCuitNew == undefined){
+                    $scope.errorNewCuit = true;
+                    return false;
+                }
+                if($scope.txtDescNew == "" || $scope.txtDescNew == undefined){
+                    $scope.errorNewDesc = true;
+                    return false;
+                }
+            }
+            if (tipo == 'edit') {
+                console.log($scope.txtCuitEdit);
+                if($scope.txtNombreEdit == "" || $scope.txtNombreEdit == undefined || $scope.txtNombreEdit == null){
+                    $scope.errorEditNom = true;
+                    return false;
+                }
+                if($scope.txtDirEdit == "" || $scope.txtDirEdit == undefined){
+                    $scope.errorEditDir = true;
+                    return false;
+                }
+                if($scope.txtCuitEdit == "" || $scope.txtCuitEdit == undefined || $scope.txtCuitEdit == null){
+                    $scope.errorEditCuit = true;
+                    console.log('paso');
+
+                    return false;
+                }
+                if($scope.txtDescEdit == "" || $scope.txtDescEdit == undefined || null){
+                    $scope.errorEditDesc = true;
+                    return false;
+                }
+
+                return true;
+
+            }
+        }
+
+        function validarUsuario(){
+
+        }
 
 
     }
