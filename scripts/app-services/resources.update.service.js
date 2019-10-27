@@ -36,15 +36,14 @@
             });
             return deferred.promise;
         }
-        function UpdateRamal(empresaID) {
+        function UpdateRamal(data) {
             var deferred = $q.defer();
-            var urlGetRamales ='https://www.mellevas.com.ar/api/ramales/GetRamalesxEmpresa?empresaid=' + empresaID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
+            var urlRamales ='https://www.mellevas.com.ar/api/ramales/update'
+            data.Token = 2019;//$rootScope.globals.currentUser.token;       
             var req = {
-                method: 'GET',
-                url: urlGetRamales,
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8'
-                }
+                method: 'POST',
+                url: urlRamales,
+                data: data
                }       
             $http(req)
                 .then(function(response){

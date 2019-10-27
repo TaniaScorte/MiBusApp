@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Datos del chofer</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form name="form.saveramal" ng-submit="setBranch(ramal)" class="form-saveramal">
+        <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" id="name" class="form-control" ng-model="ramal.name"  required autofocus />
+            <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">El nombre es requerido</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
+            <label for="description">Descripcion</label>
+            <input type="text" name="description" id="description" class="form-control" ng-model="ramal.description" required />
+            <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">La description es requerido</span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Guardar</button>
+            <img ng-if="dataLoading" src="images/descarga.gif" />
+            <button class="btn btn-danger" type="button" ng-click="cancelBranchModal()">Cancel</button>
+        </div>
+    </form>
+</div>

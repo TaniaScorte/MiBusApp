@@ -87,6 +87,11 @@
                 templateUrl: 'partials/admin-home/admin-home.view.html',
                 controllerAs: 'vm'
             })
+            .when('/admin-branch', {
+                controller: 'AdminBranchController',
+                templateUrl: 'partials/admin-branch/admin-branch.view.html',
+                controllerAs: 'vm'
+            })
             .when('/admin-routes', {
                 controller: 'AdminRoutesController',
                 templateUrl: 'partials/admin-routes/admin-routes.view.html',

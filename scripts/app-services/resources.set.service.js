@@ -58,22 +58,21 @@
             });
             return deferred.promise;
         }
-        function SetRamal(empresaID) {
+        function SetRamal(data) {
             var deferred = $q.defer();
-            var urlGetRamales ='https://www.mellevas.com.ar/api/ramales/GetRamalesxEmpresa?empresaid=' + empresaID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
+            var urlSetRamales ='https://www.mellevas.com.ar/api/ramales/create' ;//$rootScope.globals.currentUser.token;       
+            data.Token = 2019;
             var req = {
-                method: 'GET',
-                url: urlGetRamales,
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8'
-                }
+                method: 'POST',
+                url: urlSetRamales,
+                data: data
                }       
             $http(req)
                 .then(function(response){
                     deferred.resolve(response.data);
                 })
                 .catch(function(error){
-                    deferred.reject("Error al cargar los ramales");
+                    deferred.reject("Error al guardar el ramal");
                 });
                 return deferred.promise;
         }
