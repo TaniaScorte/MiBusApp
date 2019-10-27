@@ -17,7 +17,6 @@
         return service;
 
         function UpdateEmpresa(data) {
-            console.log(data);
             var deferred = $q.defer();
             var url = 'https://www.mellevas.com.ar/api/empresas/Update';
             var req = {
@@ -27,7 +26,7 @@
             }
             $http(req)
             .then(function(response){
-                console.log(response);
+            //    console.log(response);
                 deferred.resolve(response.data);
             })
             .catch(function(error){

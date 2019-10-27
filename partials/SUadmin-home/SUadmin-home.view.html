@@ -33,7 +33,7 @@
                     <h2>Gestión de <b>Clientes</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a href="" class="btn btn-info" data-toggle="modal" ng-click='clearForm()'
+                    <a href="" class="btn btn-info" data-toggle="modal" ng-click='clearForm(); resetError(); resetInput()'
                         data-target="#modalNuevo"><i class="fa fa-plus-circle"></i> <span>Agregar cliente</span></a>
                 </div>
             </div>
@@ -67,7 +67,7 @@
                         <td>
                             <a class="edit" data-toggle="modal" data-target="#modalEditar"><i class="fa fa-pencil"
                                     data-toggle="tooltip" title="Editar" data-original-title="Editar"
-                                    ng-click="editar(item.Id)"></i></a>
+                                    ng-click="editar(item.Id); resetError()"></i></a>
                             <a href="" class="delete" data-toggle="modal" data-target="#modalEliminar"
                                 ng-click="eliminar(item.Id)"><i class="fa fa-trash" data-toggle="tooltip" title="Borrar"
                                     data-original-title="Borrar"></i></a>
@@ -105,26 +105,26 @@
             </div>
             <div class="modal-body">
 
-                <form ng-class='formEmpresa' role="form">
+                <form ng-class='formEmpresa' role="form" ng-model='frmEmpresa'>
                     <h4>Datos de la empresa</h4>
                     <div class="form-group" ng-class="validNewNom">
                         <label for="txtNombreNew">Nombre</label>
-                        <input type="text" ng-model='txtNombreNew' class="form-control" id="txtNombreNew">
+                        <input type="text" ng-model='txtNombreNew' class="form-control" id="txtNombreNew" ng-focus='resetError()'>
                         <span ng-show="errorNewNom" class="help-block error">Ingrese el nombre de la empresa</span>
                     </div>
                     <div class="form-group" ng-class="validNewDir">
                         <label for="txtDirNew">Dirección</label>
-                        <input type="text" ng-model='txtDirNew' class="form-control" id="txtDirNew">
+                        <input type="text" ng-model='txtDirNew' class="form-control" id="txtDirNew" ng-focus='resetError()'>
                         <span ng-show="errorNewDir" class="help-block error">Ingrese la dirección de la empresa</span>
                     </div>
                     <div class="form-group" ng-class="validNewCuit">
                         <label for="txtCuitNew">CUIT</label>
-                        <input type="text" ng-model='txtCuitNew' class="form-control" id="txtCuitNew">
+                        <input type="number" ng-model='txtCuitNew' class="form-control" id="txtCuitNew" ng-focus='resetError()'>
                         <span ng-show="errorNewCuit" class="help-block error">Ingrese el CUIT de la empresa</span>
                     </div>
                     <div class="form-group" ng-class="validNewDesc">
                         <label for="txtDescNew">Descripcion</label>
-                        <input type="text" ng-model='txtDescNew' class="form-control" id="txtDescNew">
+                        <textarea name="" cols="30" rows="4" ng-model='txtDescNew' class="form-control" id="txtDescNew" ng-focus='resetError()'></textarea>
                         <span ng-show="errorNewDesc" class="help-block error">Ingrese una descripción de la empresa</span>
                 </form>
                 <br>
@@ -136,41 +136,41 @@
                 <h4>Datos del usuario</h4>
                 <div class="form-group" ng-class="validNom">
                     <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" class="form-control" ng-model="nombre" />
-                    <span ng-show="errorNom" class="help-block">Ingrese el nombre del usuario</span>
+                    <input type="text" id="nombre" class="form-control" ng-model="nombre" ng-focus='resetError()' pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+"/>
+                    <span ng-show="errorNom" class="help-block error">Ingrese el nombre del usuario</span>
                 </div>
                 <div class="form-group" ng-class="validApe">
                     <label for="apellido">Apellido</label>
-                    <input type="text" id="apellido" class="form-control" ng-model="apellido" />
-                    <span ng-show="errorApe" class="help-block">Ingrese el apellido del usuario</span>
+                    <input type="text" id="apellido" class="form-control" ng-model="apellido" ng-focus='resetError()' pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+"/>
+                    <span ng-show="errorApe" class="help-block error">Ingrese el apellido del usuario</span>
                 </div>
                 <div class="form-group" ng-class="validTipoDoc">
                     <label for="tipoDni">Tipo de Documento:</label>
-                    <select ng-model="tipoDni" class="form-control"
+                    <select ng-model="tipoDni" class="form-control" ng-focus='resetError()'
                         ng-options="dnitype.Nombre for dnitype in dnitypes track by dnitype.Id">
                         <option value="">Seleccione una opcion</option>
                     </select>
-                    <span ng-show="errorTipoDoc" class="help-block">Seleccione un tipo de documento</span>
+                    <span ng-show="errorTipoDoc" class="help-block error">Seleccione un tipo de documento</span>
                 </div>
                 <div class="form-group" ng-class="validNumDoc">
                     <label for="dni">Número de documento:</label>
-                    <input type="number" class="form-control" id="dni" ng-model="dni">
-                    <span ng-show="errorNumDoc" class="help-block">Ingrese un número de documento valido</span>
+                    <input type="number" class="form-control" id="dni" ng-model="dni" maxlength="10" ng-focus='resetError()'>
+                    <span ng-show="errorNumDoc" class="help-block error">Ingrese un número de documento valido</span>
                 </div>
                 <div class="form-group" ng-class="validTel">
                     <label for="telefono">Teléfono:</label>
-                    <input type="number" class="form-control" name="telefono" id="telefono" ng-model="telefono">
-                    <span ng-show="errorTel" class="help-block">Ingrese un número de telefono valido</span>
+                    <input type="number" class="form-control" name="telefono" id="telefono" ng-model="telefono" maxlength="12" ng-focus='resetError()'>
+                    <span ng-show="errorTel" class="help-block error">Ingrese un número de telefono valido</span>
                 </div>
                 <div class="form-group" ng-class="validEmail">
                     <label for="email">Email</label>
-                    <input type="email" id="email" ng-model="email" class="form-control" />
-                    <span ng-show="errorEmail" class="help-block">Ingrese un email valido</span>
+                    <input type="email" id="email" ng-model="email" class="form-control" ng-focus='resetError()' pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"/>
+                    <span ng-show="errorEmail" class="help-block error">Ingrese un email valido</span>
                 </div>
                 <div class="form-group" ng-class="validPass">
                     <label for="clave">Contraseña</label>
-                    <input type="password" id="clave" class="form-control" ng-model="clave" />
-                    <span ng-show="errorNumDoc" class="help-block">Ingrese una contraseña</span>
+                    <input type="password" id="clave" class="form-control" ng-model="clave" ng-focus='resetError()'/>
+                    <span ng-show="errorClave" class="help-block error">Ingrese una contraseña</span>
                 </div>
                 <button type="button" class="btn btn-info" ng-click='nueva()'>Guardar</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
@@ -199,10 +199,10 @@
                 <h4 class="modal-title">Editar cliente</h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form role='form' ng-class='formEditar'>
                     <div class="form-group" ng-class="validEditNombre">
                         <label for="txtNombreEdit">Nombre</label>
-                        <input type="text" ng-model='txtNombreEdit' class="form-control" id="txtNombreEdit">
+                        <input type="text" ng-model='txtNombreEdit' class="form-control" id="txtNombreEdit" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+">
                         <span ng-show="errorEditNom" class="help-block error">Ingrese el nombre de la empresa</span>
                     </div>
                     <div class="form-group" ng-class="validEditDir">
@@ -212,12 +212,12 @@
                     </div>
                     <div class="form-group" ng-class="validEditCuit">
                         <label for="txtCuitEdit">CUIT</label>
-                        <input type="text" ng-model='txtCuitEdit' class="form-control" id="txtCuitEdit">
+                        <input type="number" ng-model='txtCuitEdit' class="form-control" id="txtCuitEdit" maxlength="10">
                         <span ng-show="errorEditCuit" class="help-block error">Ingrese el CUIT de la empresa</span>
                     </div>
                     <div class="form-group" ng-class="validEditDesc">
                         <label for="txtDescEdit">Descripción</label>
-                        <textarea name="" id="" cols="30" rows="4" ng-model='txtDescEdit' class="form-control" id="txtDescEdit"></textarea>
+                        <textarea name="" cols="30" rows="4" ng-model='txtDescEdit' class="form-control" id="txtDescEdit"></textarea>
                         <span ng-show="errorEditDesc" class="help-block error">Ingrese una descripción de la empresa</span>
                     </div>
                     <div id="espera" ng-class="espera" style="position: absolute;top: 30%;left: 45%;">
@@ -227,12 +227,13 @@
                    
 
                 </form>
+                <button type="button" id="btnEditar" ng-click='guardarEdicion()' class="btn btn-info">Guardar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 
             </div>
-            <div class="modal-footer">
-                <button type="button" id="btnEditar" class="btn btn-info">Guardar</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-            </div>
+          <!--  <div class="modal-footer">
+               
+            </div>-->
         </div>
 
     </div>
@@ -255,7 +256,7 @@
                 <p>No podrá revertir esta operación</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info" id="btnEliminar">Aceptar</button>
+                <button type="button" class="btn btn-info" ng-click='confirmarEliminar()' id="btnEliminar">Aceptar</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -271,4 +272,3 @@
 
 
 
-<footer></footer>
