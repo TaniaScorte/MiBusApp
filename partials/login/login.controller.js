@@ -25,7 +25,10 @@
                         }  
                         if(response.data.RolId == 3){
                             $location.path('/admin-home');
-                        }  
+                        }
+                        if(response.data.RolId == 4){
+                            $location.path('/SUadmin-home');
+                        }    
                     })
                     .catch(function(error){
                         SweetAlert.swal ({
