@@ -3,48 +3,95 @@
 
     angular
         .module('app')
-        .controller('ModalBranchController', ModalBranchController);
+        .controller('ModalBusStopController', ModalBusStopController);
 
-        ModalBranchController.$inject = ['$uibModalInstance', 'ramal', '$scope','$rootScope','ResourcesSetService','SweetAlert','ResourcesUpdateService','ResourcesDeleteService'];
+        ModalBusStopController.$inject = ['$uibModalInstance', 'busStop', '$scope','$rootScope','ResourcesSetService','SweetAlert','ResourcesUpdateService','ResourcesDeleteService'];
 
 
-    function ModalBranchController($uibModalInstance, ramal, $scope,$rootScope,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService) {
+    function ModalBusStopController($uibModalInstance, busStop, $scope,$rootScope,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService) {
     var vm = $scope;
-    vm.okBranchCreate = function () {
+    
+    getLocation(); 
+
+    var marker;
+    function onMapClick(e) {
+        if(marker){
+            vm.mymap.removeLayer(marker);
+            marker = new L.Marker(e.latlng, {draggable:true});
+            vm.mymap.addLayer(marker);
+            marker.bindPopup("Nueva parada").openPopup();
+        }
+        else{
+            marker = new L.Marker(e.latlng, {draggable:true});
+            vm.mymap.addLayer(marker);
+            marker.bindPopup("Nueva parada").openPopup();
+        }
+    };
+    function loadMap(paramLat,paramLon){
+        vm.mymap = L.map('mapid', {
+            minZoom: 14
+        }).setView([paramLat,paramLon], 13);            
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(vm.mymap);
+       vm.mymap.on('click', onMapClick);
+       vm.popup = L.popup();
+    }
+    function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(loadAreaCicle);
+        } 
+        else {
+          alert("Geolocation is not supported by this browser.");
+          return false;
+        }
+      }
+      
+      function loadAreaCicle(position) {
+          loadMap(position.coords.latitude,position.coords.longitude);
+          var circle = L.circle([position.coords.latitude,position.coords.longitude], {
+              color: null,
+              fillColor: '#f03',
+              fillOpacity: 0.3,
+              radius: 200
+          }).addTo(vm.mymap);
+      }
+    vm.okBusStopCreate = function () {
         $uibModalInstance.close();
     };  
-    vm.cancelBranchModal = function () {
+    vm.cancelBusStopsModal = function () {
         $uibModalInstance.close();
     };  
-    if(ramal.edit){
-        vm.branchEdit = {};
-        vm.branchEdit.name = ramal.Nombre;
-        vm.branchEdit.description = ramal.Descripcion;
+    if(busStop.edit){
+        vm.busStopEdit = {};
+        vm.busStopEdit.name = busStop.Nombre;
+        vm.busStopEdit.description = busStop.Descripcion;
     }
-    if(ramal.delete){
-        vm.idRamal = ramal.Id;
-        vm.branchDelete = ramal;
+    if(busStop.delete){
+        vm.idBusStop = busStop.Id;
+        vm.busStopDelete = busStop;
     }
-    vm.setBranch = function(ramal) {
+    
+    vm.setBusStops = function(busStopCreate) {
         vm.dataLoading = true;
         var data ={
-            Nombre: ramal.name,
-            Descripcion: ramal.description,
+            Nombre: busStopCreate.name,
+            Descripcion: busStopCreate.description,
             EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
         }
-        ResourcesSetService.SetRamal(data)
+        ResourcesSetService.SetParada(data)
             .then(function (response) {
                 if (response.Estado == 0){
                     SweetAlert.swal ({
                         type: "success", 
                         title: "La operacion se ha realizado con exito",
-                        text: "El ramal ha sido creado",
+                        text: "El item ha sido creado",
                         confirmButtonAriaLabel: 'Ok',
                     },
                     function(isConfirm) {
                     if (isConfirm) {
                         vm.dataLoading = false;
-                        $rootScope.$emit("refreshListBranch","ok");
+                        $rootScope.$emit("refreshListBusStops","ok");
                         $uibModalInstance.close();
                     } 
                     });               
@@ -55,7 +102,7 @@
                     SweetAlert.swal ({
                         type: "error", 
                         title: "Error",
-                        text: "Error al crear el ramal",
+                        text: "Error al crear el item",
                         confirmButtonAriaLabel: 'Ok',
                     });
                 }
@@ -73,27 +120,27 @@
     function clearRegister(){
         vm.user=null;
     }
-    vm.updateBranch = function(ramalEdit){
+    vm.updateBusStops = function(busStopEdit){
         vm.dataLoading = true;
         var data ={
-            Nombre: ramalEdit.name,
-            Descripcion: ramalEdit.description,
+            Nombre: busStopEdit.name,
+            Descripcion: busStopEdit.description,
             EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId,
-            Id: ramal.Id
+            Id: busStop.Id
         }
-        ResourcesUpdateService.UpdateRamal(data)
+        ResourcesUpdateService.UpdateParada(data)
             .then(function (response) {
                 if (response.Estado == 0){
                     SweetAlert.swal ({
                         type: "success", 
                         title: "La operacion se ha realizado con exito",
-                        text: "El ramal ha sido actualizado",
+                        text: "El item ha sido creado",
                         confirmButtonAriaLabel: 'Ok',
                     },
                     function(isConfirm) {
                     if (isConfirm) {
                         vm.dataLoading = false;
-                        $rootScope.$emit("refreshListBranch","ok");
+                        $rootScope.$emit("refreshListBusStop","ok");
                         $uibModalInstance.close();
                     } 
                     });               
@@ -104,7 +151,7 @@
                     SweetAlert.swal ({
                         type: "error", 
                         title: "Error",
-                        text: "Error al actualizar",
+                        text: "Error al crear el item",
                         confirmButtonAriaLabel: 'Ok',
                     });
                 }
@@ -119,9 +166,9 @@
                 });
             });
     }
-    vm.deleteBranch = function(ramalDelete){
+    vm.deleteBusStops = function(busStopDelete){
         vm.dataLoading = true;
-        ResourcesDeleteService.DeleteRamal(vm.idRamal)
+        ResourcesDeleteService.Parada(vm.idBusStop)
         .then(function (response) {
             if (response.Estado == 0){
                 SweetAlert.swal ({
@@ -133,7 +180,7 @@
                 function(isConfirm) {
                 if (isConfirm) {
                     vm.dataLoading = false;
-                    $rootScope.$emit("refreshListBranch","ok");
+                    $rootScope.$emit("refreshListBusStop","ok");
                     $uibModalInstance.close();
                 } 
                 });               

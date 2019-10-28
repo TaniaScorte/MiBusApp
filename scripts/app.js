@@ -107,6 +107,11 @@
                 templateUrl: 'partials/admin-drivers/admin-drivers.view.html',
                 controllerAs: 'vm'
             })
+            .when('/admin-bus-stop', {
+                controller: 'AdminBusStopsController',
+                templateUrl: 'partials/admin-bus-stop/admin-bus-stop.view.html',
+                controllerAs: 'vm'
+            })
             .when('/admin-journey', {
                 controller: 'AdminJourneyController',
                 templateUrl: 'partials/admin-journey/admin-journey.view.html',

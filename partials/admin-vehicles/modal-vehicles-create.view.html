@@ -3,12 +3,6 @@
 </div>
 <div class="modal-body" id="modal-body">
     <form name="form.saveroute" ng-submit="setRoutes(route)" class="form-saveroute">
-        <div class="form-group">
-            <label for="ramal">Ramal:</label>
-            <select ng-model="route.ramal" class="form-control" ng-options="ramal.Nombre for ramal in ramales track by ramal.Id">
-                <option value="">Seleccione una opcion</option>
-            </select> 
-        </div>
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
             <label for="name">Nombre</label>
             <input type="text" name="name" id="name" class="form-control" ng-model="route.name"  required autofocus />

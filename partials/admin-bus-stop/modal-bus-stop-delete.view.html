@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Datos del Paradas</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Usted esta por eliminar </h5>
+            <p class="card-text">
+               <label>Nombre:</label> {{busStopDelete.Nombre}},
+               <label>Descripcion</label> {{busStopDelete.Descripcion}}
+            </p>            
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <form name="form.deletebusstop" ng-submit="deleteBusStops()" class="form-deletebusstop">
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary"><i class="fa fa-trash"></i> Borrar</button>
+            <img ng-if="dataLoading" src="images/descarga.gif" />
+            <button class="btn btn-danger" type="button" ng-click="cancelBusStopsModal()">Cancelar</button>
+        </div>
+    </form>
+</div>
