@@ -233,6 +233,7 @@
                             text: response.Mensaje + " verifique su e-mail",
                             confirmButtonAriaLabel: 'Ok',
                         });
+                        ResourcesDeleteService.DeleteEmpresa(idEmpresa).then(function (response) { console.log(response); }).catch(function (error) { console.log(error) });
                     }
                     else {
                         SweetAlert.swal({
@@ -283,6 +284,12 @@
                 //alert('error');
             }
         }
+        $scope.volver = function () {
+
+            $scope.formUsuario = 'formOculto';
+            $scope.formEmpresa = 'formVisible';
+
+        }
 
         $scope.clearForm = function () {
             $scope.formEmpresa = 'formVisible';
@@ -299,7 +306,7 @@
                     $scope.errorNewDir = true;
                     return false;
                 }
-                if ($scope.txtCuitNew == "" || $scope.txtCuitNew == undefined || $scope.txtCuitNew == null || isNaN($scope.txtCuitNew) || $scope.txtCuitNew.toString().length > 10) {
+                if ($scope.txtCuitNew == "" || $scope.txtCuitNew == undefined || $scope.txtCuitNew == null || isNaN($scope.txtCuitNew) || $scope.txtCuitNew.toString().length > 11) {
                     $scope.errorNewCuit = true;
                     return false;
                 }
@@ -317,7 +324,7 @@
                     $scope.errorEditDir = true;
                     return false;
                 }
-                if ($scope.txtCuitEdit == "" || $scope.txtCuitEdit == undefined || $scope.txtCuitEdit == null || isNaN($scope.txtCuitEdit)) {
+                if ($scope.txtCuitEdit == "" || $scope.txtCuitEdit == undefined || $scope.txtCuitEdit == null || isNaN($scope.txtCuitEdit) || $scope.txtCuitNew.toString().length > 11){
                     $scope.errorEditCuit = true;
                     return false;
                 }
