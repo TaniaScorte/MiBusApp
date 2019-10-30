@@ -5,13 +5,18 @@
         .module('app')
         .controller('ModalBusStopController', ModalBusStopController);
 
-        ModalBusStopController.$inject = ['$uibModalInstance', 'busStop', '$scope','$rootScope','ResourcesSetService','SweetAlert','ResourcesUpdateService','ResourcesDeleteService'];
+        ModalBusStopController.$inject = ['$uibModalInstance', 'busStop', '$scope','$rootScope','ResourcesSetService','SweetAlert','ResourcesUpdateService','ResourcesDeleteService','$filter'];
 
 
-    function ModalBusStopController($uibModalInstance, busStop, $scope,$rootScope,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService) {
+    function ModalBusStopController($uibModalInstance, busStop, $scope,$rootScope,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService,$filter) {
     var vm = $scope;
-    
-    getLocation(); 
+    if(busStop.create){
+        vm.busstop = {};
+        vm.busstop.route = $filter('filter')($rootScope.routes, {Id:  busStop.RecorridoId})[0];
+    }
+    if(!busStop.delete){
+        getLocation(); 
+    }
 
     var marker;
     function onMapClick(e) {
@@ -19,12 +24,23 @@
             vm.mymap.removeLayer(marker);
             marker = new L.Marker(e.latlng, {draggable:true});
             vm.mymap.addLayer(marker);
-            marker.bindPopup(vm.busstop.name +"-"+ vm.busstop.number).openPopup();
+            if(busStop.edit){
+                marker.bindPopup(vm.busStopEdit.name +"-"+ vm.busStopEdit.number).openPopup();
+            }
+            else{
+                marker.bindPopup(vm.busstop.name +"-"+ vm.busstop.number).openPopup();
+            }
+            
         }
         else{
             marker = new L.Marker(e.latlng, {draggable:true});
             vm.mymap.addLayer(marker);
-            marker.bindPopup(vm.busstop.name +"-"+ vm.busstop.number).openPopup();
+            if(busStop.edit){
+                marker.bindPopup(vm.busStopEdit.name +"-"+ vm.busStopEdit.number).openPopup();
+            }
+            else{
+                marker.bindPopup(vm.busstop.name +"-"+ vm.busstop.number).openPopup();
+            }
         }
         vm.latitude = e.latlng.lat;
         vm.longitude = e.latlng.lng;
@@ -38,6 +54,9 @@
         }).addTo(vm.mymap);
        vm.mymap.on('click', onMapClick);
        vm.popup = L.popup();
+       if(busStop.edit){
+           onMapClick(vm.coords);
+       }
     }
     function getLocation() {
         if (navigator.geolocation) {
@@ -67,7 +86,13 @@
     if(busStop.edit){
         vm.busStopEdit = {};
         vm.busStopEdit.name = busStop.Nombre;
+        vm.busStopEdit.duration = busStop.Duracion;
+        vm.busStopEdit.number = busStop.Numero;
         vm.busStopEdit.description = busStop.Descripcion;
+        vm.coords = {};
+        vm.coords.latlng ={};
+        vm.coords.latlng.lat = busStop.Latitud;
+        vm.coords.latlng.lng = busStop.Longitud;
     }
     if(busStop.delete){
         vm.idBusStop = busStop.Id;
@@ -130,10 +155,15 @@
     vm.updateBusStops = function(busStopEdit){
         vm.dataLoading = true;
         var data ={
+            Id : busStop.Id,
+            RecorridoId: busStop.RecorridoId,
+            Numero:busStopEdit.number,
             Nombre: busStopEdit.name,
             Descripcion: busStopEdit.description,
-            EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId,
-            Id: busStop.Id
+            Latitud: vm.latitude,
+            Longitud:vm.longitude,
+            Duracion: 0
+            //EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
         }
         ResourcesUpdateService.UpdateParada(data)
             .then(function (response) {
@@ -141,13 +171,13 @@
                     SweetAlert.swal ({
                         type: "success", 
                         title: "La operacion se ha realizado con exito",
-                        text: "El item ha sido creado",
+                        text: "El item ha sido actualizado",
                         confirmButtonAriaLabel: 'Ok',
                     },
                     function(isConfirm) {
                     if (isConfirm) {
                         vm.dataLoading = false;
-                        $rootScope.$emit("refreshListBusStop","ok");
+                        $rootScope.$emit("refreshListBusStops",busStop.RecorridoId);
                         $uibModalInstance.close();
                     } 
                     });               
@@ -158,7 +188,7 @@
                     SweetAlert.swal ({
                         type: "error", 
                         title: "Error",
-                        text: "Error al crear el item",
+                        text: "Error al actualizar el item",
                         confirmButtonAriaLabel: 'Ok',
                     });
                 }
@@ -173,9 +203,9 @@
                 });
             });
     }
-    vm.deleteBusStops = function(busStopDelete){
+    vm.deleteBusStops = function(){
         vm.dataLoading = true;
-        ResourcesDeleteService.Parada(vm.idBusStop)
+        ResourcesDeleteService.DeleteParada(vm.idBusStop)
         .then(function (response) {
             if (response.Estado == 0){
                 SweetAlert.swal ({
@@ -187,7 +217,7 @@
                 function(isConfirm) {
                 if (isConfirm) {
                     vm.dataLoading = false;
-                    $rootScope.$emit("refreshListBusStop","ok");
+                    $rootScope.$emit("refreshListBusStops",busStop.RecorridoId);
                     $uibModalInstance.close();
                 } 
                 });               

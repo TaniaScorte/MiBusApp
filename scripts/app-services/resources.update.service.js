@@ -13,9 +13,27 @@
         service.UpdateRecorrido = UpdateRecorrido;
         service.UpdateHorario = UpdateHorario;
         service.UpdateEmpresa = UpdateEmpresa;
+        service.UpdateParada = UpdateParada;
 
         return service;
-
+        function UpdateParada(data) {
+            var deferred = $q.defer();
+            var urlUpdateParada = 'https://www.mellevas.com.ar/api/paradas/Update';
+            data.Token = 2019;//$rootScope.globals.currentUser.token; 
+            var req = {
+                method: 'POST',
+                url: urlUpdateParada,
+                data: data
+            }
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al actualizar la parada");
+            });
+            return deferred.promise;
+        }
         function UpdateEmpresa(data) {
             var deferred = $q.defer();
             var url = 'https://www.mellevas.com.ar/api/empresas/Update';

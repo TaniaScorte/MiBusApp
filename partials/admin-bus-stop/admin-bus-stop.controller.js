@@ -26,13 +26,21 @@
             getParadasByRecorrido(recorridoId);
         });
         vm.selectedRoute= function(){
-            getParadasByRecorrido(vm.busstop.route.Id);
+            if(vm.busstop.route){
+                getParadasByRecorrido(vm.busstop.route.Id);     
+             }
+             else{
+                vm.routeOK=false;   
+             }
         }
         function formatDate(date){
             var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
             return dateOut;
         };
         function openModalBusStopsCreate(){
+            var busStopCreate = {};
+            busStopCreate.RecorridoId = vm.busstop.route.Id;
+            busStopCreate.create = true;
             var modalInstance = $uibModal.open({
                 animation:true,
                 templateUrl: 'partials/admin-bus-stop/modal-bus-stop-create.view.html',
@@ -42,7 +50,7 @@
                 backdrop: 'static',
                 resolve: {
                   busStop: function () {
-                    return "Create";
+                    return busStopCreate;
                   }
                 }
               });
@@ -100,8 +108,8 @@
             .then(function (response) {
                 if (response){                  
                    $rootScope.busstops = response;  
-                   for(var x = 0 ; x < $rootScope.routes.length ; x++){
-                       $rootScope.busstops[x].RecorridoDescripcion = $filter('filter')($rootScope.routes, {Id:  $rootScope.busstop[x].RecorridoId})[0].Nombre;
+                   for(var x = 0 ; x < $rootScope.busstops.length ; x++){
+                       $rootScope.busstops[x].RecorridoDescripcion = $filter('filter')($rootScope.routes, {Id:  $rootScope.busstops[x].RecorridoId})[0].Nombre;
                    }   
                    vm.routeOK=true;       
                 } 

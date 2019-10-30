@@ -1,23 +1,39 @@
+<style>
+    #mapid {
+        height: 130px;
+    }
+</style>
 <div class="modal-header">
     <h3 class="modal-title" id="modal-title">Editar datos del Ramal</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <form name="form.register" ng-submit="updateBranch(branchEdit)" class="form-register">
+    <form name="form.register" ng-submit="updateBusStops(busStopEdit)" class="form-register">
+        <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+            <label for="number">Numero</label>
+            <input type="number" name="number" id="number" class="form-control" ng-model="busStopEdit.number"  required autofocus />
+            <span ng-show="form.number.$dirty && form.number.$error.required" class="help-block">El numero es requerido</span>
+        </div>
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
             <label for="name">Nombre</label>
-            <input type="text" name="name" id="name" class="form-control" ng-model="branchEdit.name"  required autofocus />
+            <input type="text" name="name" id="name" class="form-control" ng-model="busStopEdit.name"  required autofocus />
             <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">El nombre es requerido</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
-            <label for="description">Descripcion</label>
-            <input type="text" name="description" id="description" class="form-control" ng-model="branchEdit.description" required />
-            <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">La descripcion es requerido</span>
+        <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
+            <label for="descripcion">Descripcion</label>
+            <input type="text" name="descripcion" id="descripcion" class="form-control" ng-model="busStopEdit.description" required />
+            <span ng-show="form.descripcion.$dirty && form.descripcion.$error.required" class="help-block">La descripcion es requerido</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
+            <label for="point">Elegi un punto en el mapa</label>
+            <div>
+                <div id="mapid"/>
+            </div>           
         </div>
         <br>
         <div class="form-actions">
             <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Guardar cambios</button>
             <img ng-if="dataLoading" src="images/descarga.gif" />
-            <button class="btn btn-danger" type="button" ng-click="cancelBranchModal()">Cancel</button>
+            <button class="btn btn-danger" type="button" ng-click="cancelBusStopsModal()">Cancel</button>
         </div>
     </form>
 </div>
