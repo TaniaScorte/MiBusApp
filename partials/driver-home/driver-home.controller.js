@@ -42,7 +42,7 @@
                     window.location.replace('#!driver-map');
                 },
                 wipeRight: function () {
-                    window.location.replace('#!driver-report');
+                    window.location.replace('#!driver-journey');
                 },
     
                 min_move_x: 200,

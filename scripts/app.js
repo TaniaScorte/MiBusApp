@@ -72,6 +72,11 @@
                 templateUrl: 'partials/driver-map/driver-map.view.html',
                 controllerAs: 'vm'
             })
+            .when('/driver-journey', {
+                controller: 'DriverJourneyController',
+                templateUrl: 'partials/driver-journey/driver-journey.view.html',
+                controllerAs: 'vm'
+            })
             .when('/driver-report', {
                 controller: 'DriverReportController',
                 templateUrl: 'partials/driver-report/driver-report.view.html',
