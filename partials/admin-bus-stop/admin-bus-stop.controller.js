@@ -5,10 +5,10 @@
         .module('app')
         .controller('AdminBusStopsController', AdminBusStopsController);
 
-        AdminBusStopsController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService','SweetAlert'];
+        AdminBusStopsController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService','SweetAlert','$filter'];
 
 
-    function AdminBusStopsController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService,SweetAlert) {
+    function AdminBusStopsController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService,SweetAlert,$filter) {
         var vm = $scope;     
         vm.openModalBusStopsCreate = openModalBusStopsCreate;
         vm.openModalBusStopsEdit = openModalBusStopsEdit;
@@ -18,14 +18,16 @@
         
         initController();        
         function initController(){
+            vm.routeOk = false;
             getRecorridosByEmpresa();
-            getParadasByEmpresa();
         }
 
-        $rootScope.$on("refreshListBusStop", function(evt,data){ 
-            getRamalesByEmpresa();
+        $rootScope.$on("refreshListBusStops", function(evt,recorridoId){ 
+            getParadasByRecorrido(recorridoId);
         });
-
+        vm.selectedRoute= function(){
+            getParadasByRecorrido(vm.busstop.route.Id);
+        }
         function formatDate(date){
             var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
             return dateOut;
@@ -93,11 +95,15 @@
                 });
             });
         }
-        function getParadasByEmpresa(){
-            ResourcesService.GetRecorridosByEmpresa()
+        function getParadasByRecorrido(recorridoId){
+            ResourcesService.GetParadasByRecorrido(recorridoId)
             .then(function (response) {
                 if (response){                  
-                   $rootScope.routes = response;         
+                   $rootScope.busstops = response;  
+                   for(var x = 0 ; x < $rootScope.routes.length ; x++){
+                       $rootScope.busstops[x].RecorridoDescripcion = $filter('filter')($rootScope.routes, {Id:  $rootScope.busstop[x].RecorridoId})[0].Nombre;
+                   }   
+                   vm.routeOK=true;       
                 } 
             })
             .catch(function(error){

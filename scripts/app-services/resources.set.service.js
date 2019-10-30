@@ -14,9 +14,28 @@
         service.SetRamal = SetRamal;
         service.SetRecorrido = SetRecorrido;
         service.SetHorario = SetHorario;
+        service.SetParada = SetParada;
 
         return service;
+        function SetParada(data) {
+            var deferred = $q.defer();
+            var urlSetParada ='https://www.mellevas.com.ar/api/paradas/Create?token=' + 2019;//$rootScope.globals.currentUser.token;       
+            
+            var req = {
+                method: 'POST',
+                url: urlSetParada,
+                data: data
+            }     
 
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al cargar las paradas");
+            });
+            return deferred.promise;
+        }
         function SetTipoDNI() {
 
             var deferred = $q.defer();

@@ -19,17 +19,19 @@
             vm.mymap.removeLayer(marker);
             marker = new L.Marker(e.latlng, {draggable:true});
             vm.mymap.addLayer(marker);
-            marker.bindPopup("Nueva parada").openPopup();
+            marker.bindPopup(vm.busstop.name +"-"+ vm.busstop.number).openPopup();
         }
         else{
             marker = new L.Marker(e.latlng, {draggable:true});
             vm.mymap.addLayer(marker);
-            marker.bindPopup("Nueva parada").openPopup();
+            marker.bindPopup(vm.busstop.name +"-"+ vm.busstop.number).openPopup();
         }
+        vm.latitude = e.latlng.lat;
+        vm.longitude = e.latlng.lng;
     };
     function loadMap(paramLat,paramLon){
         vm.mymap = L.map('mapid', {
-            minZoom: 14
+           // minZoom: 14
         }).setView([paramLat,paramLon], 13);            
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -75,9 +77,14 @@
     vm.setBusStops = function(busStopCreate) {
         vm.dataLoading = true;
         var data ={
+            RecorridoId: busStopCreate.route.Id,
+            Numero:busStopCreate.number,
             Nombre: busStopCreate.name,
             Descripcion: busStopCreate.description,
-            EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
+            Latitud: vm.latitude,
+            Longitud:vm.longitude,
+            Duracion: busStopCreate.duration
+            //EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
         }
         ResourcesSetService.SetParada(data)
             .then(function (response) {
@@ -91,7 +98,7 @@
                     function(isConfirm) {
                     if (isConfirm) {
                         vm.dataLoading = false;
-                        $rootScope.$emit("refreshListBusStops","ok");
+                        $rootScope.$emit("refreshListBusStops",busStopCreate.route.Id);
                         $uibModalInstance.close();
                     } 
                     });               
