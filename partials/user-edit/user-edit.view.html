@@ -1,4 +1,6 @@
-<div nav-user></div>
+<div nav-user ng-if="userEdit.RolId == 1"></div>
+<div nav-driver ng-if="userEdit.RolId == 2"></div>
+<div nav-admin ng-if="userEdit.RolId == 3"></div>
 <div class=" content" id="content">
     <div class="col-sm-12 col-md-12">
         <h2>Editar perfil</h2>
@@ -37,20 +39,22 @@
                             <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
                                 <label for="password">Password</label>
                                 <input type="password" name="password" id="password" class="form-control" ng-model="userEdit.password" />
-                                <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+                                <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Clave requerida</span>
                             </div>   
-                            <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-                                <label for="password">Confirmar Password</label>
+                            <div class="form-group" ng-class="{ 'has-error': form.confirmPassword.$dirty && form.confirmPassword.$error.required }">
+                                <label for="confirmPassword">Confirmar Password</label>
                                 <input type="password" name="password" id="password" class="form-control" ng-model="userEdit.confirmPassword" />
-                                <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+                                <span ng-show="form.confirmPassword.$dirty && form.confirmPassword.$error.required" class="help-block">Confirme la clave</span>
                             </div>                           
                         </div>
                     </div>
                     <br>
                     <div class="form-actions">
-                        <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Guardar cambios</button>
-                        <img ng-if="vm.dataLoading" src="images/descarga.gif" />
-                        <a href="#!/" class="btn btn-link">Cancelar</a>
+                        <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Guardar cambios</button>
+                        <img ng-if="dataLoading" src="images/descarga.gif" />
+                        <a ng-if="userEdit.RolId == 1" href="#!/" class="btn btn-link">Cancelar</a>
+                        <a ng-if="userEdit.RolId == 2" href="#!admin-driver" class="btn btn-link">Cancelar</a>
+                        <a ng-if="userEdit.RolId == 3" href="#!admin-home" class="btn btn-link">Cancelar</a>
                     </div>
                 </form>
                 <br>
