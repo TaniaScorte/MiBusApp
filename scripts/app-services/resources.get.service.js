@@ -55,7 +55,7 @@
                     deferred.resolve(response.data);
                 })
                 .catch(function(error){
-                    deferred.reject("Error al cargar los recorridos");
+                    deferred.reject("Error al cargar los vehiculos");
                 });
                 return deferred.promise;
         }
@@ -125,7 +125,7 @@
         }
         function GetRamalesByEmpresa(empresaID) {
             var deferred = $q.defer();
-            var urlGetRamales ='http://www.mellevas.com.ar/api/ramales/GetRamalesxEmpresa?empresaid=' + empresaID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
+            var urlGetRamales ='https://www.mellevas.com.ar/api/ramales/GetRamalesxEmpresa?empresaid=' + empresaID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
             var req = {
                 method: 'GET',
                 url: urlGetRamales,
@@ -144,7 +144,7 @@
         }
         function GetRecorridosByRamal(ramalID) {
             var deferred = $q.defer();
-            var urlGetRecorridos ='http://www.mellevas.com.ar/api/recorridos/GetRecorridosxRamal?ramalid=' + ramalID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
+            var urlGetRecorridos ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxRamal?ramalid=' + ramalID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
             
             var req = {
                 method: 'GET',
