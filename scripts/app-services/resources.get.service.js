@@ -19,8 +19,68 @@
         service.GetParadas = GetParadas;
         service.GetRecorridosByEmpresa = GetRecorridosByEmpresa;
         service.GetVehiculosByEmpresa = GetVehiculosByEmpresa;
+        service.GetMarcas = GetMarcas;
+        service.GetModelos = GetModelos;
+        service.GetModelosByMarca = GetModelosByMarca;
 
         return service;
+        function GetModelos() {            
+            var deferred = $q.defer();
+            var urlGetModelos ='https://www.mellevas.com.ar/api/ModelosVehiculo/GetModelosVehiculo?Token=' + 2019;       
+            var req = {
+                method: 'GET',
+                url: urlGetModelos,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }                
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar las marcas");
+                });
+                return deferred.promise;
+        }
+        function GetMarcas() {            
+            var deferred = $q.defer();
+            var urlGetMarcas ='https://www.mellevas.com.ar/api/MarcasVehiculo/GetMarcasVehiculo';       
+            var req = {
+                method: 'GET',
+                url: urlGetMarcas + "?Token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }                
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar las marcas");
+                });
+                return deferred.promise;
+        }
+        function GetModelosByMarca(id) {            
+            var deferred = $q.defer();
+            var urlGetModelos ='https://www.mellevas.com.ar/api/ModelosVehiculo/GetModelosVehiculoxMarca?marcaId=' + id;             
+            var req = {
+                method: 'GET',
+                url: urlGetModelos + "&Token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }                
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar los modelos");
+                });
+                return deferred.promise;
+        }
         function GetRecorridosByEmpresa() {            
             var deferred = $q.defer();
             var urlGetRecorrido ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxEmpresa?EmpresaId=' + $rootScope.globals.currentUser.userData.EmpresaId;       

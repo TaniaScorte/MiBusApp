@@ -35,13 +35,13 @@
                         </tr>
                     </thead>
                     <tbody>        
-                        <tr ng-repeat="vehicle in vehicle">
+                        <tr ng-repeat="vehicle in vehicles">
                             <td>{{vehicle.Marca}}</td>
                             <td>{{vehicle.Modelo}}</td>
                             <td>{{vehicle.Patente}}</td>
                             <td>{{vehicle.Capacidad}}</td>
                             <td>{{vehicle.Identificacion}}</td>
-                            <td>{{vehicle.RamalDescripcion}}</td>
+                            <td>{{vehicle.Descripcion}}</td>
                             <td>
                                 <label ng-show="formatDate(vehicle.FechaBaja) < dateToday" ng-bind="formatDate(vehicle.FechaBaja) |  date:'dd/MM/yyyy'"></label>
                                 <label ng-show="formatDate(vehicle.FechaBaja) > dateToday"> <i class="fa fa-check"></i> Activo</label>

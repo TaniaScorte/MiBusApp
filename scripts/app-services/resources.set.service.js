@@ -15,8 +15,28 @@
         service.SetRecorrido = SetRecorrido;
         service.SetHorario = SetHorario;
         service.SetParada = SetParada;
+        service.SetVehiculo = SetVehiculo
 
         return service;
+        function SetVehiculo(data) {
+            var deferred = $q.defer();
+            var urlSetVehiculo ='https://www.mellevas.com.ar/api/vehiculos/Create';//$rootScope.globals.currentUser.token;       
+            data.Token = 2019;
+            var req = {
+                method: 'POST',
+                url: urlSetVehiculo,
+                data: data
+            }     
+
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al cargar el vehiculo");
+            });
+            return deferred.promise;
+        }
         function SetParada(data) {
             var deferred = $q.defer();
             var urlSetParada ='https://www.mellevas.com.ar/api/paradas/Create?token=' + 2019;//$rootScope.globals.currentUser.token;       

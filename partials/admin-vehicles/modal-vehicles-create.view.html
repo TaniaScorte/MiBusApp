@@ -1,32 +1,44 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">Datos del chofer</h3>
+    <h3 class="modal-title" id="modal-title">Datos del Vehiculo</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <form name="form.saveroute" ng-submit="setRoutes(route)" class="form-saveroute">
-        <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-            <label for="name">Nombre</label>
-            <input type="text" name="name" id="name" class="form-control" ng-model="route.name"  required autofocus />
-            <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">El nombre es requerido</span>
+    <form name="form.savevehicle" ng-submit="setVehicles(vehicle)" class="form-savevehicle">
+        <div class="form-group">
+            <label for="brand">Marca:</label>
+            <select ng-model="vehicle.brand" class="form-control"  ng-change="updateModelsByBrand(vehicle.brand)" ng-options="brand.Nombre for brand in brands track by brand.Id">
+                <option value="">Seleccione una opcion</option>
+            </select> 
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
-            <label for="descripcion">Descripcion</label>
-            <input type="text" name="descripcion" id="descripcion" class="form-control" ng-model="route.description" required />
-            <span ng-show="form.descripcion.$dirty && form.descripcion.$error.required" class="help-block">La descripcion es requerido</span>
+        <div class="form-group">
+            <label for="model">Modelo:</label>
+            <select ng-model="vehicle.model" class="form-control" ng-options="model.Nombre for model in models track by model.Id">
+                <option value="" selected>Seleccione una opcion</option>
+            </select> 
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
-            <label for="duration">Duracion aproximada</label>
-            <input type="text" name="duration" id="duration" class="form-control" ng-model="route.duration" required />
-            <span ng-show="form.duration.$dirty && form.duration.$error.required" class="help-block">La duracion es requerido</span>
+        <div class="form-group" ng-class="{ 'has-error': form.patent.$dirty && form.patent.$error.required }">
+            <label for="patent">Patente</label>
+            <input type="text" name="patent" id="patent" class="form-control" ng-model="vehicle.patent"  required autofocus />
+            <span ng-show="form.patent.$dirty && form.patent.$error.required" class="help-block">La patente es requerida</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.amount.$dirty && form.amount.$error.required }">
-            <label for="amount">Importe</label>
-            <input type="text" name="amount" id="amount" class="form-control" ng-model="route.amount" required />
-            <span ng-show="form.amount.$dirty && form.amount.$error.required" class="help-block">El importe es requerido</span>
+        <div class="form-group" ng-class="{ 'has-error': form.capacity.$dirty && form.descripcion.$error.required }">
+            <label for="capacity">Capacidad</label>
+            <input type="text" name="capacity" id="capacity" class="form-control" ng-model="vehicle.capacity" required />
+            <span ng-show="form.capacity.$dirty && form.capacity.$error.required" class="help-block">La capacidad es requerida</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.identification.$dirty && form.identification.$error.required }">
+            <label for="identification">Identificacion</label>
+            <input type="text" name="identification" id="identification" class="form-control" ng-model="vehicle.identification" required />
+            <span ng-show="form.identification.$dirty && form.identification.$error.required" class="help-block">La Identificacion es requerido</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.descripcion.$error.required }">
+            <label for="description">Descripcion</label>
+            <input type="text" name="description" id="description" class="form-control" ng-model="vehicle.description" required />
+            <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">La descripcion es requerido</span>
         </div>
         <div class="form-actions">
             <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Guardar</button>
             <img ng-if="dataLoading" src="images/descarga.gif" />
-            <button class="btn btn-danger" type="button" ng-click="cancelRoutesModal()">Cancel</button>
+            <button class="btn btn-danger" type="button" ng-click="cancelVehiclesModal()">Cancel</button>
         </div>
     </form>
 </div>

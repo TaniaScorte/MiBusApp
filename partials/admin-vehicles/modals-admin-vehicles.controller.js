@@ -5,40 +5,64 @@
         .module('app')
         .controller('ModalVehiclesController', ModalVehiclesController);
 
-        ModalVehiclesController.$inject = ['$uibModalInstance', 'route', '$scope','$rootScope','ResourcesSetService','SweetAlert','ResourcesUpdateService','ResourcesDeleteService','$filter'];
+        ModalVehiclesController.$inject = ['$uibModalInstance', 'vehicle', '$scope','$rootScope','ResourcesSetService','SweetAlert','ResourcesUpdateService','ResourcesDeleteService','$filter','ResourcesService'];
 
 
-    function ModalVehiclesController($uibModalInstance, route, $scope,$rootScope,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService,$filter) {
+    function ModalVehiclesController($uibModalInstance, vehicle, $scope,$rootScope,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService,$filter,ResourcesService) {
     var vm = $scope;
-    vm.okRoutesCreate = function () {
+    vm.okVehiclesCreate = function () {
         $uibModalInstance.close();
     };  
-    vm.cancelRoutesModal = function () {
+    vm.cancelVehiclesModal = function () {
+        vehicle.edit = false;
+        vehicle.delete =false;
         $uibModalInstance.close();
     };  
-    if(route.edit){
-        vm.routeEdit = {};
-        vm.routeEdit.ramal = $filter('filter')($rootScope.ramales, {Id:  route.RamalId})[0],
-        vm.routeEdit.name = route.Nombre;
-        vm.routeEdit.description = route.Descripcion;
-        vm.routeEdit.amount = route.Importe;
-        vm.routeEdit.duration = route.Duracion;
+    
+    vm.updateModelsByBrand = function(brand){
+        ResourcesService.GetModelosByMarca(brand.Id)
+        .then(function (response) {
+            if (response){                  
+               $rootScope.models = response;
+               if(vehicle.edit){
+                vm.vehicleEdit.model = $filter('filter')($rootScope.models, {Id:  vehicle.ModeloId})[0];
+               }        
+            } 
+        })
+        .catch(function(error){
+            SweetAlert.swal ({
+                type: "error", 
+                title: "Error",
+                text: error,
+                confirmButtonAriaLabel: 'Ok',
+            });
+        });
     }
-    if(route.delete){
-        vm.idRoute = route.Id;
-        vm.routeDelete = route;
+    if(vehicle.edit){
+        vm.vehicleEdit = {};
+        vm.vehicleEdit.brand = $filter('filter')($rootScope.brands, {Id:  vehicle.MarcaId})[0],
+        vm.updateModelsByBrand(vm.vehicleEdit.brand);
+        vm.vehicleEdit.patent = vehicle.Patente;
+        vm.vehicleEdit.description = vehicle.Descripcion;
+        vm.vehicleEdit.capacity = vehicle.Capacidad;
+        vm.vehicleEdit.identification = vehicle.Identificacion;
     }
-    vm.setRoutes = function(route) {
+    if(vehicle.delete){
+        vm.idVehicle = vehicle.Id;
+        vm.vehicleDelete = vehicle;
+    }
+    vm.setVehicles = function(vehicle) {
         vm.dataLoading = true;
         var data ={
-            Nombre: route.name,
-            Descripcion: route.description,
-            Duracion: route.duration,
-            RamalId: route.ramal.Id,
-            Importe:route.amount,
+            Patente: vehicle.patent,
+            Capacidad: vehicle.capacity,
+            Identificacion: vehicle.identification,
+            Descripcion: vehicle.description,
+            MarcaId: vehicle.brand.Id,
+            ModeloId: vehicle.model.Id,
             EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
         }
-        ResourcesSetService.SetRecorrido(data)
+        ResourcesSetService.SetVehiculo(data)
             .then(function (response) {
                 if (response.Estado == 0){
                     SweetAlert.swal ({
@@ -50,8 +74,8 @@
                     function(isConfirm) {
                     if (isConfirm) {
                         vm.dataLoading = false;
-                        $rootScope.$emit("refreshListRoutes","ok");
-                        $uibModalInstance.close();
+                        $rootScope.$emit("refreshListVehicles","ok");
+                        vm.cancelVehiclesModal();
                     } 
                     });               
                     return;
@@ -79,18 +103,19 @@
     function clearRegister(){
         vm.user=null;
     }
-    vm.updateRoutes = function(routeEdit){
+    vm.updateVehicles = function(vehicleEdit){
         vm.dataLoading = true;
         var data ={
-            Nombre: routeEdit.name,
-            Descripcion: routeEdit.description,
-            Duracion: routeEdit.duration,
-            RamalId: routeEdit.ramal.Id,
-            Importe:routeEdit.amount,
+            Patente: vehicleEdit.patent,
+            Capacidad: vehicleEdit.capacity,
+            Identificacion: vehicleEdit.identification,
+            Descripcion: vehicleEdit.description,
+            MarcaId: vehicleEdit.brand.Id,
+            ModeloId: vehicleEdit.model.Id,
             EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId,
-            Id: route.Id
+            Id:  vehicle.Id
         }
-        ResourcesUpdateService.UpdateRecorrido(data)
+        ResourcesUpdateService.updateVehiculo(data)
             .then(function (response) {
                 if (response.Estado == 0){
                     SweetAlert.swal ({
@@ -102,8 +127,8 @@
                     function(isConfirm) {
                     if (isConfirm) {
                         vm.dataLoading = false;
-                        $rootScope.$emit("refreshListRoutes","ok");
-                        $uibModalInstance.close();
+                        $rootScope.$emit("refreshListVehicles","ok");
+                        vm.cancelVehiclesModal();
                     } 
                     });               
                     return;
@@ -128,9 +153,9 @@
                 });
             });
     }
-    vm.deleteRoutes = function(routesDelete){
+    vm.deleteVehicles = function(){
         vm.dataLoading = true;
-        ResourcesDeleteService.DeleteRecorrido(vm.idRoute)
+        ResourcesDeleteService.DeleteVehiculo(vm.idVehicle)
         .then(function (response) {
             if (response.Estado == 0){
                 SweetAlert.swal ({
@@ -142,8 +167,8 @@
                 function(isConfirm) {
                 if (isConfirm) {
                     vm.dataLoading = false;
-                    $rootScope.$emit("refreshListRoutes","ok");
-                    $uibModalInstance.close();
+                    $rootScope.$emit("refreshListVehicles","ok");
+                    vm.cancelVehiclesModal();
                 } 
                 });               
                 return;                

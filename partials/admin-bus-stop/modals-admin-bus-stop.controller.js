@@ -112,7 +112,6 @@
             Latitud: vm.latitude,
             Longitud:vm.longitude,
             Duracion: busStopCreate.duration
-            //EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
         }
         ResourcesSetService.SetParada(data)
             .then(function (response) {
