@@ -81,6 +81,9 @@
         $uibModalInstance.close();
     };  
     vm.cancelBusStopsModal = function () {
+        busStop.delete = false;
+        busStop.edit = false;
+        busStop.create = false;
         $uibModalInstance.close();
     };  
     if(busStop.edit){
@@ -124,7 +127,7 @@
                     if (isConfirm) {
                         vm.dataLoading = false;
                         $rootScope.$emit("refreshListBusStops",busStopCreate.route.Id);
-                        $uibModalInstance.close();
+                        vm.cancelBusStopsModal();
                     } 
                     });               
                     return;
@@ -178,7 +181,7 @@
                     if (isConfirm) {
                         vm.dataLoading = false;
                         $rootScope.$emit("refreshListBusStops",busStop.RecorridoId);
-                        $uibModalInstance.close();
+                        vm.cancelBusStopsModal();
                     } 
                     });               
                     return;
@@ -218,7 +221,7 @@
                 if (isConfirm) {
                     vm.dataLoading = false;
                     $rootScope.$emit("refreshListBusStops",busStop.RecorridoId);
-                    $uibModalInstance.close();
+                    vm.cancelBusStopsModal();
                 } 
                 });               
                 return;                
