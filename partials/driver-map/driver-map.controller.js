@@ -5,27 +5,28 @@
         .module('app')
         .controller('DriverMapController', DriverMapController);
 
-    DriverMapController.$inject = ['UserService', '$rootScope', '$scope','$window','$location'];
+    DriverMapController.$inject = ['UserService', '$rootScope', '$scope', '$window', '$location'];
 
 
-    function DriverMapController(UserService, $rootScope, $scope,$window, $location) {
+    function DriverMapController(UserService, $rootScope, $scope, $window, $location) {
         var vm = this;
-        var defer = $.Deferred();
-
+        vm.initReport = false;
+        vm.cont=0;
 
         initController();
 
         function initController() {
 
             init();
+            reportLocation();
         }
         function init() {
 
             vm.mymap = L.map('driver-map', {
                 minZoom: 10
             })
-            
-            vm.mymap.setView([-34.671325, -58.563797], 15);
+
+            vm.mymap.setView([-34.671325, -58.563797], 16);
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(vm.mymap);
@@ -46,13 +47,13 @@
 
 
 
-        initLocation();
-        
+            initLocation();
+
 
 
 
         }
- 
+
 
         function initLocation() {
 
@@ -63,11 +64,46 @@
 
                 });
 
-            } 
+            }
             else {
                 alert("Geolocation is not supported by this browser.");
                 return false;
-            }watchID=false;
+            } watchID = false;
+        }
+
+
+
+
+        $scope.initReport = function () {  //iniciar reporte de posicion
+            vm.initReport = true;
+        }
+
+        $scope.stopReport= function() { //detener reporte de posicion
+            vm.initReport= false;
+        }
+
+        function reportLocation() {
+/*lo que esta adentro de getCurrent... no se ejecuta hasta que no se cambia la ubicacion
+si inicio el reporte y el contador esta en 0 entra en el if poniendo el contador en 1, hace el getCurrent pero no ejecuta lo de adentro hasta no cambiar de posicion
+si no cambia de posicion no entra en el if en el siguiente bucle, ya que el contador esta en 1,
+cuando el usuario se mueve se ejecuta lo de adentro del getCurrent que estaba en espera y se pone el contador en 0,
+el ciclo se vuelve a repetir.
+evaluar si es necesario initReport.
+*/
+            setInterval(() => {
+                if (vm.initReport && vm.cont== 0) { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
+                    vm.cont=1;
+                   var geo= navigator.geolocation.getCurrentPosition(function (position) {
+                        console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
+                        vm.cont=0;
+
+                    });
+                    navigator.geolocation.clearWatch(geo);
+                }
+                console.log(vm.cont);
+
+            }, 5000);// setear el tiempo de espera enviar la ubicacion a la bd
+
         }
 
 
