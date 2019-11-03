@@ -1,7 +1,11 @@
-
+<link rel="stylesheet" href="css/table/table.style.css">
 <style>
-    .bg-light {
+    .bg-light, .table-title {
         background-color: #FFFFFF !important;
+        color: black;
+    }
+    #title{
+        font-size: 34px;
     }
 </style>
 <div nav-admin></div>
@@ -11,7 +15,7 @@
             <div class="table-title">
                 <div class="row" style="padding-top:5px;">
                     <div class="col-sm-6">
-                        <h2>Gestión de vehiculos</h2>
+                        <h2 id="title">Gestión de vehiculos</h2>
                     </div>
                     <div class="col-sm-6">
                         <button class="btn btn-info" ng-click="openModalVehiclesCreate()">
@@ -20,6 +24,9 @@
                     </div>
                 </div>
             </div> 
+            <div class="form-group row">
+                <label for="busqueda control-labe col-2" style="font-size: 130%;">Buscar</label><input type="text" id="busqueda" class="form-control col-6 mb-3 ml-3"  ng-model="busqueda" ng-change="buscar(busqueda)">
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
@@ -35,7 +42,7 @@
                         </tr>
                     </thead>
                     <tbody>        
-                        <tr ng-repeat="vehicle in vehicles">
+                        <tr ng-repeat="vehicle in filtroVehicles">
                             <td>{{vehicle.Marca}}</td>
                             <td>{{vehicle.Modelo}}</td>
                             <td>{{vehicle.Patente}}</td>
@@ -63,6 +70,7 @@
                     </tbody>
                 </table>
             </div>
+            <ul uib-pagination total-items="totalVehicles" max-size="5" boundary-link-numbers="true" rotate="false" next-text="Siguiente" previous-text="Anterior" items-per-page="numPerPage" ng-model="currentPage"></ul>
         </div>
     </div>
 </div>
