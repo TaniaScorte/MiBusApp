@@ -5,10 +5,10 @@
         .module('app')
         .controller('AdminBranchController', AdminBranchController);
 
-        AdminBranchController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService','SweetAlert'];
+        AdminBranchController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService','SweetAlert','$filter'];
 
 
-    function AdminBranchController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService,SweetAlert) {
+    function AdminBranchController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService,SweetAlert,$filter) {
         var vm = $scope;     
         vm.openModalBranchCreate = openModalBranchCreate;
         vm.openModalBranchEdit = openModalBranchEdit;
@@ -108,7 +108,7 @@
                 });
             });
         }
-        function getRamalesByEmpresa(){
+      /*  function getRamalesByEmpresa(){
             ResourcesService.GetRamalesByEmpresa( $rootScope.globals.currentUser.userData.EmpresaId)
             .then(function (response) {
                 if (response){
@@ -124,6 +124,65 @@
                 });
             });
         }
+*/
+
+
+
+
+        function getRamalesByEmpresa() {
+            $scope.ramales = []; 
+            $scope.filtroRamales = [];
+            $scope.currentPage = 1;
+            $scope.numPerPage = 10;
+            $scope.inicializar = function () {
+                ResourcesService.GetRamalesByEmpresa( $rootScope.globals.currentUser.userData.EmpresaId)
+                .then(function (response) {
+                        if (response) {
+                            if (response) {
+                                $scope.ramales = response;
+                                $rootScope.ramales = response;          //por las dudas que lo use en otro lado
+                                $scope.hacerPagineo($scope.ramales);
+                                $scope.totalRamales = $scope.ramales.length;
+                            }
+
+                        }
+                    })
+                    .catch(function (error) {
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: error,
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    });
+            };
+            $scope.inicializar();
+
+            $scope.hacerPagineo = function (arreglo) {
+                var principio = (($scope.currentPage - 1) * $scope.numPerPage); 
+                var fin = principio + $scope.numPerPage; 
+                $scope.filtroRamales = arreglo.slice(principio, fin); 
+            };
+
+            $scope.buscar = function (busqueda) {
+                var buscados = $filter('filter')($scope.ramales, function (item) {
+                    return (item.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
+                });
+                $scope.totalRamales = buscados.length;
+                $scope.hacerPagineo(buscados);
+            };
+
+            $scope.$watch('currentPage', function () {
+                $scope.hacerPagineo($scope.ramales);
+            });
+        }
+
+
+
+
+
+
+
 
 }
 

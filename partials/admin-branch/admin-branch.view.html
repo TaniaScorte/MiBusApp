@@ -1,6 +1,7 @@
+<link rel="stylesheet" href="css/table/table.style.css">
 
 <style>
-    .bg-light {
+    .bg-light, .table-title {
         background-color: #FFFFFF !important;
     }
 </style>
@@ -20,6 +21,9 @@
                     </div>
                 </div>
             </div> 
+            <div class="form-group row">
+                <label for="busqueda control-labe col-2" style="font-size: 130%;">Buscar</label><input type="text" id="busqueda" class="form-control col-6 mb-3 ml-3"  ng-model="busqueda" ng-change="buscar(busqueda)">
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
@@ -31,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>        
-                        <tr ng-repeat="ramal in ramales">
+                        <tr ng-repeat="ramal in filtroRamales">
                             <td>{{ramal.Nombre}}</td>
                             <td>{{ramal.Descripcion}}</td>
                             <td>
@@ -54,6 +58,7 @@
                     </tbody>
                 </table>
             </div>
+            <ul uib-pagination total-items="totalRamales" max-size="5" boundary-link-numbers="true" rotate="false" next-text="Siguiente" previous-text="Anterior" items-per-page="numPerPage" ng-model="currentPage"></ul>
         </div>
     </div>
 </div>
