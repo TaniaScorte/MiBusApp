@@ -119,6 +119,7 @@
                 .then(function (response) {
                         if (response) {
                             if (response) {
+                                console.log(response);
                                 $scope.ramales = response;
                                 $rootScope.ramales = response;          //por las dudas que lo use en otro lado
                                 $scope.hacerPagineo($scope.ramales);

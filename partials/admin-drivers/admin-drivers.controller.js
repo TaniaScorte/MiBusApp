@@ -5,10 +5,10 @@
         .module('app')
         .controller('AdminDriversController', AdminDriversController);
 
-        AdminDriversController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService','SweetAlert'];
+        AdminDriversController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService','SweetAlert','$filter'];
 
 
-    function AdminDriversController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService,SweetAlert) {
+    function AdminDriversController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService,SweetAlert,$filter) {
         var vm = $scope;     
         vm.openModalDriverCreate = openModalDriverCreate;
         vm.openModalDriverEdit = openModalDriverEdit;
@@ -37,22 +37,53 @@
         $rootScope.$on("refreshListDrivers", function(evt,data){ 
             getUserDrivers();
         });
-        function getUserDrivers(){
-            UserService.GetAllUserByEmpresaRol(2)
-            .then(function (response) {
-                if (response){                  
-                   $rootScope.drivers = response.data;          
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+       
+        function getUserDrivers() {
+            $scope.drivers = []; 
+            $scope.filtroDrivers = [];
+            $scope.currentPage = 1;
+            $scope.numPerPage = 10;
+            $scope.inicializar = function () {
+                UserService.GetAllUserByEmpresaRol(2)
+                .then(function (response) {
+                            if (response) {
+                                $scope.drivers = response.data;
+                                $rootScope.drivers = response;          //por las dudas que lo use en otro lado
+                                $scope.hacerPagineo($scope.drivers);
+                                $scope.totalDrivers = $scope.drivers.length;
+                            }
+                        
+                    })
+                    .catch(function (error) {
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: error,
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    });
+            };
+            $scope.inicializar();
+
+            $scope.hacerPagineo = function (arreglo) {
+                var principio = (($scope.currentPage - 1) * $scope.numPerPage); 
+                var fin = principio + $scope.numPerPage; 
+                $scope.filtroDrivers = arreglo.slice(principio, fin); 
+            };
+
+            $scope.buscar = function (busqueda) {
+                var buscados = $filter('filter')($scope.drivers, function (item) {
+                    return (item.FullName.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
                 });
+                $scope.totalDrivers = buscados.length;
+                $scope.hacerPagineo(buscados);
+            };
+
+            $scope.$watch('currentPage', function () {
+                $scope.hacerPagineo($scope.drivers);
             });
         }
+
         function formatDate(date){
             var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
             return dateOut;
