@@ -40,25 +40,54 @@
         $rootScope.$on("refreshListRoutes", function(evt,data){ 
             getRecorridosByEmpresa();
         });
-        function getRecorridosByEmpresa(){
-            ResourcesService.GetRecorridosByEmpresa()
-            .then(function (response) {
-                if (response){                  
-                   $rootScope.routes = response; 
-                   for(var x = 0 ; x < $rootScope.routes.length ; x++){
-                       $rootScope.routes[x].RamalDescripcion = $filter('filter')($rootScope.ramales, {Id:  $rootScope.routes[x].RamalId})[0].Nombre;
-                   }         
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+      
+        function getRecorridosByEmpresa() {
+            $scope.routes = []; 
+            $scope.filtroRoutes = [];
+            $scope.currentPage = 1;
+            $scope.numPerPage = 10;
+            $scope.inicializar = function () {
+                ResourcesService.GetRecorridosByEmpresa()
+                .then(function (response) {
+                        if (response) {
+                            if (response) {
+                                $scope.routes = response;
+                                $rootScope.routes = response;          //por las dudas que lo use en otro lado
+                                $scope.hacerPagineo($scope.routes);
+                                $scope.totalRoutes = $scope.routes.length;
+                            }
+                        }
+                    })
+                    .catch(function (error) {
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: error,
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    });
+            };
+            $scope.inicializar();
+
+            $scope.hacerPagineo = function (arreglo) {
+                var principio = (($scope.currentPage - 1) * $scope.numPerPage); 
+                var fin = principio + $scope.numPerPage; 
+                $scope.filtroRoutes = arreglo.slice(principio, fin); 
+            };
+
+            $scope.buscar = function (busqueda) {
+                var buscados = $filter('filter')($scope.routes, function (item) {
+                    return (item.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
                 });
+                $scope.totalRoutes = buscados.length;
+                $scope.hacerPagineo(buscados);
+            };
+
+            $scope.$watch('currentPage', function () {
+                $scope.hacerPagineo($scope.routes);
             });
         }
+
         function formatDate(date){
             var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
             return dateOut;

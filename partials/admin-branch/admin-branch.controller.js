@@ -108,27 +108,7 @@
                 });
             });
         }
-      /*  function getRamalesByEmpresa(){
-            ResourcesService.GetRamalesByEmpresa( $rootScope.globals.currentUser.userData.EmpresaId)
-            .then(function (response) {
-                if (response){
-                   $rootScope.ramales = response;          
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
-                });
-            });
-        }
-*/
-
-
-
-
+     
         function getRamalesByEmpresa() {
             $scope.ramales = []; 
             $scope.filtroRamales = [];
@@ -144,7 +124,6 @@
                                 $scope.hacerPagineo($scope.ramales);
                                 $scope.totalRamales = $scope.ramales.length;
                             }
-
                         }
                     })
                     .catch(function (error) {
@@ -176,13 +155,6 @@
                 $scope.hacerPagineo($scope.ramales);
             });
         }
-
-
-
-
-
-
-
 
 }
 
