@@ -103,26 +103,65 @@
                 });
             });
         }
-        function getParadasByRecorrido(recorridoId){
-            ResourcesService.GetParadasByRecorrido(recorridoId)
-            .then(function (response) {
-                if (response){                  
-                   $rootScope.busstops = response;  
-                   for(var x = 0 ; x < $rootScope.busstops.length ; x++){
-                       $rootScope.busstops[x].RecorridoDescripcion = $filter('filter')($rootScope.routes, {Id:  $rootScope.busstops[x].RecorridoId})[0].Nombre;
-                   }   
-                   vm.routeOK=true;       
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+  
+        function getParadasByRecorrido(recorridoId) {
+            $scope.busstops = []; 
+            $scope.filtroBusstops = [];
+            $scope.currentPage = 1;
+            $scope.numPerPage = 10;
+            $scope.inicializar = function () {
+                ResourcesService.GetParadasByRecorrido(recorridoId)
+                .then(function (response) {
+                        if (response) {
+                            if (response) {
+                                $scope.busstops = response;
+                                $rootScope.busstops = response;          //por las dudas que lo use en otro lado
+                                for(var x = 0 ; x < $rootScope.busstops.length ; x++){
+                                    $rootScope.busstops[x].RecorridoDescripcion = $filter('filter')($rootScope.routes, {Id:  $rootScope.busstops[x].RecorridoId})[0].Nombre;
+                                }   
+                                vm.routeOK=true;   
+                                $scope.hacerPagineo($scope.busstops);
+                                $scope.totalBusstops = $scope.busstops.length;
+                            }
+                        }
+                    })
+                    .catch(function (error) {
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: error,
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    });
+            };
+            $scope.inicializar();
+
+            $scope.hacerPagineo = function (arreglo) {
+                var principio = (($scope.currentPage - 1) * $scope.numPerPage); 
+                var fin = principio + $scope.numPerPage; 
+                $scope.filtroBusstops = arreglo.slice(principio, fin); 
+            };
+
+            $scope.buscar = function (busqueda) {
+                var buscados = $filter('filter')($scope.busstops, function (item) {
+                    return (item.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
                 });
+                $scope.totalBusstops = buscados.length;
+                $scope.hacerPagineo(buscados);
+            };
+
+            $scope.$watch('currentPage', function () {
+                $scope.hacerPagineo($scope.busstops);
             });
         }
+
+
+
+
+
+
+
+
 
 }
 
