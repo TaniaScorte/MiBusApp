@@ -1,8 +1,147 @@
 <div nav-driver></div>
-  
+<link rel="stylesheet" href="css/table/table.style.css">
 
-<div class="row container" id="swipeDHome">
+<style>
+.fa-play-circle{
+color: rgb(4, 145, 39);
+}
 
-    <h4>Bienvenida del chofer con sus viajes del dia</h4>
+body{
+    background-image: url('images/logoMiniBusApp-transparente.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+
+}
+
+</style>
+
+<div id="swipeDHome">
+
+    <div class="row ml-auto mr-auto">
+            <h3>¡HOLA</h3><span> </span><h3 style="color: #05a3e2;">{{user.Nombre}} {{user.Apellido}}</h3><h3>!</h3>
+    </div>
+    <div> 
+           <h4>Estos son tus viajes del día, elije uno para empezar</h4>
+    </div>
+
+
+
+   <div class="form-group row ml-4">
+        <label for="busqueda control-labe col-2" style="font-size: 130%;">Buscar</label><input type="text" id="busqueda" class="form-control col-6 mb-3 ml-3"  ng-model="busqueda" ng-change="buscar(busqueda)">
+    </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Hora</th>
+                            <th>Recorrido</th>
+                            <th>Descripcion</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    
+    <tr>
+                       <!-- <tr ng-repeat="item in filtroItems">-->
+                            <!--<td>{{item.Nombre}}</td>
+                            <td>{{item.Direccion}}</td>
+                            <td>{{item.Descripcion}}</td>-->
+                         <td>12:20</td>
+                            <td>La Plata -  Tigre</td>
+                            <td>Por ciudad de Buenos Aires</td>
+                            <td>
+                                <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
+                                        data-toggle="tooltip" title="Editar" data-original-title="Editar"
+                                        ng-click=""></i></a>
+                            </td>
+                        </tr>
+
+
+
+                        <tr>
+                            
+                                  <td>12:20</td>
+                                     <td>La Plata -  Tigre</td>
+                                     <td>Por ciudad de Buenos Aires</td>
+                                     <td>
+                                         <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
+                                                 data-toggle="tooltip" title="Editar" data-original-title="Editar"
+                                                 ng-click=""></i></a>
+                                     </td>
+                                 </tr>
+                                   
+                        <tr>
+                            
+                                <td>12:20</td>
+                                   <td>La Plata -  Tigre</td>
+                                   <td>Por ciudad de Buenos Aires</td>
+                                   <td>
+                                       <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
+                                               data-toggle="tooltip" title="Editar" data-original-title="Editar"
+                                               ng-click=""></i></a>
+                                   </td>
+                               </tr>
+                                 
+                        <tr>
+                            
+                                <td>12:20</td>
+                                   <td>La Plata -  Tigre</td>
+                                   <td>Por ciudad de Buenos Aires</td>
+                                   <td>
+                                       <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
+                                               data-toggle="tooltip" title="Editar" data-original-title="Editar"
+                                               ng-click=""></i></a>
+                                   </td>
+                               </tr>
+                                 
+                        <tr>
+                            
+                                <td>12:20</td>
+                                   <td>La Plata -  Tigre</td>
+                                   <td>Por ciudad de Buenos Aires</td>
+                                   <td>
+                                       <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
+                                               data-toggle="tooltip" title="Editar" data-original-title="Editar"
+                                               ng-click=""></i></a>
+                                   </td>
+                               </tr>
+                                 
+                        <tr>
+                            
+                                <td>12:20</td>
+                                   <td>La Plata -  Tigre</td>
+                                   <td>Por ciudad de Buenos Aires</td>
+                                   <td>
+                                       <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
+                                               data-toggle="tooltip" title="Editar" data-original-title="Editar"
+                                               ng-click=""></i></a>
+                                   </td>
+                               </tr>
+                                 
+                        <tr>
+                            
+                                <td>12:20</td>
+                                   <td>La Plata -  Tigre</td>
+                                   <td>Por ciudad de Buenos Aires</td>
+                                   <td>
+                                       <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
+                                               data-toggle="tooltip" title="Editar" data-original-title="Editar"
+                                               ng-click=""></i></a>
+                                   </td>
+                               </tr>
+    
+                    </tbody>
+    
+                </table>
+    
+                
+            </div> 
+          <!-- <ul uib-pagination total-items="totalItems" max-size="5" boundary-link-numbers="true" rotate="false" next-text="Siguiente" previous-text="Anterior" items-per-page="numPerPage" ng-model="currentPage"></ul>--> 
+    
+
 
 </div>
