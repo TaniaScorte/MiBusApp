@@ -122,6 +122,11 @@
                 templateUrl: 'partials/admin-journey/admin-journey.view.html',
                 controllerAs: 'vm'
             })
+            .when('/admin-schedules', {
+                controller: 'AdminSchedulesController',
+                templateUrl: 'partials/admin-schedules/admin-schedules.view.html',
+                controllerAs: 'vm'
+            })
             .when('/SUadmin-home', {
                 controller: 'SUAdminHomeController',
                 templateUrl: 'partials/SUadmin-home/SUadmin-home.view.html',
