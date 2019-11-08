@@ -15,8 +15,27 @@
         service.UpdateEmpresa = UpdateEmpresa;
         service.UpdateParada = UpdateParada;
         service.updateVehiculo = updateVehiculo;
+        service.UpdateViaje = UpdateViaje;
 
         return service;
+        function UpdateViaje(data) {
+            var deferred = $q.defer();
+            var urlUpdateViaje = 'https://www.mellevas.com.ar/api/viaje/Update';
+            data.Token = 2019;//$rootScope.globals.currentUser.token; 
+            var req = {
+                method: 'POST',
+                url: urlUpdateViaje,
+                data: data
+            }
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al actualizar el item");
+            });
+            return deferred.promise;
+        }
         function updateVehiculo(data) {
             var deferred = $q.defer();
             var urlUpdateVehiculo = 'https://www.mellevas.com.ar/api/vehiculos/Update';

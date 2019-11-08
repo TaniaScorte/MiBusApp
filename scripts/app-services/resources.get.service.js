@@ -23,7 +23,29 @@
         service.GetModelos = GetModelos;
         service.GetModelosByMarca = GetModelosByMarca;
         service.GetDias = GetDias;
+        service.GetViajesByRecorrido = GetViajesByRecorrido;
         return service;
+        function GetViajesByRecorrido(recorridoID) {            
+            var deferred = $q.defer();
+            var urlGetViajes ='https://www.mellevas.com.ar/api/viajes/GetViajesxEmpresaRecorrido';//$rootScope.globals.currentUser.token;       
+            //var urlGetViajes = 'https://www.mellevas.com.ar/api/viajes/GetViajesxEmpresa?'
+            var req = {
+                method: 'GET',
+                url: urlGetViajes + '?RecorridoId=' + recorridoID + "&EmpresaId=" + $rootScope.globals.currentUser.userData.EmpresaId +'&Token=' + 2019,
+                headers: {
+                  'Content-Type': 'application/json; charset=utf-8'
+                }
+               }     
+            
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar los viajes");
+                });
+                return deferred.promise;
+        }
         function GetDias() {            
             var deferred = $q.defer();
             var urlGetModelos ='https://www.mellevas.com.ar/api/dias/GetDias?Token=' + 2019;       

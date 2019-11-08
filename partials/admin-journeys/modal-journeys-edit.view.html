@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Editar datos del viaje</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form name="form.register" ng-submit="updateJourneys(journeyEdit)" class="form-register">
+        <div class="form-group">
+            <label for="schedule">Horario:</label>
+            <select ng-model="journeyEdit.schedule" class="form-control" ng-options="schedule.Nombre for schedule in schedules track by schedule.Id"  required autofocus>
+                <option value="">Seleccione una opcion</option>
+            </select> 
+        </div>
+        <div class="form-group">
+            <label for="driver">Chofer:</label>
+            <select ng-model="journeyEdit.driver" class="form-control" ng-options="driver.Nombre for driver in drivers track by driver.Id"  required>
+                <option value="">Seleccione una opcion</option>
+            </select> 
+        </div>
+        <div class="form-group">
+            <label for="vehicle">Vehiculo:</label>
+            <select ng-model="journeyEdit.vehicle" class="form-control" ng-options="vehicle.Nombre for vehicle in vehicles track by vehicle.Id"  required>
+                <option value="">Seleccione una opcion</option>
+            </select> 
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
+            <label for="description">Descripcion</label>
+            <input type="text" name="description" id="description" class="form-control" ng-model="journeyEdit.description" required />
+            <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">La descripcion es requerido</span>
+        </div>
+        <br>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Guardar cambios</button>
+            <img ng-if="dataLoading" src="images/descarga.gif" />
+            <button class="btn btn-danger" type="button" ng-click="cancelJourneysModal()">Cancel</button>
+        </div>
+    </form>
+</div>

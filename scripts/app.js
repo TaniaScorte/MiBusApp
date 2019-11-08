@@ -112,9 +112,9 @@
                 templateUrl: 'partials/admin-bus-stop/admin-bus-stop.view.html',
                 controllerAs: 'vm'
             })
-            .when('/admin-journey', {
-                controller: 'AdminJourneyController',
-                templateUrl: 'partials/admin-journey/admin-journey.view.html',
+            .when('/admin-journeys', {
+                controller: 'AdminJourneysController',
+                templateUrl: 'partials/admin-journeys/admin-journeys.view.html',
                 controllerAs: 'vm'
             })
             .when('/admin-schedules', {

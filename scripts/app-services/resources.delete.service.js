@@ -15,8 +15,28 @@
         service.DeleteParada = DeleteParada;
         service.DeleteVehiculo = DeleteVehiculo;
         service.DeleteHorario = DeleteHorario;
+        service.DeleteViaje = DeleteViaje;
         return service;
-        
+        function DeleteViaje(id) {
+            var deferred = $q.defer();
+            var urlDelete = 'https://www.mellevas.com.ar/api/viajes/Delete?Id=';
+            var req = {
+                method: 'GET',
+                url: urlDelete + id + "&Token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }  
+
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Ha ocurrido un error");
+            });
+            return deferred.promise;
+        }
         function DeleteHorario(id) {
             var deferred = $q.defer();
             var urlDelete = 'https://www.mellevas.com.ar/api/horarios/Delete?Id=';

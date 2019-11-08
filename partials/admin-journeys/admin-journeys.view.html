@@ -1,0 +1,86 @@
+<link rel="stylesheet" href="css/table/table.style.css">
+
+<style>
+    .bg-light, .table-title{
+        background-color: #FFFFFF !important;
+        color: black;
+    }
+    #title{
+        font-size: 34px;
+    }
+</style>
+<div nav-admin></div>
+<div id="swipeJourney">
+    <div class="contenedor" >
+        <div class="form-group row" style="padding-top: 5px;">
+            <label for="route"  class="col-sm-2 col-form-label">Recorrido:</label>
+            <div class="col-md-5">
+                <select ng-model="journey.route" class="form-control" ng-change="selectedRoute()" ng-options="route.Nombre for route in routes track by route.Id">
+                    <option value="">Seleccione una opcion</option>
+                </select> 
+            </div>
+            <div class="col-md-5 alert-info" style="padding-left: 0px;" ng-if="!journey.route">
+                <span><i class="fa fa-info"></i> Seleccione un recorrido para agregar viajes</span>
+            </div>
+        </div>
+        <div class="table-wrapper" ng-show="routeOK">
+            <div class="table-title">
+                <div class="row" style="padding-top:5px;">
+                    <div class="col-sm-6">
+                        <h2 id="title">Gestión de Viajes</h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-info" ng-click="openModalJourneysCreate()">
+                            <i class="fa fa-plus-circle"></i> <span>Agregar Viaje</span>
+                        </button>
+                    </div>
+                </div>
+            </div> 
+            <div class="form-group row">
+                <label for="busqueda control-labe col-2" style="font-size: 130%;">Buscar</label><input type="text" id="busqueda" class="form-control col-6 mb-3 ml-3"  ng-model="busqueda" ng-change="buscar(busqueda)">
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Chofer</th>
+                            <th>Vehiculo</th>
+                            <th>Horario</th>
+                            <th>Recorrido</th>
+                            <th>Fecha de Baja</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>        
+                        <tr ng-repeat="journey in filtroJourneys">
+                            <td>{{journey.Chofer}}</td>
+                            <td>{{journey.Vehiculo}}</td>
+                            <td>{{journey.Horario}}</td>
+                            <td>{{journey.RecorridoDescripcion}}</td>
+                            <td>
+                                <label ng-show="formatDate(journey.FechaBaja) < dateToday" ng-bind="formatDate(journey.FechaBaja) |  date:'dd/MM/yyyy'"></label>
+                                <label ng-show="formatDate(journey.FechaBaja) > dateToday"> <i class="fa fa-check"></i> Activo</label>
+                            </td> 
+
+                            <td>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Editar">
+                                    <button class="btn btn-warning"  ng-click="openModalJourneysEdit(journey)" >
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+                                </span>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Eliminar">
+                                    <button class="btn btn-danger" ng-click="openModalJourneysDelete(journey)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ul uib-pagination total-items="totalJourneys" max-size="5" boundary-link-numbers="true" rotate="false" next-text="Siguiente" previous-text="Anterior" items-per-page="numPerPage" ng-model="currentPage"></ul>
+        </div>
+    </div>
+</div>
+
+
