@@ -17,13 +17,25 @@
 </body>
 
 <div nav-driver></div>
-<button ng-click='initReport()'>reportar posicion</button>
-<button ng-click='stopReport()'>detener reporte de posicion</button>
-<p>(botones de prueba)</p>
-
+<div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
+         <button class="button btn-info btn-lg btn-block" ng-click='initReport()'>Iniciar Recorrido<span></span> <i class="fa fa-play-circle"></i></button>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 d-none mt-2">
+         <button class="button btn-info btn-lg btn-block " ng-click='stopReport()'>Detener Recorrido</button>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
+         <button class="button btn-info btn-lg btn-block" ng-click='ocuparLibre()'>Embarcar libre <span></span><i class="fa fa-arrow-down"></i></button>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
+         <button class="button btn-info btn-lg btn-block" ng-click='ocuparComprado()'>Embarcar comprado  <span></span><i class="fa fa-arrow-down"></i></button>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
+         <button class="button btn-info btn-lg btn-block" ng-click='liberar()'>Liberar pasaje <span></span><i class="fa fa-arrow-up"></i></button>
+    </div>
+</div>
 <div class="content" id="content">
     <div class="col-sm-12 col-md-12">
-        <h2>Mi recorrido</h2>
         <hr class="hr">
     </div>
     <div>

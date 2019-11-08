@@ -20,6 +20,26 @@
             init();
             reportLocation();
         }
+        //funciones de botones de pasajes
+        
+
+        $scope.ocuparLibre = function () {
+            alert('ocupar libre');
+        }
+
+        $scope.ocuparComprado = function () {
+            alert('ocupar comprado');
+        }
+
+        $scope.liberar = function () {
+            alert('liberar asiento');
+        }
+
+       
+
+
+
+        //funciones de mapa y ubicación
         function init() {
 
             vm.mymap = L.map('driver-map', {
