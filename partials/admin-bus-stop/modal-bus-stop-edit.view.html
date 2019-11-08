@@ -23,6 +23,11 @@
             <input type="text" name="descripcion" id="descripcion" class="form-control" ng-model="busStopEdit.description" required />
             <span ng-show="form.descripcion.$dirty && form.descripcion.$error.required" class="help-block">La descripcion es requerido</span>
         </div>
+        <div class="form-group" ng-class="{ 'has-error': form.duration.$dirty && form.duration.$error.required }">
+            <label for="duration">Duracion</label>
+            <input type="number" name="duration" id="duration" class="form-control" ng-model="busStopEdit.duration" required />
+            <span ng-show="form.duration.$dirty && form.duration.$error.required" class="help-block">La duracion es requerido</span>
+        </div>
         <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
             <label for="point">Elegi un punto en el mapa</label>
             <div>

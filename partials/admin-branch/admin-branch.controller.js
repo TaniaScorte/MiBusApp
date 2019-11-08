@@ -92,22 +92,6 @@
                 }
               });
         }
-        function getTiposDNI(){
-            ResourcesService.GetTiposDNI()
-            .then(function (response) {
-                if (response){
-                   $rootScope.dnitypes = response;          
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
-                });
-            });
-        }
      
         function getRamalesByEmpresa() {
             $scope.ramales = []; 

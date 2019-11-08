@@ -89,7 +89,7 @@
     if(busStop.edit){
         vm.busStopEdit = {};
         vm.busStopEdit.name = busStop.Nombre;
-        vm.busStopEdit.duration = busStop.Duracion;
+        vm.busStopEdit.duration = Number(busStop.Duracion);
         vm.busStopEdit.number = busStop.Numero;
         vm.busStopEdit.description = busStop.Descripcion;
         vm.coords = {};
@@ -101,7 +101,32 @@
         vm.idBusStop = busStop.Id;
         vm.busStopDelete = busStop;
     }
-    
+    function validationDataRequired(data){
+        if(busStop.edit){
+            if(data.RecorridoId 
+                && data.Id
+                && data.Numero && data.Numero <= 9999
+                && data.Nombre && data.Nombre.length <= 20 
+                && data.Descripcion && data.Descripcion.length <= 50
+                && data.Latitud && data.Longitud
+                && data.Duracion != undefined && data.Duracion < 99 ){
+                    return true;
+                }
+        }
+        if(busStop.create){
+            if(data.RecorridoId 
+                && data.Numero && data.Numero <= 9999
+                && data.Nombre && data.Nombre.length <= 20 
+                && data.Descripcion && data.Descripcion.length <= 50
+                && data.Latitud && data.Longitud
+                && data.Duracion != undefined && data.Duracion < 99 ){
+                    return true;
+                }
+        }
+        else{
+            return false;
+        }
+    }
     vm.setBusStops = function(busStopCreate) {
         vm.dataLoading = true;
         var data ={
@@ -113,44 +138,55 @@
             Longitud:vm.longitude,
             Duracion: busStopCreate.duration
         }
-        ResourcesSetService.SetParada(data)
-            .then(function (response) {
-                if (response.Estado == 0){
-                    SweetAlert.swal ({
-                        type: "success", 
-                        title: "La operacion se ha realizado con exito",
-                        text: "El item ha sido creado",
-                        confirmButtonAriaLabel: 'Ok',
-                    },
-                    function(isConfirm) {
-                    if (isConfirm) {
-                        vm.dataLoading = false;
-                        $rootScope.$emit("refreshListBusStops",busStopCreate.route.Id);
-                        vm.cancelBusStopsModal();
+        if(validationDataRequired(data)){        
+            ResourcesSetService.SetParada(data)
+                .then(function (response) {
+                    if (response.Estado == 0){
+                        SweetAlert.swal ({
+                            type: "success", 
+                            title: "La operacion se ha realizado con exito",
+                            text: "El item ha sido creado",
+                            confirmButtonAriaLabel: 'Ok',
+                        },
+                        function(isConfirm) {
+                        if (isConfirm) {
+                            vm.dataLoading = false;
+                            $rootScope.$emit("refreshListBusStops",busStopCreate.route.Id);
+                            vm.cancelBusStopsModal();
+                        } 
+                        });               
+                        return;
                     } 
-                    });               
-                    return;
-                } 
-                else {
+                    else {
+                        vm.dataLoading = false;
+                        SweetAlert.swal ({
+                            type: "error", 
+                            title: "Error",
+                            text: "Error al crear el item",
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    }
+                })
+                .catch(function(error){
                     vm.dataLoading = false;
                     SweetAlert.swal ({
                         type: "error", 
                         title: "Error",
-                        text: "Error al crear el item",
+                        text: error,
                         confirmButtonAriaLabel: 'Ok',
                     });
-                }
-            })
-            .catch(function(error){
-                vm.dataLoading = false;
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
                 });
+        }
+        else{
+            vm.dataLoading = false;
+            SweetAlert.swal ({
+                type: "warning", 
+                title: "Verifique",
+                text: "Los datos ingresados son incorrectos o incompletos",
+                confirmButtonAriaLabel: 'Ok',
             });
-     }
+        }
+    }
     function clearRegister(){
         vm.user=null;
     }
@@ -164,9 +200,10 @@
             Descripcion: busStopEdit.description,
             Latitud: vm.latitude,
             Longitud:vm.longitude,
-            Duracion: 0
+            Duracion: busStopEdit.duration
             //EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
         }
+        if(validationDataRequired(data)){   
         ResourcesUpdateService.UpdateParada(data)
             .then(function (response) {
                 if (response.Estado == 0){
@@ -204,6 +241,17 @@
                     confirmButtonAriaLabel: 'Ok',
                 });
             });
+        }
+        else{
+            vm.dataLoading = false;
+            SweetAlert.swal ({
+                type: "warning", 
+                title: "Verifique",
+                text: "Los datos ingresados son incorrectos o incompletos",
+                confirmButtonAriaLabel: 'Ok',
+            });
+        }
+
     }
     vm.deleteBusStops = function(){
         vm.dataLoading = true;

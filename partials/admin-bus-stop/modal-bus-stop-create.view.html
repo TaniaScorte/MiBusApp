@@ -10,18 +10,18 @@
     <form name="form.saveroute" ng-submit="setBusStops(busstop)" class="form-savebusstop">
         <div class="form-group">
             <label for="route">Recorrido:</label>
-            <select ng-model="busstop.route" class="form-control" ng-options="route.Nombre for route in routes track by route.Id">
+            <select ng-model="busstop.route" class="form-control" ng-options="route.Nombre for route in routes track by route.Id" required autofocus>
                 <option value="">Seleccione una opcion</option>
             </select> 
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
             <label for="number">Numero</label>
-            <input type="number" name="number" id="number" class="form-control" ng-model="busstop.number"  required autofocus />
+            <input type="number" name="number" id="number" class="form-control" ng-model="busstop.number"  required />
             <span ng-show="form.number.$dirty && form.number.$error.required" class="help-block">El numero es requerido</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
             <label for="name">Nombre</label>
-            <input type="text" name="name" id="name" class="form-control" ng-model="busstop.name"  required autofocus />
+            <input type="text" name="name" id="name" class="form-control" ng-model="busstop.name"  required />
             <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">El nombre es requerido</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
@@ -29,7 +29,12 @@
             <input type="text" name="descripcion" id="descripcion" class="form-control" ng-model="busstop.description" required />
             <span ng-show="form.descripcion.$dirty && form.descripcion.$error.required" class="help-block">La descripcion es requerido</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.descripcion.$dirty && form.descripcion.$error.required }">
+        <div class="form-group" ng-class="{ 'has-error': form.duration.$dirty && form.duration.$error.required }">
+            <label for="duration">Duracion</label>
+            <input type="number" name="duration" id="duration" class="form-control" ng-model="busstop.duration" required />
+            <span ng-show="form.duration.$dirty && form.duration.$error.required" class="help-block">La duracion es requerido</span>
+        </div>
+        <div class="form-group">
             <label for="point">Elegi un punto en el mapa</label>
             <div>
                 <div id="mapid"/>

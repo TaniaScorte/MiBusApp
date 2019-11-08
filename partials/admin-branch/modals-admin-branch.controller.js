@@ -25,6 +25,25 @@
         vm.idRamal = ramal.Id;
         vm.branchDelete = ramal;
     }
+    function validateDataRequired(data){
+        if(ramal.edit){
+            if(data.Id
+                && data.Nombre && data.Nombre.length <= 20
+                && data.Descripcion && data.Descripcion.length <= 50){
+                return true;
+            }
+        }
+        if(ramal.create){
+            if( data.Nombre && data.Nombre.length <= 20
+                && data.Descripcion && data.Descripcion.length <= 50){
+                return true;
+            }
+        }
+        else{
+            return false;
+        }
+        
+    };
     vm.setBranch = function(ramal) {
         vm.dataLoading = true;
         var data ={
@@ -32,44 +51,55 @@
             Descripcion: ramal.description,
             EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
         }
-        ResourcesSetService.SetRamal(data)
-            .then(function (response) {
-                if (response.Estado == 0){
-                    SweetAlert.swal ({
-                        type: "success", 
-                        title: "La operacion se ha realizado con exito",
-                        text: "El ramal ha sido creado",
-                        confirmButtonAriaLabel: 'Ok',
-                    },
-                    function(isConfirm) {
-                    if (isConfirm) {
-                        vm.dataLoading = false;
-                        $rootScope.$emit("refreshListBranch","ok");
-                        $uibModalInstance.close();
+        if(validateDataRequired(data)){
+            ResourcesSetService.SetRamal(data)
+                .then(function (response) {
+                    if (response.Estado == 0){
+                        SweetAlert.swal ({
+                            type: "success", 
+                            title: "La operacion se ha realizado con exito",
+                            text: "El ramal ha sido creado",
+                            confirmButtonAriaLabel: 'Ok',
+                        },
+                        function(isConfirm) {
+                        if (isConfirm) {
+                            vm.dataLoading = false;
+                            $rootScope.$emit("refreshListBranch","ok");
+                            $uibModalInstance.close();
+                        } 
+                        });               
+                        return;
                     } 
-                    });               
-                    return;
-                } 
-                else {
+                    else {
+                        vm.dataLoading = false;
+                        SweetAlert.swal ({
+                            type: "error", 
+                            title: "Error",
+                            text: "Error al crear el ramal",
+                            confirmButtonAriaLabel: 'Ok',
+                        });
+                    }
+                })
+                .catch(function(error){
                     vm.dataLoading = false;
                     SweetAlert.swal ({
                         type: "error", 
                         title: "Error",
-                        text: "Error al crear el ramal",
+                        text: error,
                         confirmButtonAriaLabel: 'Ok',
                     });
-                }
-            })
-            .catch(function(error){
-                vm.dataLoading = false;
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
                 });
+        }
+        else{
+            vm.dataLoading = false;
+            SweetAlert.swal ({
+                type: "warning", 
+                title: "Verifique",
+                text: "Los datos ingresados son incorrectos o incompletos",
+                confirmButtonAriaLabel: 'Ok',
             });
-     }
+        }
+    }
     function clearRegister(){
         vm.user=null;
     }
@@ -81,7 +111,8 @@
             EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId,
             Id: ramal.Id
         }
-        ResourcesUpdateService.UpdateRamal(data)
+        if(validateDataRequired(data)){
+          ResourcesUpdateService.UpdateRamal(data)
             .then(function (response) {
                 if (response.Estado == 0){
                     SweetAlert.swal ({
@@ -118,6 +149,16 @@
                     confirmButtonAriaLabel: 'Ok',
                 });
             });
+        }
+        else{
+            vm.dataLoading = false;
+            SweetAlert.swal ({
+                type: "warning", 
+                title: "Verifique",
+                text: "Los datos ingresados son incorrectos o incompletos",
+                confirmButtonAriaLabel: 'Ok',
+            });
+        }
     }
     vm.deleteBranch = function(ramalDelete){
         vm.dataLoading = true;

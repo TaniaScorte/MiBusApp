@@ -17,8 +17,9 @@
         vm.dateToday = new Date();
         initController();        
         function initController(){
-            getTiposDNI();
-            getRamalesByEmpresa();
+            if(!$rootScope.ramales){
+                getRamalesByEmpresa();
+            }
             getRecorridosByEmpresa();           
         }
 
@@ -138,22 +139,6 @@
                   }
                 }
               });
-        }
-        function getTiposDNI(){
-            ResourcesService.GetTiposDNI()
-            .then(function (response) {
-                if (response){
-                   $rootScope.dnitypes = response;          
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
-                });
-            });
         }
         function getRamalesByEmpresa(){
             ResourcesService.GetRamalesByEmpresa( $rootScope.globals.currentUser.userData.EmpresaId)
