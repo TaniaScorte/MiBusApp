@@ -22,8 +22,27 @@
         service.GetMarcas = GetMarcas;
         service.GetModelos = GetModelos;
         service.GetModelosByMarca = GetModelosByMarca;
-
+        service.GetDias = GetDias;
         return service;
+        function GetDias() {            
+            var deferred = $q.defer();
+            var urlGetModelos ='https://www.mellevas.com.ar/api/dias/GetDias?Token=' + 2019;       
+            var req = {
+                method: 'GET',
+                url: urlGetModelos,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }                
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar las marcas");
+                });
+                return deferred.promise;
+        }
         function GetModelos() {            
             var deferred = $q.defer();
             var urlGetModelos ='https://www.mellevas.com.ar/api/ModelosVehiculo/GetModelosVehiculo?Token=' + 2019;       
@@ -223,19 +242,17 @@
                 });
                 return deferred.promise;
         }
-        function GetHorariosByRecorrido(recorridoID) {
+        function GetHorariosByRecorrido(recorridoID) {     
             var deferred = $q.defer();
-            var urlGetJson ='scripts/jsonData/horariosByRecorrido.json';       
-        /*
+            var urlGetHorarios ='https://www.mellevas.com.ar/api/horarios/GetHorariosxRecorrido?recorridoId=' + recorridoID + '&token=' + 2019;       
             var req = {
                 method: 'GET',
-                url: urlGetTiposDNI,
+                url: urlGetHorarios,
                 headers: {
-                  'Content-Type': 'application/json; charset=utf-8'
+                    'Content-Type': 'application/json; charset=utf-8'
                 }
-               }
-        */       
-            $http.get(urlGetJson)
+            }                
+            $http(req)
                 .then(function(response){
                     deferred.resolve(response.data);
                 })
@@ -246,7 +263,7 @@
         }
         function GetParadasByRecorrido(recorridoID) {
             var deferred = $q.defer();
-            var urlGetParadas ='https://www.mellevas.com.ar/api/paradas/GetParadasxRecorrido?recorridoid=' + recorridoID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
+            var urlGetParadas ='https://www.mellevas.com.ar/api/paradas/GetParadasxRecorrido?recorridoId=' + recorridoID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
             
             var req = {
                 method: 'GET',

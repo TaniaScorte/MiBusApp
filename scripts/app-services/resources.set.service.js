@@ -18,6 +18,25 @@
         service.SetVehiculo = SetVehiculo
 
         return service;
+        function SetHorario(data) {
+            var deferred = $q.defer();
+            var urlSetHorario ='https://www.mellevas.com.ar/api/horarios/Create';//$rootScope.globals.currentUser.token;       
+            data.Token = 2019;
+            var req = {
+                method: 'POST',
+                url: urlSetHorario,
+                data: data
+            }     
+
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al cargar el item");
+            });
+            return deferred.promise;
+        }
         function SetVehiculo(data) {
             var deferred = $q.defer();
             var urlSetVehiculo ='https://www.mellevas.com.ar/api/vehiculos/Create';//$rootScope.globals.currentUser.token;       
@@ -134,28 +153,6 @@
                 });
                 return deferred.promise;
         }
-        function SetHorario(recorridoID) {
-            var deferred = $q.defer();
-            var urlGetJson ='scripts/jsonData/horariosByRecorrido.json';       
-        /*
-            var req = {
-                method: 'GET',
-                url: urlGetTiposDNI,
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8'
-                }
-               }
-        */       
-            $http.get(urlGetJson)
-                .then(function(response){
-                    deferred.resolve(response.data);
-                })
-                .catch(function(error){
-                    deferred.reject("Error al cargar los horarios");
-                });
-                return deferred.promise;
-        }
-
 
     }
 

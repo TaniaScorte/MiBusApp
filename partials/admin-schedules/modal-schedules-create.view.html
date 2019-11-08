@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Datos del Horarios</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form name="form.saveschedules" ng-submit="setSchedules(schedule)" class="form-saveschedules">
+        <div class="form-group">
+            <label for="day">Dia:</label>
+            <select ng-model="schedule.day" class="form-control" ng-options="day.Nombre for day in days track by day.Id"  required autofocus>
+                <option value="">Seleccione una opcion</option>
+            </select> 
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.hour.$dirty && form.hour.$error.required }">
+            <label for="hour">Hora de salida</label>
+            <input type="time" name="hour" id="hour" class="form-control" ng-model="schedule.hour"  required />
+            <span ng-show="form.hour.$dirty && form.hour.$error.required" class="help-block">La hora es requerida</span>
+        </div>
+        <div class="form-group text-rigth">
+            <button class="btn btn-success" type="button" ng-click="addHours(schedule.hour)"><i class="fa fa-plus">Agregar Hora</i></button>
+        </div>
+        <div class="table table-striped table-hover">
+            <table class="table-resposive col-md-12">
+                <tr>
+                    <th>Listado de Horas</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="hour in hours track by $index">
+                    <td>{{hour}}</td>
+                    <td>
+                    <span class="d-inline-block" data-toggle="tooltip" title="Eliminar">
+                            <button type="button" class="btn btn-danger" ng-click="deleteHours(hour)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </span>
+                    </td>
+                </tr>                
+
+            </table>            
+        </div>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Guardar</button>
+            <img ng-if="dataLoading" src="images/descarga.gif" />
+            <button class="btn btn-danger" type="button" ng-click="cancelSchedulesModal()">Cancel</button>
+        </div>
+    </form>
+</div>

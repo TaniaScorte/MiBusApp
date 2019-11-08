@@ -1,0 +1,136 @@
+(function () {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('AdminSchedulesController', AdminSchedulesController);
+
+        AdminSchedulesController.$inject = ['UserService', '$rootScope', '$scope','$uibModal','ResourcesSetService','ResourcesService','SweetAlert','$filter'];
+
+
+    function AdminSchedulesController(UserService, $rootScope, $scope,$uibModal,ResourcesSetService,ResourcesService,SweetAlert,$filter) {
+        var vm = $scope;     
+        vm.openModalSchedulesCreate = openModalSchedulesCreate;
+        vm.openModalSchedulesEdit = openModalSchedulesEdit;
+        vm.openModalSchedulesDelete = openModalSchedulesDelete;    
+        vm.formatDate = formatDate;
+        vm.dateToday = new Date();
+        
+        initController();        
+        function initController(){
+            vm.routeOk = false;
+            getRecorridosByEmpresa();
+        }
+
+        $rootScope.$on("refreshListSchedules", function(evt,recorridoId){ 
+            getHorariosByRecorrido(recorridoId);
+        });
+        vm.selectedRoute= function(){
+            if(vm.schedule.route){
+                vm.routeOK=true;
+                getHorariosByRecorrido(vm.schedule.route.Id);     
+             }
+             else{
+                vm.routeOK=false;   
+             }
+        }
+        function formatDate(date){
+            var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
+            return dateOut;
+        };
+        function openModalSchedulesCreate(){
+            var scheduleCreate = {};
+            scheduleCreate.RecorridoId = vm.schedule.route.Id;
+            scheduleCreate.create = true;
+            scheduleCreate.edit = false;
+            scheduleCreate.delete = false;
+            var modalInstance = $uibModal.open({
+                animation:true,
+                templateUrl: 'partials/admin-schedules/modal-schedules-create.view.html',
+                controller: 'ModalSchedulesController',
+                size: 'lg',
+                windowClass: 'show',
+                backdrop: 'static',
+                resolve: {
+                  schedule: function () {
+                    return scheduleCreate;
+                  }
+                }
+              });
+        }
+        function openModalSchedulesEdit(scheduleEdit){
+            scheduleEdit.RecorridoId = vm.schedule.route.Id;
+            scheduleEdit.edit=true;
+            scheduleEdit.create = false;
+            scheduleEdit.delete=false;
+            var modalInstance = $uibModal.open({
+                animation:true,
+                templateUrl: 'partials/admin-schedules/modal-schedules-edit.view.html',
+                controller: 'ModalSchedulesController',
+                size: 'lg',
+                windowClass: 'show',
+                backdrop: 'static',
+                resolve: {
+                    schedule: function () {
+                    return scheduleEdit;
+                  }
+                }
+              });
+        }
+        function openModalSchedulesDelete(scheduleDelete){
+            scheduleDelete.RecorridoId = vm.schedule.route.Id;
+            scheduleDelete.delete = true;
+            scheduleDelete.create = false;
+            scheduleDelete.edit = false;
+            var modalInstance = $uibModal.open({
+                animation:true,
+                templateUrl: 'partials/admin-schedules/modal-schedules-delete.view.html',
+                controller: 'ModalSchedulesController',
+                size: 'lg',
+                windowClass: 'show',
+                backdrop: 'static',
+                resolve: {
+                    schedule: function () {
+                    return scheduleDelete;
+                  }
+                }
+              });
+        }
+        function getRecorridosByEmpresa(){
+            ResourcesService.GetRecorridosByEmpresa()
+            .then(function (response) {
+                if (response){                  
+                   $rootScope.routes = response;         
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
+            });
+        }
+        function getHorariosByRecorrido(recorridoId){
+            ResourcesService.GetHorariosByRecorrido(recorridoId)
+            .then(function (response) {
+                if (response){                  
+                   $rootScope.schedules = response;  
+                   vm.routeOK=true;       
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
+            });
+        }     
+
+}
+
+
+})();

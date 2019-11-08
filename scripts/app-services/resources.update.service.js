@@ -111,26 +111,23 @@
                 });
                 return deferred.promise;
         }
-        function UpdateHorario(recorridoID) {
+        function UpdateHorario(data) {
             var deferred = $q.defer();
-            var urlGetJson ='scripts/jsonData/horariosByRecorrido.json';       
-        /*
+            var urlUpdateHorario = 'https://www.mellevas.com.ar/api/horarios/Update';
+            data.Token = 2019;//$rootScope.globals.currentUser.token; 
             var req = {
-                method: 'GET',
-                url: urlGetTiposDNI,
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8'
-                }
-               }
-        */       
-            $http.get(urlGetJson)
-                .then(function(response){
-                    deferred.resolve(response.data);
-                })
-                .catch(function(error){
-                    deferred.reject("Error al cargar los horarios");
-                });
-                return deferred.promise;
+                method: 'POST',
+                url: urlUpdateHorario,
+                data: data
+            }
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al actualizar el item");
+            });
+            return deferred.promise;
         }
 
 
