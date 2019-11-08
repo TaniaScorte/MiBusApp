@@ -11,8 +11,6 @@
     function DriverHomeController(UserService, $rootScope, $scope) {
         var vm = this;
         
-
-
         var swipe = function () {
             $("#swipeDHome").touchwipe({
                 wipeLeft: function () {

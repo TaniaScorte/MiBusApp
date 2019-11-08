@@ -1,5 +1,5 @@
 angular.module('app')
-.directive('navDriver', ['$rootScope', function ($rootScope) {
+.directive('navDriver', ['$rootScope', function ($rootScope, $location) {
     return {
       restrict: 'EA', //E = element, A = attribute, C = class, M = comment         
       scope: {
@@ -8,8 +8,8 @@ angular.module('app')
            link: function($scope, element, attrs) {
             $scope.logout = function() {
             $rootScope.logout();
-        }
+        }   
     },
       templateUrl: 'scripts/app-directives/nav-driver/nav-driver.html'
   }
-}]);
+}])

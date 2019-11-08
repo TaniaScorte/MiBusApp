@@ -14,15 +14,28 @@ body{
     background-size: cover;
     height: 100%;
     width: 100%;
+    padding-top: 4em;
 
+}
+body, tr, td{
+    color:#555555;
+}
+h3{
+    display: inline;
+    font-weight: bold;
+}
+@media only screen and (max-width: 600px) {
+  body {
+    background-image: url('images/logoMiniBusApp-transparente-mobile.png');
+  }
 }
 
 </style>
 
 <div id="swipeDHome">
 
-    <div class="row ml-auto mr-auto">
-            <h3>¡HOLA</h3><span> </span><h3 style="color: #05a3e2;">{{user.Nombre}} {{user.Apellido}}</h3><h3>!</h3>
+    <div style="text-align:center;">
+            <h3>¡HOLA &nbsp</h3><h3 style="color: #05a3e2;">{{user.Nombre  | uppercase}} {{user.Apellido  | uppercase}}</h3><h3>!</h3>
     </div>
     <div> 
            <h4>Estos son tus viajes del día, elije uno para empezar</h4>
@@ -30,7 +43,7 @@ body{
 
 
 
-   <div class="form-group row ml-4">
+   <div class="form-group row ml-4 mt-4">
         <label for="busqueda control-labe col-2" style="font-size: 130%;">Buscar</label><input type="text" id="busqueda" class="form-control col-6 mb-3 ml-3"  ng-model="busqueda" ng-change="buscar(busqueda)">
     </div>
             <div class="table-responsive">
@@ -39,8 +52,8 @@ body{
                         <tr>
                             <th>Hora</th>
                             <th>Recorrido</th>
-                            <th>Descripcion</th>
-                            <th>Acciones</th>
+                            <th>Descripción</th>
+                            <th>Elegir</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -8,37 +8,36 @@
         background-color: #b4d3de !important;
     }
 
-    #driver-map {
-        height: 39em;
+    
+    button{
+        font-family:arial,helvetica,courier;
     }
+    #driver-map {
+        height: 38em;
+    }
+    
 </style>
-
-
-</body>
 
 <div nav-driver></div>
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
-         <button class="button btn-info btn-lg btn-block" ng-click='initReport()'>Iniciar Recorrido<span></span> <i class="fa fa-play-circle"></i></button>
+         <button class="button btn-primary btn-lg btn-block" ng-click='initReport()'>Iniciar <br class="d-none d-md-block">  Recorrido<span></span> <i class="fa fa-play-circle"></i></button>
     </div>
     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 d-none mt-2">
-         <button class="button btn-info btn-lg btn-block " ng-click='stopReport()'>Detener Recorrido</button>
+         <button class="button btn-primary btn-lg btn-block " ng-click='stopReport()'>Detener <br class="d-none d-md-block"> Recorrido</button>
     </div>
     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
-         <button class="button btn-info btn-lg btn-block" ng-click='ocuparLibre()'>Embarcar libre <span></span><i class="fa fa-arrow-down"></i></button>
+         <button class="button btn-primary btn-lg btn-block" ng-click='ocuparLibre()'>Embarcar <br class="d-none d-md-block"> Libre <span></span><i class="fa fa-arrow-down"></i></button>
     </div>
     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
-         <button class="button btn-info btn-lg btn-block" ng-click='ocuparComprado()'>Embarcar comprado  <span></span><i class="fa fa-arrow-down"></i></button>
+         <button class="button btn-primary btn-lg btn-block" ng-click='ocuparComprado()'>Embarcar <br class="d-none d-md-block"> Comprado  <span></span><i class="fa fa-arrow-down"></i></button>
     </div>
     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
-         <button class="button btn-info btn-lg btn-block" ng-click='liberar()'>Liberar pasaje <span></span><i class="fa fa-arrow-up"></i></button>
+         <button class="button btn-primary btn-lg btn-block" ng-click='liberar()'>Liberar <br class="d-none d-md-block"> Pasaje <span></span><i class="fa fa-arrow-up"></i></button>
     </div>
 </div>
-<div class="content" id="content">
-    <div class="col-sm-12 col-md-12">
         <hr class="hr">
     </div>
     <div>
         <div id="driver-map"></div>
     </div>
-</div>
