@@ -7,6 +7,10 @@
 <div nav-admin></div>
 <div id="swipeBranch"  class="container">
     <div class="contenedor" >
+        <div class="col-sm-6">
+            <h2>Gestión de Horarios</h2>
+        </div>
+        <hr>
         <div class="form-group row" style="padding-top: 5px;">
             <label for="route"  class="col-sm-2 col-form-label">Recorrido:</label>
             <div class="col-md-5">
@@ -18,13 +22,10 @@
                 <span><i class="fa fa-info"></i> Seleccione un recorrido para agregar horarios</span>
             </div>
         </div>
-        <div class="table-wrapper" ng-show="routeOK">
+        <div class="" ng-show="routeOK">
             <div class="table-title">
-                <div class="row" style="padding-top:5px;">
-                    <div class="col-sm-6">
-                        <h2>Gestión de Horarios</h2>
-                    </div>
-                    <div class="col-sm-6">
+                <div class="row" style="padding-top:5px;padding-bottom: 5px;">
+                    <div class="col-md-6 offset-md-6 col-xs-12">
                         <button class="btn btn-info" ng-click="openModalSchedulesCreate()">
                             <i class="fa fa-plus-circle"></i> <span>Agregar horarios</span>
                         </button>
