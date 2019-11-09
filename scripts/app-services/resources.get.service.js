@@ -17,13 +17,14 @@
         service.GetHorariosByRecorrido = GetHorariosByRecorrido;
         service.GetParadasByRecorrido = GetParadasByRecorrido;
         service.GetParadas = GetParadas;
-        service.GetRecorridosByEmpresa = GetRecorridosByEmpresa;
+        service.GetRecorridosByEmpresaRamal = GetRecorridosByEmpresaRamal;
         service.GetVehiculosByEmpresa = GetVehiculosByEmpresa;
         service.GetMarcas = GetMarcas;
         service.GetModelos = GetModelos;
         service.GetModelosByMarca = GetModelosByMarca;
         service.GetDias = GetDias;
         service.GetViajesByRecorrido = GetViajesByRecorrido;
+        service.GetRecorridosByEmpresa = GetRecorridosByEmpresa;
         return service;
         function GetViajesByRecorrido(recorridoID) {            
             var deferred = $q.defer();
@@ -119,6 +120,25 @@
                 })
                 .catch(function(error){
                     deferred.reject("Error al cargar los modelos");
+                });
+                return deferred.promise;
+        }
+        function GetRecorridosByEmpresaRamal(ramalId) {            
+            var deferred = $q.defer();
+            var urlGetRecorrido ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxEmpresaRamal?EmpresaId=' + $rootScope.globals.currentUser.userData.EmpresaId;       
+            var req = {
+                method: 'GET',
+                url: urlGetRecorrido + "&token=" + 2019 +"&RamalId=" +ramalId,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }                
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar los recorridos");
                 });
                 return deferred.promise;
         }
