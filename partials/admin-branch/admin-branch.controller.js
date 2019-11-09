@@ -46,6 +46,10 @@
             return dateOut;
         };
         function openModalBranchCreate(){
+            var ramalCreate = {};
+            ramalCreate.create = true;
+            ramalCreate.edit =false;
+            ramalCreate.delete = false;
             var modalInstance = $uibModal.open({
                 animation:true,
                 templateUrl: 'partials/admin-branch/modal-branch-create.view.html',
@@ -55,7 +59,7 @@
                 backdrop: 'static',
                 resolve: {
                   ramal: function () {
-                    return "Create";
+                    return ramalCreate;
                   }
                 }
               });

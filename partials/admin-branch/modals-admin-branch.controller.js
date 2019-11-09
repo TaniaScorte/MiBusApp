@@ -185,7 +185,7 @@
                 SweetAlert.swal ({
                     type: "error", 
                     title: "Error",
-                    text: "Error al eliminar",
+                    text: response.Mensaje,
                     confirmButtonAriaLabel: 'Ok',
                 });
             }
