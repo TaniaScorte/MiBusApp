@@ -19,8 +19,7 @@
         function initController(){
             if(!$rootScope.ramales){
                 getRamalesByEmpresa();
-            }
-            getRecorridosByEmpresa();           
+            }     
         }
 
         var swipe = function () {
@@ -38,17 +37,25 @@
         }
         swipe();
 
-        $rootScope.$on("refreshListRoutes", function(evt,data){ 
-            getRecorridosByEmpresa();
+        $rootScope.$on("refreshListRoutes", function(evt,branchId){ 
+            getRecorridosByEmpresaRamal(branchId);
         });
-      
-        function getRecorridosByEmpresa() {
+        vm.selectedBranch= function(){
+            if(vm.route.branch){
+                vm.branchOK=true;
+                getRecorridosByEmpresaRamal(vm.route.branch.Id);     
+             }
+             else{
+                vm.branchOK=false;   
+             }
+        }
+        function getRecorridosByEmpresaRamal(branchId) {
             $scope.routes = []; 
             $scope.filtroRoutes = [];
             $scope.currentPage = 1;
             $scope.numPerPage = 10;
             $scope.inicializar = function () {
-                ResourcesService.GetRecorridosByEmpresa()
+                ResourcesService.GetRecorridosByEmpresaRamal(branchId)
                 .then(function (response) {
                         if (response) {
                             if (response) {
@@ -99,6 +106,9 @@
             return dateOut;
         };
         function openModalRoutesCreate(){
+            var routeCreate = {};
+            routeCreate.create = true;
+            routeCreate.branch = vm.route.branch; 
             var modalInstance = $uibModal.open({
                 animation:true,
                 templateUrl: 'partials/admin-routes/modal-routes-create.view.html',
@@ -108,7 +118,7 @@
                 backdrop: 'static',
                 resolve: {
                   route: function () {
-                    return "Create";
+                    return routeCreate;
                   }
                 }
               });
