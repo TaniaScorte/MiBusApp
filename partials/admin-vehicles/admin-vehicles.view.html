@@ -11,21 +11,19 @@
 <div nav-admin></div>
 <div id="swipeBus"  class="container">
     <div class="contenedor" >
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row" style="padding-top:5px;">
-                    <div class="col-sm-6">
-                        <h2 id="title">Gestión de vehiculos</h2>
-                    </div>
-                    <div class="col-sm-6">
-                        <button class="btn btn-info" ng-click="openModalVehiclesCreate()">
-                            <i class="fa fa-plus-circle"></i> <span>Agregar vehiculo</span>
-                        </button>
-                    </div>
-                </div>
-            </div> 
+        <div class="col-sm-6">
+            <h2 id="title">Gestión de vehiculos</h2>
+        </div>
+        <hr>
+        <div class=""> 
             <div class="form-group row">
-                <label for="busqueda control-labe col-2" style="font-size: 130%;">Buscar</label><input type="text" id="busqueda" class="form-control col-6 mb-3 ml-3"  ng-model="busqueda" ng-change="buscar(busqueda)">
+                <label for="busqueda"  class="col-sm-2 col-form-label">Buscar</label>
+                <input type="text" id="busqueda" class="form-control mb-3 col-md-6 col-xs-12 col-lg-6"  ng-model="busqueda" ng-change="buscar(busqueda)">
+                <div class="col-sm-3">
+                    <button class="btn btn-info" ng-click="openModalVehiclesCreate()">
+                        <i class="fa fa-plus-circle"></i> <span>Agregar vehiculo</span>
+                    </button>
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped table-hover">

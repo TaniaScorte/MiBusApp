@@ -53,7 +53,7 @@
                         if (response) {
                             $scope.vehicles = response;
                             $rootScope.vehicles = response;          //por las dudas que lo use en otro lado
-                            if($rootScope.Marca){
+                            if($rootScope.brands){
                                 for (var x = 0; x < $rootScope.vehicles.length; x++) {
                                 $rootScope.vehicles[x].Marca = $filter('filter')($rootScope.brands, { Id: $rootScope.vehicles[x].MarcaId })[0].Nombre;
                                 }
