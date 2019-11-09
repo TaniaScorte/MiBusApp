@@ -20,7 +20,7 @@
       
         function GetAllUserByEmpresaRol(rolId) {
             var deferred = $q.defer();
-            var urlUserGetEmpresaRol ='https://www.mellevas.com.ar/api/usuarios/getusuarios?empresaid=';   
+            var urlUserGetEmpresaRol ='https://www.mellevas.com.ar/api/usuarios/GetUsuariosxEmpresaRol?empresaid=';   
             
             var req = {
                 method: 'GET',
