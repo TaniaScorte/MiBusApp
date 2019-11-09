@@ -4,20 +4,29 @@
 <div class="modal-body" id="modal-body">
     <form name="form.register" ng-submit="updateJourneys(journeyEdit)" class="form-register">
         <div class="form-group">
+            <div style="display:inline-block; min-height:200px;">
+                <div uib-datepicker ng-model="journeyEdit.dt" ng-change="updateSchedulesByDay(journeyEdit.dt.getDay())" class="well well-sm" datepicker-options="options"></div>
+            </div> <br>
+            <strong style="color:red;">
+                    <label>Dia elegido</label> <label  ng-bind="formatNumberDate(journeyEdit.dt.getDay())"></label>
+                    <label>La fecha elegida: </label> <label ng-bind="formatDate(journeyEdit.dt) |  date:'dd/MM/yyyy'"></label>
+            </strong>
+        </div>
+        <div class="form-group">
             <label for="schedule">Horario:</label>
-            <select ng-model="journeyEdit.schedule" class="form-control" ng-options="schedule.Nombre for schedule in schedules track by schedule.Id"  required autofocus>
+            <select ng-model="journeyEdit.schedule" class="form-control" ng-options="schedule.Nombre for schedule in schedulesFilter track by schedule.Id"  required autofocus>
                 <option value="">Seleccione una opcion</option>
             </select> 
         </div>
         <div class="form-group">
             <label for="driver">Chofer:</label>
-            <select ng-model="journeyEdit.driver" class="form-control" ng-options="driver.Nombre for driver in drivers track by driver.Id"  required>
+            <select ng-model="journeyEdit.driver" class="form-control" ng-options="driver as driver.FullName +' - '+ driver.Dni for driver in drivers track by driver.Id"  required>
                 <option value="">Seleccione una opcion</option>
             </select> 
         </div>
         <div class="form-group">
             <label for="vehicle">Vehiculo:</label>
-            <select ng-model="journeyEdit.vehicle" class="form-control" ng-options="vehicle.Nombre for vehicle in vehicles track by vehicle.Id"  required>
+            <select ng-model="journeyEdit.vehicle" class="form-control" ng-options="vehicle as vehicle.Descripcion + ' - ' + vehicle.Patente for vehicle in vehicles track by vehicle.Id"  required>
                 <option value="">Seleccione una opcion</option>
             </select> 
         </div>

@@ -28,7 +28,12 @@
             if(!$rootScope.allModels){
                 getModelos();
             }
-            
+            if(!$rootScope.drivers){
+                getUserDrivers();
+            }
+            if(!$rootScope.days){
+                getDays();
+            }
         }
 
         $rootScope.$on("refreshListJourneys", function(evt,recorridoId){ 
@@ -38,6 +43,9 @@
             if(vm.journey.route){
                 getViajesByRecorrido(vm.journey.route.Id);    
                 getHorariosByRecorrido(vm.journey.route.Id) 
+                if(!$rootScope.vehicles){
+                    getVehiculosByEmpresa();
+                }  
              }
              else{
                 vm.routeOK=false;   
@@ -53,7 +61,7 @@
             journeyCreate.create = true;
             var modalInstance = $uibModal.open({
                 animation:true,
-                templateUrl: 'partials/admin-journey/modal-journey-create.view.html',
+                templateUrl: 'partials/admin-journeys/modal-journeys-create.view.html',
                 controller: 'ModalJourneysController',
                 size: 'lg',
                 windowClass: 'show',
@@ -69,7 +77,7 @@
             journeyEdit.edit=true;
             var modalInstance = $uibModal.open({
                 animation:true,
-                templateUrl: 'partials/admin-journey/modal-journey-edit.view.html',
+                templateUrl: 'partials/admin-journeys/modal-journeys-edit.view.html',
                 controller: 'ModalJourneysController',
                 size: 'lg',
                 windowClass: 'show',
@@ -85,7 +93,7 @@
             journeyDelete.delete = true;
             var modalInstance = $uibModal.open({
                 animation:true,
-                templateUrl: 'partials/admin-journey/modal-journey-delete.view.html',
+                templateUrl: 'partials/admin-journeys/modal-journeys-delete.view.html',
                 controller: 'ModalJourneysController',
                 size: 'lg',
                 windowClass: 'show',
@@ -219,7 +227,7 @@
             UserService.GetAllUserByEmpresaRol(2)
             .then(function (response) {
                     if (response) {
-                        $rootScope.drivers = response;
+                        $rootScope.drivers = response.data;
                     }                        
                 })
                 .catch(function (error) {
@@ -247,7 +255,22 @@
                     });
                 });
         }
-        
+        function getDays(){
+            ResourcesService.GetDias()
+            .then(function (response) {
+                if (response){                  
+                   $rootScope.days = response;     
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
+            });
+        };
 }
 
 

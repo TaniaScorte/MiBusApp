@@ -11,6 +11,7 @@
     function ModalJourneysController($uibModalInstance, journey, $scope,$rootScope,ResourcesService,$filter,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService) {
     var vm = $scope;
     vm.hours = [];     
+    vm.journey = {};
     var journeyRecorridoId = journey.RecorridoId;
 
     vm.okJourneysCreate = function () {
@@ -21,20 +22,30 @@
         journey.delete =false;
         $uibModalInstance.close();
     };  
-
     if(journey.edit){
         vm.journeyEdit = {};
         vm.journeyEdit.Id = journey.Id;
-        vm.journeyEdit.RecorridoId = journey.RecorridoId;
-        vm.journeyEdit.VehiculoId = journey.VehiculoId;
-        vm.journeyEdit.ChoferId = journey.ChoferId;
+        vm.journeyEdit.route = $filter('filter')($rootScope.route, {Id:  journey.RecorridoId}); 
+        vm.journeyEdit.vehicle = $filter('filter')($rootScope.vehicles, {Id:  journey.VehiculoId}); 
+        vm.journeyEdit.driver = $filter('filter')($rootScope.drivers, {Id: journey.ChoferId});
+        vm.journeyEdit.dt = new Date(journey.Fecha);
     }
     if(journey.delete){
         vm.idJourney = journey.Id;
         vm.journeyDelete = journey;
     }
-    vm.setJourneys = function(journey) {
+    vm.setJourneys = function(journeyCreate) {
         vm.dataLoading = true;
+        var data = {
+            EmpresaId: $rootScope.globals.currentUser.userData.EmpresaId,
+            RecorridoId: journeyRecorridoId,
+            ChoferId: journeyCreate.driver.Id,
+            VehiculoId: journeyCreate.vehicle.Id,
+            HorarioId: journeyCreate.schedule.Id,
+            Descripcion: journeyCreate.description,
+            FechaAlta: $filter('date')(journeyCreate.dt, 'dd/MM/yyyy'),
+            EstadoId:0
+        }
         ResourcesSetService.SetViaje(data)
         .then(function (response) {
             if (response.Estado == 0){
@@ -76,14 +87,14 @@
 
     vm.updateJourneys = function(journeyEdit){
         vm.dataLoading = true;
-        var data ={
+        var data = {
             Id: journeyEdit.Id,
-            RecorridoId: journeyEdit.RecorridoId,
-            ChoferId: journeyEdit.ChoferId,
-            RecorridoId: journeyEdit.RecorridoId,
-            VehiculoId: journeyEdit.VehiculoId,
-            Descripcion: journeyEdit.description,
-            EmpresaId:  $rootScope.globals.currentUser.userData.EmpresaId
+            EmpresaId: $rootScope.globals.currentUser.userData.EmpresaId,
+            RecorridoId: journeyEdit.route.Id,
+            ChoferId: journeyEdit.driver.Id,
+            VehiculoId: journeyEdit.vehicle.Id,
+            HorarioId: journeyEdit.schedulesFilter.Id,
+            Descripcion: journeyEdit.description
         }
         ResourcesUpdateService.UpdateViaje(data)
             .then(function (response) {
@@ -163,7 +174,94 @@
             });
         });
     }
+    vm.updateSchedulesByDay = function(dayNumber) {
+        vm.schedulesFilter = $filter('filter')($rootScope.schedules, {DiaId:  dayNumber});
+    }
+    vm.today = function() {
+        if(journey.edit){
+            vm.journeyEdit.dt = new Date();
+            vm.updateSchedulesByDay(vm.journeyEdit.dt.getDay());
+        }
+        if(journey.create){
+            vm.journey.dt = new Date();
+            vm.updateSchedulesByDay(vm.journey.dt.getDay());
+        }
+    };
 
+
+    vm.clear = function() {
+        vm.journey.dt = null;
+        vm.journeyEdit = null;
+    };
+    
+    $scope.options = {
+        customClass: getDayClass,
+        minDate: new Date(),
+        showWeeks: false
+     };
+    
+      // Disable weekend selection
+      function disabled(data) {
+        var date = data.date;
+        var  mode = data.mode;
+        return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+      }
+    
+    $scope.toggleMin = function() {
+        $scope.options.minDate = new Date();
+    };
+    
+    vm.setDate = function(year, month, day) {
+        if(journey.edit){
+            $scope.journeyEdit.dt = new Date(year, month, day);
+            vm.updateSchedulesByDay($scope.journeyEdit.dt.getDay());
+        }
+        if(journey.create){
+            $scope.journey.dt = new Date(year, month, day);
+            vm.updateSchedulesByDay($scope.journey.dt.getDay());
+        }
+    };
+    
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var afterTomorrow = new Date(tomorrow);
+    afterTomorrow.setDate(tomorrow.getDate() + 1);
+    $scope.events = [
+        {
+            date: tomorrow,
+            status: 'full'
+        },
+        {
+            date: afterTomorrow,
+            status: 'partially'
+        }
+      ];
+    
+    function getDayClass(data) {
+        var date = data.date,
+          mode = data.mode;
+        if (mode === 'day') {
+          var dayToCheck = new Date(date).setHours(0,0,0,0);
+    
+          for (var i = 0; i < $scope.events.length; i++) {
+            var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+    
+            if (dayToCheck === currentDay) {
+              return $scope.events[i].status;
+            }
+          }
+        }    
+        return '';
+    }
+    $scope.toggleMin();
+    $scope.today();
+    vm.formatDate = function(date){
+        var dateOut = $filter('date')(date, 'dd/MM/yyyy');
+        return dateOut;
+    };
+    vm.formatNumberDate = function(dateNumber) {
+        return $filter('filter')($rootScope.days, {Id:  dateNumber})[0].Nombre;
+    }
 }
 
 })();
