@@ -20,23 +20,31 @@
     };  
     
     vm.updateModelsByBrand = function(brand){
-        ResourcesService.GetModelosByMarca(brand.Id)
-        .then(function (response) {
-            if (response){                  
-               $rootScope.models = response;
-               if(vehicle.edit){
-                vm.vehicleEdit.model = $filter('filter')($rootScope.models, {Id:  vehicle.ModeloId})[0];
-               }        
-            } 
-        })
-        .catch(function(error){
-            SweetAlert.swal ({
-                type: "error", 
-                title: "Error",
-                text: error,
-                confirmButtonAriaLabel: 'Ok',
+        if(brand){
+            ResourcesService.GetModelosByMarca(brand.Id)
+            .then(function (response) {
+                if (response){                  
+                   $rootScope.models = response;
+                   if(vehicle.edit){
+                    vm.vehicleEdit.model = $filter('filter')($rootScope.models, {Id:  vehicle.ModeloId})[0];
+                   }        
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
             });
-        });
+        }
+        else{
+            if(vehicle.create){
+                vehicle.model = "";
+            }
+        }
+
     }
     if(vehicle.edit){
         vm.vehicleEdit = {};
