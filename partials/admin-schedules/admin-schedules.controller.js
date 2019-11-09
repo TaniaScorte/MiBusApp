@@ -19,6 +19,7 @@
         initController();        
         function initController(){
             vm.routeOk = false;
+            getDays();
             getRecorridosByEmpresa();
         }
 
@@ -117,6 +118,9 @@
             .then(function (response) {
                 if (response){                  
                    $rootScope.schedules = response;  
+                   for(var x = 0 ; x < $rootScope.schedules.length ; x++){
+                    $rootScope.schedules[x].Dia = $filter('filter')($rootScope.days, {Id:  $rootScope.schedules[x].DiaId})[0].Nombre;
+                }  
                    vm.routeOK=true;       
                 } 
             })
@@ -129,6 +133,28 @@
                 });
             });
         }     
+        function getDays(){
+            ResourcesService.GetDias()
+            .then(function (response) {
+                if (response){                  
+                   $rootScope.days = response;     
+                   if(vm.scheduleEdit){
+                    vm.scheduleEdit.day = $filter('filter')($rootScope.days, {Id:  schedule.DiaId})[0];
+                   }
+                   if(vm.scheduleDelete){
+                    vm.scheduleDelete.Dia = $filter('filter')($rootScope.days, {Id:  schedule.DiaId})[0].Nombre;
+                   }
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
+            });
+        };
 
 }
 

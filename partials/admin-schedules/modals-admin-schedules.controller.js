@@ -34,7 +34,10 @@
             });
         });
     };
-    vm.getDays();
+    if(!$rootScope.days){
+        vm.getDays();
+    }
+
     vm.okSchedulesCreate = function () {
         $uibModalInstance.close();
     };  
