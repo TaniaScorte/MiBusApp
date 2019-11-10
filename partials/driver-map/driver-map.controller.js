@@ -5,13 +5,13 @@
         .module('app')
         .controller('DriverMapController', DriverMapController);
 
-    DriverMapController.$inject = ['UserService', '$rootScope', '$scope', '$window', '$location'];
+    DriverMapController.$inject = ['UserService', '$rootScope', '$scope', '$window', '$location', 'ResourcesSetService'];
 
 
-    function DriverMapController(UserService, $rootScope, $scope, $window, $location) {
+    function DriverMapController(UserService, $rootScope, $scope, $window, $location, ResourcesSetService) {
         var vm = this;
         vm.initReport = false;
-        vm.cont=0;
+        vm.cont = 0;
 
         initController();
 
@@ -19,9 +19,13 @@
 
             init();
             reportLocation();
+            $scope.btnDetener='d-none';
+           // $scope.btnPasajes='true';
+           $scope.btnPasajes='false';
+
         }
         //funciones de botones de pasajes
-        
+
 
         $scope.ocuparLibre = function () {
             alert('ocupar libre');
@@ -34,9 +38,6 @@
         $scope.liberar = function () {
             alert('liberar asiento');
         }
-
-       
-
 
 
         //funciones de mapa y ubicación
@@ -65,12 +66,7 @@
 
             vm.marker = L.marker([-34.671325, -58.563797], { icon: busIcon }).addTo(vm.mymap);
 
-
-
             initLocation();
-
-
-
 
         }
 
@@ -91,38 +87,59 @@
             } watchID = false;
         }
 
-
-
-
         $scope.initReport = function () {  //iniciar reporte de posicion
             vm.initReport = true;
+            $scope.btnIniciar='d-none';
+            $scope.btnDetener='b-block';
+            $scope.btnPasajes='false';
         }
 
-        $scope.stopReport= function() { //detener reporte de posicion
-            vm.initReport= false;
+        $scope.stopReport = function () { //detener reporte de posicion
+            vm.initReport = false;
+            $scope.btnDetener='d-none';
+            $scope.btnIniciar='d-block';
+            $scope.btnPasajes='true';
         }
 
         function reportLocation() {
-/*lo que esta adentro de getCurrent... no se ejecuta hasta que no se cambia la ubicacion
-si inicio el reporte y el contador esta en 0 entra en el if poniendo el contador en 1, hace el getCurrent pero no ejecuta lo de adentro hasta no cambiar de posicion
-si no cambia de posicion no entra en el if en el siguiente bucle, ya que el contador esta en 1,
-cuando el usuario se mueve se ejecuta lo de adentro del getCurrent que estaba en espera y se pone el contador en 0,
-el ciclo se vuelve a repetir.
-evaluar si es necesario initReport.
-*/
+            /*lo que esta adentro de getCurrent... no se ejecuta hasta que no se cambia la ubicacion
+            si inicio el reporte y el contador esta en 0 entra en el if poniendo el contador en 1, hace el getCurrent pero no ejecuta lo de adentro hasta no cambiar de posicion
+            si no cambia de posicion no entra en el if en el siguiente bucle, ya que el contador esta en 1,
+            cuando el usuario se mueve se ejecuta lo de adentro del getCurrent que estaba en espera y se pone el contador en 0,
+            el ciclo se vuelve a repetir.
+            evaluar si es necesario initReport.
+            */
             setInterval(() => {
-                if (vm.initReport && vm.cont== 0) { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
-                    vm.cont=1;
-                   var geo= navigator.geolocation.getCurrentPosition(function (position) {
-                        console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
-                        vm.cont=0;
+                if (vm.initReport && vm.cont == 0) { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
+                    vm.cont = 1;
+                    var geo = navigator.geolocation.getCurrentPosition(function (position) {
+                        // console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
+                        var data = {
+//IMPORTANTE ELEGIR ID DE VIAJE                            
+                            viajeId: 3,  
+                            latitud: position.coords.latitude,
+                            longitud: position.coords.longitude,
+                            Token: "2019",
+                        }
+                        ResourcesSetService.SetTracking(data)  //guardo en la bd
+                            .then(function (response) {
+                                if (response.Estado == 0) {
+                                    CreateUser(response.id);
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+
+                            });
+
+                        vm.cont = 0;
 
                     });
                     navigator.geolocation.clearWatch(geo);
                 }
                 console.log(vm.cont);
 
-            }, 5000);// setear el tiempo de espera enviar la ubicacion a la bd
+            }, 15000);// setear el tiempo de espera enviar la ubicacion a la bd
 
         }
 
@@ -146,8 +163,6 @@ evaluar si es necesario initReport.
         swipe();
 
     }
-
-
 
 
 })();

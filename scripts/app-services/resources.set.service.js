@@ -17,8 +17,34 @@
         service.SetParada = SetParada;
         service.SetVehiculo = SetVehiculo;
         service.SetViaje = SetViaje;
+        service.SetTracking = SetTracking
 
         return service;
+
+
+        function SetTracking(data) {
+            var deferred = $q.defer();
+            var urlSetTracking ='https://www.mellevas.com.ar/api/trackingviaje/Create?token=' + 2019;//$rootScope.globals.currentUser.token;       
+            
+            var req = {
+                method: 'POST',
+                url: urlSetTracking,
+                data: data
+            }     
+
+            $http(req)
+            .then(function(response){
+               // deferred.resolve(response.data);
+               console.log(response);
+            })
+            .catch(function(error){
+                deferred.reject("Error al guardar los parametros de ubicacion");
+            });
+            return deferred.promise;
+        }
+
+
+
         function SetViaje(data) {
             var deferred = $q.defer();
             var urlSetViaje ='https://www.mellevas.com.ar/api/viajes/Create';//$rootScope.globals.currentUser.token;       
@@ -132,7 +158,7 @@
                 deferred.resolve(response.data);
             })
             .catch(function(error){
-                deferred.reject("Error al cargar los recorridos");
+                deferred.reject("Error al crear la empresa");
             });
             return deferred.promise;
         }
