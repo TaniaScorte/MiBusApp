@@ -31,11 +31,9 @@
                 url: urlSetTracking,
                 data: data
             }     
-
             $http(req)
             .then(function(response){
-               // deferred.resolve(response.data);
-               console.log(response);
+              // console.log(response);
             })
             .catch(function(error){
                 deferred.reject("Error al guardar los parametros de ubicacion");

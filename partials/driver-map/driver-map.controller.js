@@ -20,8 +20,6 @@
             init();
             reportLocation();
             $scope.btnDetener='d-none';
-           // $scope.btnPasajes='true';
-           $scope.btnPasajes='false';
 
         }
         //funciones de botones de pasajes
@@ -91,14 +89,12 @@
             vm.initReport = true;
             $scope.btnIniciar='d-none';
             $scope.btnDetener='b-block';
-            $scope.btnPasajes='false';
         }
 
         $scope.stopReport = function () { //detener reporte de posicion
             vm.initReport = false;
             $scope.btnDetener='d-none';
             $scope.btnIniciar='d-block';
-            $scope.btnPasajes='true';
         }
 
         function reportLocation() {
@@ -131,13 +127,11 @@
                                 console.log(error);
 
                             });
-
                         vm.cont = 0;
-
                     });
                     navigator.geolocation.clearWatch(geo);
                 }
-                console.log(vm.cont);
+              //  console.log(vm.cont);
 
             }, 15000);// setear el tiempo de espera enviar la ubicacion a la bd
 
