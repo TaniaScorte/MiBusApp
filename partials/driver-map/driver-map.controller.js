@@ -109,7 +109,7 @@
                 if (vm.initReport && vm.cont == 0) { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
                     vm.cont = 1;
                     var geo = navigator.geolocation.getCurrentPosition(function (position) {
-                        // console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
+                         console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
                         var data = {
 //IMPORTANTE ELEGIR ID DE VIAJE                            
                             viajeId: 3,  
@@ -131,7 +131,7 @@
                     });
                     navigator.geolocation.clearWatch(geo);
                 }
-              //  console.log(vm.cont);
+               console.log(vm.cont);
 
             }, 15000);// setear el tiempo de espera enviar la ubicacion a la bd
 
