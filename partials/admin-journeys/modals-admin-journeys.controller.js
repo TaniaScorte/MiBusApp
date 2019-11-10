@@ -43,7 +43,7 @@
             VehiculoId: journeyCreate.vehicle.Id,
             HorarioId: journeyCreate.schedule.Id,
             Descripcion: journeyCreate.description,
-            FechaAlta: $filter('date')(journeyCreate.dt, 'dd/MM/yyyy'),
+            FechaViaje: journeyCreate.dt,
             EstadoId:0
         }
         ResourcesSetService.SetViaje(data)
