@@ -66,15 +66,15 @@
             <h7>Acontecimiento</h7>
             <div class="radio text-left">
               <label>
-                <input type="radio" name="optradio" checked><span></span> Falla mecanica</label>
+                <input type="radio" name="optradio" ng-value="2" ng-model='radio' checked><span></span> Falla mecánica</label>
             </div>
             <div class="radio text-left">
-              <label><input type="radio" name="optradio"><span></span> Accidente</label>
+              <label><input type="radio" name="optradio" ng-value="3" ng-model='radio'><span></span> Accidente</label>
             </div>
 
             <div class="form-group">
-              <label for="descripcion">descripcion:</label>
-              <textarea name="" id="descripcion" class="form-control" cols="30" rows="5"></textarea>
+              <label for="descripcion">Descripción:</label>
+              <textarea name="" id="descripcion" class="form-control" cols="30" rows="5"  ng-model='descripcion'></textarea>
             </div>
 
 
@@ -86,7 +86,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-lg btn-info">Enviar</button> </div>
+          <button type="button" class="btn btn-lg btn-info" ng-click='enviarTecnica();'  data-dismiss="modal">Enviar</button> </div>
       </div>
 
     </div>

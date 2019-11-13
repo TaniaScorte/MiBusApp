@@ -5,10 +5,10 @@
         .module('app')
         .controller('DriverHomeController', DriverHomeController);
 
-        DriverHomeController.$inject = ['UserService','DriverService', '$rootScope', '$scope'];
+        DriverHomeController.$inject = ['UserService','DriverService', '$rootScope', '$scope','SweetAlert'];
 
 
-    function DriverHomeController(UserService,DS, $rootScope, $scope) {
+    function DriverHomeController(UserService,DS, $rootScope, $scope, SW) {
         var vm = this;
         initController();
         var swipe = function () {
@@ -30,9 +30,14 @@
 
     function initController() {
         $scope.elegirViaje= function(id){
-            DS.setViajeElegido(id);
-            console.log(DS.getViajeElegido());
-            window.location.replace('#!driver-map');
+            if(DS.getIniciado() == 'true'){
+                SW.swal( "Hay un viaje en curso" ,  "Finalice el primero antes de comenzar otro" ,  "error" );
+            }else{
+                DS.setViajeElegido(id);
+                console.log(DS.getViajeElegido());
+                window.location.replace('#!driver-map');
+            }
+           
 
         }
     }

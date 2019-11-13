@@ -60,12 +60,15 @@
                 });
         }
         $scope.enviarTecnica = function(){
+            console.log($scope.radio);
+            console.log('ASAS');
+
             var ubicacion = DS.getLatLong();
             var data = {
                 viajeId: idViaje,
-                tipoalertaId: 1,
+                tipoalertaId: $scope.radio,
                 estadoId: 0,
-                mensaje: 'Estoy demorado',
+                mensaje: $scope.descripcion,
                 latitud: ubicacion.lat,
                 longitud:ubicacion.long,
                 Token: "2019"

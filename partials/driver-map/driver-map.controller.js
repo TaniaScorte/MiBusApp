@@ -15,8 +15,10 @@
         var idViajeIniciado = DS.getIdViajeActual();
         $scope.iniciado;
         $scope.noElegido;
-
+        reset();
         initController();
+        reportLocation();
+
 
         function initController() {
 
@@ -91,7 +93,6 @@
         $scope.initReport = function () {  //iniciar reporte de posicion
             DS.init();
             DS.setIdViajeActual(viajeElegido)
-            reportLocation();
             alternarBotones();
         }
 
@@ -126,6 +127,7 @@
             el ciclo se vuelve a repetir.
             */
             setInterval(() => {
+                console.log('antes', DS.getEstado(),DS.getIniciado());
                 if (DS.getIniciado() === 'true' && DS.getEstado() === '0') { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
                     DS.setEstado(1);
                     var geo = navigator.geolocation.getCurrentPosition(function (position) {
@@ -133,7 +135,7 @@
                        DS.setLatLong({lat : position.coords.latitude, long : position.coords.longitude});
                         var data = {
      //...............................IMPORTANTE ELEGIR ID DE VIAJE                  ........................................................................................          
-                            viajeId: 3,
+                            viajeId: viajeElegido,
                             latitud: position.coords.latitude,
                             longitud: position.coords.longitude,
                             Token: "2019",
@@ -170,6 +172,17 @@
             }
         }
 
+
+
+        function reset(){
+            $window.onbeforeunload = function(){
+                if(DS.getIniciado() == 'false' ){
+                    DS.setViajeElegido(null);
+                    console.log('asdad');
+                }
+            };
+
+        }
 
         function swipe() {
             $("#content").touchwipe({
