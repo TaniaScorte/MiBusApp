@@ -5,16 +5,16 @@
         .module('app')
         .controller('DriverHomeController', DriverHomeController);
 
-        DriverHomeController.$inject = ['UserService', '$rootScope', '$scope'];
+        DriverHomeController.$inject = ['UserService','DriverService', '$rootScope', '$scope'];
 
 
-    function DriverHomeController(UserService, $rootScope, $scope) {
+    function DriverHomeController(UserService,DS, $rootScope, $scope) {
         var vm = this;
-        
+        initController();
         var swipe = function () {
             $("#swipeDHome").touchwipe({
                 wipeLeft: function () {
-                    window.location.replace('#!driver-home');
+                    window.location.replace('#!driver-map');
                 },
                 wipeRight: function () {
                     window.location.replace('#!driver-report');
@@ -28,9 +28,14 @@
         swipe();
 
 
+    function initController() {
+        $scope.elegirViaje= function(id){
+            DS.setViajeElegido(id);
+            console.log(DS.getViajeElegido());
+            window.location.replace('#!driver-map');
+
+        }
     }
-
-    
-
+}
 
 })();

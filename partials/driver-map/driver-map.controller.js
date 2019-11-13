@@ -5,13 +5,15 @@
         .module('app')
         .controller('DriverMapController', DriverMapController);
 
-    DriverMapController.$inject = ['UserService', '$rootScope', '$scope', '$window', '$location', 'ResourcesSetService'];
+    DriverMapController.$inject = ['UserService', 'DriverService', '$rootScope', '$scope', '$window', '$location', 'ResourcesSetService','SweetAlert'];
 
 
-    function DriverMapController(UserService, $rootScope, $scope, $window, $location, ResourcesSetService) {
+    function DriverMapController(UserService, DS, $rootScope, $scope, $window, $location, ResourcesSetService,SweetAlert) {
         var vm = this;
-        vm.initReport = false;
-        vm.cont = 0;
+        DS.setEstado(0);
+        var viajeElegido = DS.getViajeElegido();
+        $scope.iniciado;
+        $scope.noElegido;
 
         initController();
 
@@ -19,7 +21,8 @@
 
             init();
             reportLocation();
-            $scope.btnDetener='d-none';
+            alternarBotones();
+            loadBusStops();
 
         }
         //funciones de botones de pasajes
@@ -86,15 +89,32 @@
         }
 
         $scope.initReport = function () {  //iniciar reporte de posicion
-            vm.initReport = true;
-            $scope.btnIniciar='d-none';
-            $scope.btnDetener='b-block';
+            DS.init();
+            DS.setIdViajeActual(viajeElegido)
+            alternarBotones();
         }
 
         $scope.stopReport = function () { //detener reporte de posicion
-            vm.initReport = false;
-            $scope.btnDetener='d-none';
-            $scope.btnIniciar='d-block';
+            $scope.noElegido = true;
+            DS.setEstado(1);
+            DS.stop();
+            DS.setIdViajeActual(null);
+            DS.setViajeElegido(null);
+            alternarBotones();
+            swal("Su viaje ha sido finalizado", "Elija otro para continuar", "success");
+        }
+
+        function alternarBotones() {
+            if (DS.getIniciado() == 'true') {
+                $scope.btnIniciar = 'd-none';
+                $scope.btnDetener = 'b-block';
+                $scope.iniciado= true;
+            }
+            else {
+                $scope.btnDetener = 'd-none';
+                $scope.btnIniciar = 'd-block';
+                $scope.iniciado= false;
+            }
         }
 
         function reportLocation() {
@@ -103,16 +123,15 @@
             si no cambia de posicion no entra en el if en el siguiente bucle, ya que el contador esta en 1,
             cuando el usuario se mueve se ejecuta lo de adentro del getCurrent que estaba en espera y se pone el contador en 0,
             el ciclo se vuelve a repetir.
-            evaluar si es necesario initReport.
             */
             setInterval(() => {
-                if (vm.initReport && vm.cont == 0) { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
-                    vm.cont = 1;
+                if (DS.getIniciado() === 'true' && DS.getEstado() === '0') { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
+                    DS.setEstado(1);
                     var geo = navigator.geolocation.getCurrentPosition(function (position) {
-                         console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
+                       // console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
                         var data = {
-//IMPORTANTE ELEGIR ID DE VIAJE                            
-                            viajeId: 3,  
+                            //IMPORTANTE ELEGIR ID DE VIAJE                            
+                            viajeId: 3,
                             latitud: position.coords.latitude,
                             longitud: position.coords.longitude,
                             Token: "2019",
@@ -127,16 +146,27 @@
                                 console.log(error);
 
                             });
-                        vm.cont = 0;
+                        DS.setEstado(0);
                     });
                     navigator.geolocation.clearWatch(geo);
                 }
-               console.log(vm.cont);
+                console.log(DS.getEstado());
 
-            }, 15000);// setear el tiempo de espera enviar la ubicacion a la bd
+            }, 8000);// setear el tiempo de espera enviar la ubicacion a la bd
 
         }
 
+
+        function loadBusStops() {
+            if (viajeElegido == null || viajeElegido == undefined || viajeElegido == 'null') {
+                SweetAlert.swal('No ha elegido un viaje');
+                $scope.noElegido = true;
+            } else {
+                //cargar las paradas cuando este la api/////////////////////////////////////////////////////////////////<-----------------------
+                console.log('cargando paradas del viaje', viajeElegido);
+                $scope.noElegido = false;
+            }
+        }
 
 
         function swipe() {
