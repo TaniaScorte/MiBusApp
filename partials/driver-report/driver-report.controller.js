@@ -5,11 +5,13 @@
         .module('app')
         .controller('DriverReportController', DriverReportController);
 
-    DriverReportController.$inject = ['UserService', 'ResourcesSetService','$rootScope', '$scope'];
+    DriverReportController.$inject = ['UserService', 'ResourcesSetService','DriverService','$rootScope', '$scope','SweetAlert'];
 
 
-    function DriverReportController(UserService,ResourcesSetService, $rootScope, $scope) {
+    function DriverReportController(UserService,ResourcesSetService, DS, $rootScope, $scope,SweetAlert) {
         var vm = this;
+        var idViaje = DS.getIdViajeActual();
+        $scope.check;
         swipe();
 
         initController();
@@ -19,23 +21,32 @@
 
 
     function initController(){
+        check();
+
+        function check() {
+            if (idViaje == null || idViaje == undefined || idViaje == 'null') {
+                SweetAlert.swal('No hay ningun viaje en curso');
+                $scope.check=false;
+            } else {
+                $scope.check=true;
+            }
+        }
 
         $scope.enviarDemora = function(){
-            console.log($rootScope.long);
+            var ubicacion = DS.getLatLong();
             var data = {
-//IMPORTANTE CAMBIAR ID DEL VIAJE//////////////////////////////////////////////////                
-                viajeId: 3,
+                viajeId: idViaje,
                 tipoalertaId: 1,
                 estadoId: 0,
                 mensaje: 'Estoy demorado',
-                latitud: 0,
-                longitud:0,
-                Token: "2019",
+                latitud: ubicacion.lat,
+                longitud:ubicacion.long,
+                Token: "2019"
             }
             ResourcesSetService.SetAlerta(data)
                 .then(function (response) {
                     if (response.Estado == 0) {
-                        CreateUser(response.id);
+                        swal("Alerta enviada");
                     }
                 })
                 .catch(function (error) {
@@ -49,7 +60,31 @@
                 });
         }
         $scope.enviarTecnica = function(){
-
+            var ubicacion = DS.getLatLong();
+            var data = {
+                viajeId: idViaje,
+                tipoalertaId: 1,
+                estadoId: 0,
+                mensaje: 'Estoy demorado',
+                latitud: ubicacion.lat,
+                longitud:ubicacion.long,
+                Token: "2019"
+            }
+            ResourcesSetService.SetAlerta(data)
+                .then(function (response) {
+                    if (response.Estado == 0) {
+                        swal("Alerta enviada");
+                    }
+                })
+                .catch(function (error) {
+                    //  console.log(error);
+                    SweetAlert.swal({
+                        type: "error",
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
+                });
         }
 
     };

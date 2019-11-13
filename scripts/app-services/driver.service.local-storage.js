@@ -21,7 +21,9 @@
         service.setIdViajeActual= setIdViajeActual;
         service.getViajeElegido=getViajeElegido;
         service.setViajeElegido=setViajeElegido;
-        
+        service.setLatLong=setLatLong;
+        service.getLatLong=getLatLong;
+
         return service;
       
         function setEstado(valor) {
@@ -32,10 +34,12 @@
         }
         function setViaje(objeto) {
             var objetoJ = JSON.stringify(objeto)
-            localStorage.setItem = JSON.stringify('V',objetoJ);
+            localStorage.setItem('V',objetoJ);
         }
         function getViaje() {
-            return localStorage.getItem('V');
+            var objeto = localStorage.getItem('V');
+            var res=JSON.parse(objeto);
+            return res;
         }
         function Delete(clave) {
             localStorage.removeItem(clave);
@@ -60,6 +64,15 @@
         }
         function getViajeElegido(){
             return localStorage.getItem('IDVE');
+        }
+        function setLatLong(objeto){
+            var objetoJ = JSON.stringify(objeto)
+            localStorage.setItem('LatLong',objetoJ);
+        }
+        function getLatLong(){
+            var objeto = localStorage.getItem('LatLong');
+            var res=JSON.parse(objeto);
+            return res;
         }
 
     }

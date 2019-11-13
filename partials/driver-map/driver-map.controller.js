@@ -12,6 +12,7 @@
         var vm = this;
         DS.setEstado(0);
         var viajeElegido = DS.getViajeElegido();
+        var idViajeIniciado = DS.getIdViajeActual();
         $scope.iniciado;
         $scope.noElegido;
 
@@ -20,7 +21,6 @@
         function initController() {
 
             init();
-            reportLocation();
             alternarBotones();
             loadBusStops();
 
@@ -91,6 +91,7 @@
         $scope.initReport = function () {  //iniciar reporte de posicion
             DS.init();
             DS.setIdViajeActual(viajeElegido)
+            reportLocation();
             alternarBotones();
         }
 
@@ -128,9 +129,10 @@
                 if (DS.getIniciado() === 'true' && DS.getEstado() === '0') { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
                     DS.setEstado(1);
                     var geo = navigator.geolocation.getCurrentPosition(function (position) {
-                       // console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
+                       console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
+                       DS.setLatLong({lat : position.coords.latitude, long : position.coords.longitude});
                         var data = {
-                            //IMPORTANTE ELEGIR ID DE VIAJE                            
+     //...............................IMPORTANTE ELEGIR ID DE VIAJE                  ........................................................................................          
                             viajeId: 3,
                             latitud: position.coords.latitude,
                             longitud: position.coords.longitude,

@@ -1,7 +1,8 @@
 <style>
-    .bg-light {
-        background-color: #b4d3de !important;
-    }
+   
+    .bg-light, .dropdown-menu, div.dropdown-menu:hover,a.dropdown-item:hover {
+            background-color: #b4d3de !important;
+        }
 
     body {
         margin-top: 80px;
@@ -16,7 +17,7 @@
     }
 </style>
 <nav class="navbar nav navbar-expand-md navbar-light bg-light fixed-top">
-    <a class="navbar-brand" href="#"><img src="images/logoMiniBusApp-B.png" alt="Logo" width="50" height="50">
+    <a class="navbar-brand" href="#!driver-home"><img src="images/logoMiniBusApp-B.png" alt="Logo" width="50" height="50">
         <strong class="d-none d-sm-inline">MiBusApp</strong> </a>
     <i class="fa fa-wrench fa-3x d-none"></i>
     <i class="ml-4 fa fa-hourglass-half fa-3x d-none"></i>
@@ -43,8 +44,8 @@
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-portrait"></i> Perfil
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#!user-edit">Editar</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#!user-edit">Editar perfil</a>
                     <a class="dropdown-item"><button type="button" ng-click="logout()"
                             class="btn btn-danger btn-block">Salir</button></a>
                 </div>

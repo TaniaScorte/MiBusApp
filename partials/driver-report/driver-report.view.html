@@ -44,11 +44,11 @@
 <div nav-driver></div>
 <div id="swipeReport">
   <H1>ENVIAR ALERTA</H1>
-  <button type="button" class="btn btn-menu btn-info btn-lg" data-toggle="modal" data-target="#mdlDemora"><img
-      class="btn-img" src="images/reloj.png" alt=""> Aviso de <br> demora</button>
+  <button type="button" ng-disabled='check === false' class="btn btn-menu btn-info btn-lg" data-toggle="modal" data-target="#mdlDemora"><img
+      class="btn-img"  src="images/reloj.png" alt=""> Aviso de <br> demora</button>
 
-  <button type="button" class="btn btn-menu btn-info btn-lg" data-toggle="modal" data-target="#mdlReporte"><img
-      class="btn-img" src="images/atencion.png" alt=""> Problemas <br> técnicos</button>
+  <button type="button" ng-disabled='check === false' class="btn btn-menu btn-info btn-lg" data-toggle="modal" data-target="#mdlReporte"><img
+      class="btn-img"  src="images/atencion.png" alt=""> Problemas <br> técnicos</button>
 
   <!-- Modal -->
   <div id="mdlReporte" class="modal fade" role="dialog">
@@ -63,20 +63,17 @@
 
           <form action="">
 
-            <h7>¿Necesita asistencia?</h7>
+            <h7>Acontecimiento</h7>
             <div class="radio text-left">
               <label>
-                <input type="radio" name="optradio" checked><span></span> Remolque</label>
+                <input type="radio" name="optradio" checked><span></span> Falla mecanica</label>
             </div>
             <div class="radio text-left">
-              <label><input type="radio" name="optradio"><span></span> Asistencia mecanica</label>
-            </div>
-            <div class="radio text-left">
-              <label><input type="radio" name="optradio"><span></span> Ninguna</label>
+              <label><input type="radio" name="optradio"><span></span> Accidente</label>
             </div>
 
             <div class="form-group">
-              <label for="descripcion">Inconveniente:</label>
+              <label for="descripcion">descripcion:</label>
               <textarea name="" id="descripcion" class="form-control" cols="30" rows="5"></textarea>
             </div>
 
