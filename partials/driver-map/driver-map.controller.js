@@ -5,10 +5,10 @@
         .module('app')
         .controller('DriverMapController', DriverMapController);
 
-    DriverMapController.$inject = ['UserService', 'DriverService', '$rootScope', '$scope', '$window', '$location', 'ResourcesSetService','SweetAlert'];
+    DriverMapController.$inject = ['UserService', 'DriverService', '$rootScope', '$scope', '$window', '$location', 'ResourcesSetService','SweetAlert','ResourcesService'];
 
 
-    function DriverMapController(UserService, DS, $rootScope, $scope, $window, $location, ResourcesSetService,SweetAlert) {
+    function DriverMapController(UserService, DS, $rootScope, $scope, $window, $location, ResourcesSetService,SweetAlert,ResourcesService) {
         var vm = this;
         DS.setEstado(0);
         var viajeElegido = DS.getViajeElegido();
@@ -59,13 +59,12 @@
             var busIcon = L.icon({
                 iconUrl: 'images/bus.png',
 
-                iconSize: [58, 75], // size of the icon
+                iconSize: [60, 45], // size of the icon
                 shadowSize: [50, 64], // size of the shadow
                 iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
                 shadowAnchor: [4, 62],  // the same for the shadow
                 popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
             });
-
 
             vm.marker = L.marker([-34.671325, -58.563797], { icon: busIcon }).addTo(vm.mymap);
 
@@ -168,6 +167,31 @@
             } else {
                 //cargar las paradas cuando este la api/////////////////////////////////////////////////////////////////<-----------------------
                 console.log('cargando paradas del viaje', viajeElegido);
+                var stopIcon = L.icon({
+                    iconUrl: 'images/bstop.png',
+    
+                    iconSize: [35, 55], // size of the icon
+                    shadowSize: [50, 64], // size of the shadow
+                    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+                    shadowAnchor: [4, 62],  // the same for the shadow
+                    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+                });
+                ResourcesService.GetParadasByRecorrido(14)  // IMPORTANTE ELEGIR ID DE RECORRIDO CUANDO ESTE LA API
+                            .then(function (response) {
+                                console.log(response);
+                                var data = response;
+                                for(var x = 0 ; x < data.length ; x++){
+                                    var lat = data[x].Latitud; 
+                                    var lon = data[x].Longitud; 
+                                    console.log(lat, lon);
+                                    L.marker([lat, lon], { icon: stopIcon }).addTo(vm.mymap);
+                                }  
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+
+                            });
+                        
                 $scope.noElegido = false;
             }
         }
