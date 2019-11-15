@@ -74,6 +74,12 @@
             var res=JSON.parse(objeto);
             return res;
         }
+        function getIdalerta() {
+            return localStorage.getItem('AL');
+        }
+        function setIdAlerta(id){
+            localStorage.setItem('AL',id);
+        }
 
     }
 })();

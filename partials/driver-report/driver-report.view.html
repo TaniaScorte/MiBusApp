@@ -4,14 +4,14 @@
   }
 
   .btn-menu {
-    background: transparent;
+    background: rgb(253, 246, 246);
     width: 30%;
     height: 30%;
     color:#555555;
     margin: 5%;
     font-size: 170%;
     font-weight: bold;
-    box-shadow: 3px 3px 10px #05a3e2;
+    box-shadow: 3px 3px 10px #666;
 
   }
 
@@ -37,6 +37,32 @@
     color:#555555;
 
   }
+  .alerta{
+    width: 300px;
+   height: 300px;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   background-color: rgb(226, 229, 229);
+   opacity: 0.6;
+   margin-top: -150px;
+   margin-left: -150px;
+   border-radius: 50px;
+   box-shadow: 2px 2px 15px #666;
+   z-index: 1;
+
+} 
+#contenido{
+  width: 300px;
+   height: 300px;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   margin-top: -150px;
+   margin-left: -150px;
+   z-index: 2;
+   padding-top: 60px;
+}
 </style>
 
 
@@ -44,12 +70,25 @@
 <div nav-driver></div>
 <div id="swipeReport">
   <H1>ENVIAR ALERTA</H1>
-  <button type="button" ng-disabled='check === false' class="btn btn-menu btn-info btn-lg" data-toggle="modal" data-target="#mdlDemora"><img
+  <button type="button" ng-disabled='check === false' class="btn btn-menu btn-nfoi btn-lg" data-toggle="modal" data-target="#mdlDemora"><img
       class="btn-img"  src="images/reloj.png" alt=""> Aviso de <br> demora</button>
 
-  <button type="button" ng-disabled='check === false' class="btn btn-menu btn-info btn-lg" data-toggle="modal" data-target="#mdlReporte"><img
+  <button type="button" ng-disabled='check === false' class="btn btn-menu btn- btn-lg" data-toggle="modal" data-target="#mdlReporte"><img
       class="btn-img"  src="images/atencion.png" alt=""> Problemas <br> técnicos</button>
 
+
+      <div class="alerta" id="fonto">
+        
+      </div>
+      <div id="contenido">
+        <h3>HAY UNA ALERTA ACTIVA</h3>
+          <h4>¿Desea finalizarla ahora?</h4>
+          <div class="mt-4">
+              <button class="btn-info mr-4">Si, finalizar</button>
+              <button class="btn-danger">Aún no</button>
+          </div>
+         
+      </div>
   <!-- Modal -->
   <div id="mdlReporte" class="modal fade" role="dialog">
     <div class="modal-dialog">

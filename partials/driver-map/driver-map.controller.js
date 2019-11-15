@@ -70,6 +70,34 @@
 
             initLocation();
 
+
+
+            L.control.custom({
+                position: 'topright',
+                content : 
+                          '<button type="button" id="btnaviso" class="btn mt-4 btn-warning">'+
+                          '    <i class="fa fa-exclamation-triangle"></i>'+
+                          '</button>',
+                classes : 'btn-group-vertical btn-group-sm',
+                style   :
+                {
+                    margin: '10px',
+                    padding: '0px 0 0 0',
+                    cursor: 'pointer',
+                },
+                datas   :
+                {
+                    'foo': 'bar',
+                },
+                events:
+                {
+                    click: function()
+                    {
+                        window.location.replace('#!driver-report');
+                    },    
+                }
+            })
+            .addTo(vm.mymap);
         }
 
 
@@ -133,7 +161,6 @@
                        console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
                        DS.setLatLong({lat : position.coords.latitude, long : position.coords.longitude});
                         var data = {
-     //...............................IMPORTANTE ELEGIR ID DE VIAJE                  ........................................................................................          
                             viajeId: viajeElegido,
                             latitud: position.coords.latitude,
                             longitud: position.coords.longitude,
@@ -178,12 +205,10 @@
                 });
                 ResourcesService.GetParadasByRecorrido(14)  // IMPORTANTE ELEGIR ID DE RECORRIDO CUANDO ESTE LA API
                             .then(function (response) {
-                                console.log(response);
                                 var data = response;
                                 for(var x = 0 ; x < data.length ; x++){
                                     var lat = data[x].Latitud; 
                                     var lon = data[x].Longitud; 
-                                    console.log(lat, lon);
                                     L.marker([lat, lon], { icon: stopIcon }).addTo(vm.mymap);
                                 }  
                             })
