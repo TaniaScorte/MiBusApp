@@ -175,10 +175,8 @@
                 }
                // console.log(DS.getEstado());
 
-            }, 8000);// setear el tiempo de espera enviar la ubicacion a la bd
-
+            }, 5000);// setear el tiempo de espera enviar la ubicacion a la bd
         }
-
 
         function loadBusStops() {
             if (viajeElegido == null || viajeElegido == undefined || viajeElegido == 'null') {

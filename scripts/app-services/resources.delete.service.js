@@ -16,7 +16,26 @@
         service.DeleteVehiculo = DeleteVehiculo;
         service.DeleteHorario = DeleteHorario;
         service.DeleteViaje = DeleteViaje;
+        service.DeleteAlerta=DeleteAlerta;
         return service;
+        function DeleteAlerta(data) {
+            var deferred = $q.defer();
+            var urlDelAlerta ='https://www.mellevas.com.ar/api/alertas/Delete?token=' + 2019;//$rootScope.globals.currentUser.token;         
+            var req = {
+                method: 'POST',
+                url: urlDelAlerta,
+                data: data
+            }     
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                console.log(error);
+                deferred.reject("Error al enviar alerta");
+            });
+            return deferred.promise;
+        }
         function DeleteViaje(id) {
             var deferred = $q.defer();
             var urlDelete = 'https://www.mellevas.com.ar/api/viajes/Delete?Id=';

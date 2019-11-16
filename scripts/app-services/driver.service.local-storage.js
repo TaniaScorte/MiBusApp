@@ -23,6 +23,8 @@
         service.setViajeElegido=setViajeElegido;
         service.setLatLong=setLatLong;
         service.getLatLong=getLatLong;
+        service.getIdAlerta=getIdAlerta;
+        service.setIdAlerta=setIdAlerta;
 
         return service;
       
@@ -74,7 +76,7 @@
             var res=JSON.parse(objeto);
             return res;
         }
-        function getIdalerta() {
+        function getIdAlerta() {
             return localStorage.getItem('AL');
         }
         function setIdAlerta(id){

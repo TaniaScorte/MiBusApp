@@ -19,19 +19,15 @@
         service.SetViaje = SetViaje;
         service.SetTracking = SetTracking;
         service.SetAlerta = SetAlerta;
-
         return service;
-
         function SetAlerta(data) {
             var deferred = $q.defer();
-            var urlSetAlerta ='https://www.mellevas.com.ar/api/alertas/Create?token=' + 2019;//$rootScope.globals.currentUser.token;       
-            
+            var urlSetAlerta ='https://www.mellevas.com.ar/api/alertas/Create?token=' + 2019;//$rootScope.globals.currentUser.token;         
             var req = {
                 method: 'POST',
                 url: urlSetAlerta,
                 data: data
             }     
-
             $http(req)
             .then(function(response){
                 deferred.resolve(response.data);
@@ -42,7 +38,6 @@
             });
             return deferred.promise;
         }
-
         function SetTracking(data) {
             var deferred = $q.defer();
             var urlSetTracking ='https://www.mellevas.com.ar/api/trackingviaje/Create?token=' + 2019;//$rootScope.globals.currentUser.token;       

@@ -16,9 +16,6 @@
 
         initController();
 
-    
-
-
 
     function initController(){
         check();
@@ -45,6 +42,9 @@
             }
             ResourcesSetService.SetAlerta(data)
                 .then(function (response) {
+                    //console.log(response.id);
+                    DS.setIdAlerta(response.id);
+                    //console.log(DS.getIdAlerta());
                     if (response.Estado == 0) {
                         swal("Alerta enviada");
                     }
@@ -60,9 +60,6 @@
                 });
         }
         $scope.enviarTecnica = function(){
-            console.log($scope.radio);
-            console.log('ASAS');
-
             var ubicacion = DS.getLatLong();
             var data = {
                 viajeId: idViaje,
