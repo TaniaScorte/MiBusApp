@@ -7,7 +7,6 @@
 
     DriverMapController.$inject = ['UserService', 'DriverService', '$rootScope', '$scope', '$window', '$location', 'ResourcesSetService','SweetAlert','ResourcesService'];
 
-
     function DriverMapController(UserService, DS, $rootScope, $scope, $window, $location, ResourcesSetService,SweetAlert,ResourcesService) {
         var vm = this;
         DS.setEstado(0);
@@ -19,7 +18,6 @@
         initController();
         reportLocation();
 
-
         function initController() {
 
             init();
@@ -28,7 +26,6 @@
 
         }
         //funciones de botones de pasajes
-
 
         $scope.ocuparLibre = function () {
             alert('ocupar libre');
@@ -70,8 +67,6 @@
 
             initLocation();
 
-
-
             L.control.custom({
                 position: 'topright',
                 content : 
@@ -99,8 +94,6 @@
             })
             .addTo(vm.mymap);
         }
-
-
         function initLocation() {
 
             if (navigator.geolocation) {
@@ -154,7 +147,7 @@
             el ciclo se vuelve a repetir.
             */
             setInterval(() => {
-                console.log('antes', DS.getEstado(),DS.getIniciado());
+               // console.log('antes', DS.getEstado(),DS.getIniciado());
                 if (DS.getIniciado() === 'true' && DS.getEstado() === '0') { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
                     DS.setEstado(1);
                     var geo = navigator.geolocation.getCurrentPosition(function (position) {
@@ -180,7 +173,7 @@
                     });
                     navigator.geolocation.clearWatch(geo);
                 }
-                console.log(DS.getEstado());
+               // console.log(DS.getEstado());
 
             }, 8000);// setear el tiempo de espera enviar la ubicacion a la bd
 
@@ -221,13 +214,10 @@
             }
         }
 
-
-
         function reset(){
             $window.onbeforeunload = function(){
                 if(DS.getIniciado() == 'false' ){
                     DS.setViajeElegido(null);
-                    console.log('asdad');
                 }
             };
 
@@ -249,8 +239,5 @@
             });
         }
         swipe();
-
     }
-
-
 })();

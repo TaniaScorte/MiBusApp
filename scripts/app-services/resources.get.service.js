@@ -25,7 +25,28 @@
         service.GetDias = GetDias;
         service.GetViajesByRecorrido = GetViajesByRecorrido;
         service.GetRecorridosByEmpresa = GetRecorridosByEmpresa;
+        service.GetUltimaPosicionByViaje=GetUltimaPosicionByViaje;
         return service;
+        function GetUltimaPosicionByViaje(id) {
+            var deferred = $q.defer();
+            var id = id;
+            var url = 'https://www.mellevas.com.ar/api/trackingviaje/GetUltimaPosicionxViaje?viajeId=';
+            var req = {
+                method: 'GET',
+                url: url + id + "&token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar la posicion");
+                });
+                return deferred.promise;
+        }
         function GetViajesByRecorrido(recorridoID) {            
             var deferred = $q.defer();
             var urlGetViajes ='https://www.mellevas.com.ar/api/viajes/GetViajesxEmpresaRecorrido';//$rootScope.globals.currentUser.token;       
