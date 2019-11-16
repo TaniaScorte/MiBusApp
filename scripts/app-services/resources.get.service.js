@@ -13,7 +13,6 @@
         service.GetEmpresas = GetEmpresas;
         service.GetEmpresa = GetEmpresa;
         service.GetRamalesByEmpresa = GetRamalesByEmpresa;
-        service.GetRecorridosByRamal = GetRecorridosByRamal;
         service.GetHorariosByRecorrido = GetHorariosByRecorrido;
         service.GetParadasByRecorrido = GetParadasByRecorrido;
         service.GetParadas = GetParadas;
@@ -144,9 +143,9 @@
                 });
                 return deferred.promise;
         }
-        function GetRecorridosByEmpresaRamal(ramalId) {            
+        function GetRecorridosByEmpresaRamal(ramalId,empresaId) {            
             var deferred = $q.defer();
-            var urlGetRecorrido ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxEmpresaRamal?EmpresaId=' + $rootScope.globals.currentUser.userData.EmpresaId;       
+            var urlGetRecorrido ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxEmpresaRamal?EmpresaId=' + empresaId;       
             var req = {
                 method: 'GET',
                 url: urlGetRecorrido + "&token=" + 2019 +"&RamalId=" +ramalId,
@@ -163,9 +162,9 @@
                 });
                 return deferred.promise;
         }
-        function GetRecorridosByEmpresa() {            
+        function GetRecorridosByEmpresa(empresaId) {            
             var deferred = $q.defer();
-            var urlGetRecorrido ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxEmpresa?EmpresaId=' + $rootScope.globals.currentUser.userData.EmpresaId;       
+            var urlGetRecorrido ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxEmpresa?EmpresaId=' + empresaId;       
             var req = {
                 method: 'GET',
                 url: urlGetRecorrido + "&token=" + 2019,
@@ -182,9 +181,9 @@
                 });
                 return deferred.promise;
         }
-        function GetVehiculosByEmpresa() {            
+        function GetVehiculosByEmpresa(empresaId) {            
             var deferred = $q.defer();
-            var urlGetVehiculo ='https://www.mellevas.com.ar/api/vehiculos/GetVehiculosxEmpresa?EmpresaId=' + $rootScope.globals.currentUser.userData.EmpresaId;       
+            var urlGetVehiculo ='https://www.mellevas.com.ar/api/vehiculos/GetVehiculosxEmpresa?EmpresaId=' + empresaId;       
             var req = {
                 method: 'GET',
                 url: urlGetVehiculo + "&Token=" + 2019,
@@ -281,27 +280,6 @@
                 })
                 .catch(function(error){
                     deferred.reject("Error al cargar los ramales");
-                });
-                return deferred.promise;
-        }
-        function GetRecorridosByRamal(ramalID) {
-            var deferred = $q.defer();
-            var urlGetRecorridos ='https://www.mellevas.com.ar/api/recorridos/GetRecorridosxRamal?ramalid=' + ramalID + '&token=' + 2019;//$rootScope.globals.currentUser.token;       
-            
-            var req = {
-                method: 'GET',
-                url: urlGetRecorridos,
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8'
-                }
-               }     
-            
-            $http(req)
-                .then(function(response){
-                    deferred.resolve(response.data);
-                })
-                .catch(function(error){
-                    deferred.reject("Error al cargar los recorridos");
                 });
                 return deferred.promise;
         }

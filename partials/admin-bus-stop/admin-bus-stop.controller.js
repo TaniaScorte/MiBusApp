@@ -88,7 +88,7 @@
               });
         }
         function getRecorridosByEmpresa(){
-            ResourcesService.GetRecorridosByEmpresa()
+            ResourcesService.GetRecorridosByEmpresa($rootScope.globals.currentUser.userData.EmpresaId)
             .then(function (response) {
                 if (response){                  
                    $rootScope.routes = response;         
