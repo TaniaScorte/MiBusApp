@@ -48,7 +48,7 @@
             $scope.currentPage = 1;
             $scope.numPerPage = 10;
             $scope.inicializar = function () {
-                ResourcesService.GetVehiculosByEmpresa()
+                ResourcesService.GetVehiculosByEmpresa($rootScope.globals.currentUser.userData.EmpresaId)
                     .then(function (response) {
                         if (response) {
                             $scope.vehicles = response;

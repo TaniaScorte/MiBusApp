@@ -63,7 +63,7 @@
         }
         function updateRecorridosByRamal(ramalId){
             $rootScope.recorridos = null;
-            ResourcesService.GetRecorridosByRamal(ramalId)
+            ResourcesService.GetRecorridosByEmpresaRamal(ramalId,vm.empresa.Id)
             .then(function (response) {
                 if (response){
                     vm.recorridos = response;      

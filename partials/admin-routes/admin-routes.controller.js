@@ -55,7 +55,7 @@
             $scope.currentPage = 1;
             $scope.numPerPage = 10;
             $scope.inicializar = function () {
-                ResourcesService.GetRecorridosByEmpresaRamal(branchId)
+                ResourcesService.GetRecorridosByEmpresaRamal(branchId,$rootScope.globals.currentUser.userData.EmpresaId)
                 .then(function (response) {
                         if (response) {
                             if (response) {
