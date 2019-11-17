@@ -18,21 +18,23 @@
         service.DeleteViaje = DeleteViaje;
         service.DeleteAlerta=DeleteAlerta;
         return service;
-        function DeleteAlerta(data) {
+        function DeleteAlerta(id) {
             var deferred = $q.defer();
-            var urlDelAlerta ='https://www.mellevas.com.ar/api/alertas/Delete?token=' + 2019;//$rootScope.globals.currentUser.token;         
+            var urlDeleteParada = 'https://www.mellevas.com.ar/api/alertas/Delete?Id=';
             var req = {
-                method: 'POST',
-                url: urlDelAlerta,
-                data: data
-            }     
+                method: 'GET',
+                url: urlDeleteParada + id + "&Token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }  
+
             $http(req)
             .then(function(response){
                 deferred.resolve(response.data);
             })
             .catch(function(error){
-                console.log(error);
-                deferred.reject("Error al enviar alerta");
+                deferred.reject("Ha ocurrido un error");
             });
             return deferred.promise;
         }

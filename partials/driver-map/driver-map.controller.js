@@ -5,9 +5,9 @@
         .module('app')
         .controller('DriverMapController', DriverMapController);
 
-    DriverMapController.$inject = ['UserService', 'DriverService', '$rootScope', '$scope', '$window', '$location', 'ResourcesSetService','SweetAlert','ResourcesService'];
+    DriverMapController.$inject = ['UserService', 'DriverService', '$rootScope', '$scope', '$window', '$location', 'ResourcesSetService', 'SweetAlert', 'ResourcesService'];
 
-    function DriverMapController(UserService, DS, $rootScope, $scope, $window, $location, ResourcesSetService,SweetAlert,ResourcesService) {
+    function DriverMapController(UserService, DS, $rootScope, $scope, $window, $location, ResourcesSetService, SweetAlert, ResourcesService) {
         var vm = this;
         DS.setEstado(0);
         var viajeElegido = DS.getViajeElegido();
@@ -17,13 +17,11 @@
         reset();
         initController();
         reportLocation();
-
         function initController() {
-
             init();
             alternarBotones();
             loadBusStops();
-
+            hayAlertaActiva();
         }
         //funciones de botones de pasajes
 
@@ -42,7 +40,6 @@
 
         //funciones de mapa y ubicación
         function init() {
-
             vm.mymap = L.map('driver-map', {
                 minZoom: 10
             })
@@ -69,30 +66,29 @@
 
             L.control.custom({
                 position: 'topright',
-                content : 
-                          '<button type="button" id="btnaviso" class="btn mt-4 btn-warning">'+
-                          '    <i class="fa fa-exclamation-triangle"></i>'+
-                          '</button>',
-                classes : 'btn-group-vertical btn-group-sm',
-                style   :
+                content:
+                    '<button type="button" id="btnaviso" class="btn mt-4 btn-warning">' +
+                    '    <i class="fa fa-exclamation-triangle"></i>' +
+                    '</button>',
+                classes: 'btn-group-vertical btn-group-sm',
+                style:
                 {
                     margin: '10px',
                     padding: '0px 0 0 0',
                     cursor: 'pointer',
                 },
-                datas   :
+                datas:
                 {
                     'foo': 'bar',
                 },
                 events:
                 {
-                    click: function()
-                    {
+                    click: function () {
                         window.location.replace('#!driver-report');
-                    },    
+                    },
                 }
             })
-            .addTo(vm.mymap);
+                .addTo(vm.mymap);
         }
         function initLocation() {
 
@@ -100,9 +96,7 @@
                 var watchID = navigator.geolocation.watchPosition(function (position) {
                     vm.mymap.flyTo([position.coords.latitude, position.coords.longitude]);
                     vm.marker.setLatLng([position.coords.latitude, position.coords.longitude]);
-
                 });
-
             }
             else {
                 alert("Geolocation is not supported by this browser.");
@@ -115,27 +109,30 @@
             DS.setIdViajeActual(viajeElegido)
             alternarBotones();
         }
-
         $scope.stopReport = function () { //detener reporte de posicion
-            $scope.noElegido = true;
-            DS.setEstado(1);
-            DS.stop();
-            DS.setIdViajeActual(null);
-            DS.setViajeElegido(null);
-            alternarBotones();
-            swal("Su viaje ha sido finalizado", "Elija otro para continuar", "success");
+            var al = DS.getIdAlerta();
+            if (al == 'null' || al == null || al == undefined || al == 'undefined') {//si hay alerta no detiene
+                $scope.noElegido = true;
+                DS.setEstado(1);
+                DS.stop();
+                DS.setIdViajeActual(null);
+                DS.setViajeElegido(null);
+                alternarBotones();
+                swal("Su viaje ha sido finalizado", "Elija otro para continuar", "success");
+            } else {
+                SweetAlert.swal("Hay una alerta activa", "Cierrela antes de finalizar", "warning")
+            }
         }
-
         function alternarBotones() {
             if (DS.getIniciado() == 'true') {
                 $scope.btnIniciar = 'd-none';
                 $scope.btnDetener = 'b-block';
-                $scope.iniciado= true;
+                $scope.iniciado = true;
             }
             else {
                 $scope.btnDetener = 'd-none';
                 $scope.btnIniciar = 'd-block';
-                $scope.iniciado= false;
+                $scope.iniciado = false;
             }
         }
 
@@ -147,12 +144,12 @@
             el ciclo se vuelve a repetir.
             */
             setInterval(() => {
-               // console.log('antes', DS.getEstado(),DS.getIniciado());
+                // console.log('antes', DS.getEstado(),DS.getIniciado());
                 if (DS.getIniciado() === 'true' && DS.getEstado() === '0') { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
                     DS.setEstado(1);
                     var geo = navigator.geolocation.getCurrentPosition(function (position) {
-                       console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
-                       DS.setLatLong({lat : position.coords.latitude, long : position.coords.longitude});
+                        console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
+                        DS.setLatLong({ lat: position.coords.latitude, long: position.coords.longitude });
                         var data = {
                             viajeId: viajeElegido,
                             latitud: position.coords.latitude,
@@ -173,7 +170,7 @@
                     });
                     navigator.geolocation.clearWatch(geo);
                 }
-               // console.log(DS.getEstado());
+                // console.log(DS.getEstado());
 
             }, 5000);// setear el tiempo de espera enviar la ubicacion a la bd
         }
@@ -187,7 +184,7 @@
                 console.log('cargando paradas del viaje', viajeElegido);
                 var stopIcon = L.icon({
                     iconUrl: 'images/bstop.png',
-    
+
                     iconSize: [35, 55], // size of the icon
                     shadowSize: [50, 64], // size of the shadow
                     iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
@@ -195,32 +192,40 @@
                     popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
                 });
                 ResourcesService.GetParadasByRecorrido(14)  // IMPORTANTE ELEGIR ID DE RECORRIDO CUANDO ESTE LA API
-                            .then(function (response) {
-                                var data = response;
-                                for(var x = 0 ; x < data.length ; x++){
-                                    var lat = data[x].Latitud; 
-                                    var lon = data[x].Longitud; 
-                                    L.marker([lat, lon], { icon: stopIcon }).addTo(vm.mymap);
-                                }  
-                            })
-                            .catch(function (error) {
-                                console.log(error);
+                    .then(function (response) {
+                        var data = response;
+                        for (var x = 0; x < data.length; x++) {
+                            var lat = data[x].Latitud;
+                            var lon = data[x].Longitud;
+                            L.marker([lat, lon], { icon: stopIcon }).addTo(vm.mymap);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
 
-                            });
-                        
+                    });
+
                 $scope.noElegido = false;
             }
         }
 
-        function reset(){
-            $window.onbeforeunload = function(){
-                if(DS.getIniciado() == 'false' ){
+        function reset() {
+            $window.onbeforeunload = function () {
+                if (DS.getIniciado() == 'false') {
                     DS.setViajeElegido(null);
                 }
             };
 
         }
-
+        function hayAlertaActiva() { //para mostrar o ocultar boton de aviso de alerta en el mapa
+            var al = DS.getIdAlerta();
+            var botonAlerta=document.getElementById('btnaviso');
+            if (al == 'null' || al == null || al == undefined || al == 'undefined') {
+                botonAlerta.classList.add('d-none');
+            } else {
+                botonAlerta.classList.remove('d-none');
+            }
+        }
         function swipe() {
             $("#content").touchwipe({
                 wipeLeft: function () {

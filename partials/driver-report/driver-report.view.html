@@ -70,22 +70,22 @@
 <div nav-driver></div>
 <div id="swipeReport">
   <H1>ENVIAR ALERTA</H1>
-  <button type="button" ng-disabled='check === false' class="btn btn-menu btn-nfoi btn-lg" data-toggle="modal" data-target="#mdlDemora"><img
+  <button type="button" ng-disabled='check === false || hayAlerta == true' class="btn btn-menu btn-nfoi btn-lg" ng-click='enviarDemora()'><img
       class="btn-img"  src="images/reloj.png" alt=""> Aviso de <br> demora</button>
 
-  <button type="button" ng-disabled='check === false' class="btn btn-menu btn- btn-lg" data-toggle="modal" data-target="#mdlReporte"><img
+  <button type="button" ng-disabled='check === false || hayAlerta==true' class="btn btn-menu btn- btn-lg" data-toggle="modal" data-target="#mdlReporte"><img
       class="btn-img"  src="images/atencion.png" alt=""> Problemas <br> técnicos</button>
 
 
-      <div class="alerta" id="fonto">
+      <div ng-hide='hayAlerta == false' class="alerta">
         
       </div>
-      <div id="contenido">
+      <div id="contenido" ng-hide='hayAlerta == false'>
         <h3>HAY UNA ALERTA ACTIVA</h3>
           <h4>¿Desea finalizarla ahora?</h4>
           <div class="mt-4">
-              <button class="btn-info mr-4">Si, finalizar</button>
-              <button class="btn-danger">Aún no</button>
+              <button class="btn-info mr-4" ng-click='eliminarAlerta();'>Si, finalizar</button>
+              <button class="btn-danger" ng-click='aunNo();'>Aún no</button>
           </div>
          
       </div>
@@ -146,7 +146,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-lg btn-info" ng-click='enviarDemora();'>Enviar</button>
+          <button type="button" class="btn btn-lg btn-info" ng-click='enviarDemora();' data-dismiss="modal">Enviar</button>
 
         </div>
       </div>
