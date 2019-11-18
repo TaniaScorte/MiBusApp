@@ -35,7 +35,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">Fecha</th>
+              <th scope="col">Dia</th>
               <th scope="col">Hora</th>
               <th scope="col">Ramal</th>
               <th scope="col">Recorrido</th>
@@ -45,7 +45,7 @@
           <tbody>
             <tr ng-repeat="horario in horarios">
               <td scope="row">{{horario.Fecha}}</td>
-              <td>{{horario.Hora}}</td>
+              <td>{{horario.HoraSalida}}</td>
               <td>{{ramal.Nombre}}</td>
               <td>{{recorrido.Nombre}}</td>
               <td><button class="btn btn-primary" ng-click="buy(horario)"> Comprar</button></td>

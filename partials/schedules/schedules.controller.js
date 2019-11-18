@@ -44,58 +44,64 @@
             $location.path('/buy');
         }
         function updateRamalByEmpresa(empresaId){
-            $rootScope.ramales = null;
-            ResourcesService.GetRamalesByEmpresa(empresaId)
-            .then(function (response) {
-                if (response){
-                    vm.ramales = response;      
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
-                });
-            });
-            vm.schedulesOk = false;
-        }
-        function updateRecorridosByRamal(ramalId){
-            $rootScope.recorridos = null;
-            ResourcesService.GetRecorridosByEmpresaRamal(ramalId,vm.empresa.Id)
-            .then(function (response) {
-                if (response){
-                    vm.recorridos = response;      
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
-                });                
-            });
-        }
-        function updateHorariosByRecorrido(recorridoId){
-            $rootScope.horarios = null;
-            ResourcesService.GetHorariosByRecorrido(recorridoId)
-            .then(function (response) {
-                if (response){
-                    vm.horarios = response;  
-                    vm.schedulesOk = true;    
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+            if(empresaId != undefined){
+                $rootScope.ramales = null;
+                ResourcesService.GetRamalesByEmpresa(empresaId)
+                .then(function (response) {
+                    if (response){
+                        vm.ramales = response;      
+                    } 
+                })
+                .catch(function(error){
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                 });
                 vm.schedulesOk = false;
-            });
+            }
+        }
+        function updateRecorridosByRamal(ramalId){
+            if (ramalId != undefined) {
+                $rootScope.recorridos = null;
+                ResourcesService.GetRecorridosByEmpresaRamal(ramalId,vm.empresa.Id)
+                .then(function (response) {
+                    if (response){
+                        vm.recorridos = response;      
+                    } 
+                })
+                .catch(function(error){
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });                
+                });                
+            }
+        }
+        function updateHorariosByRecorrido(recorridoId){
+            if (recorridoId != undefined) {
+                $rootScope.horarios = null;
+                ResourcesService.GetHorariosByRecorrido(recorridoId)
+                .then(function (response) {
+                    if (response){
+                        vm.horarios = response;  
+                        vm.schedulesOk = true;    
+                    } 
+                })
+                .catch(function(error){
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
+                    vm.schedulesOk = false;
+                });   
+            }
         }
 
     }
