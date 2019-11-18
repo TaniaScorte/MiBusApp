@@ -9,6 +9,28 @@
         <h2>Ubicación MiBus</h2>
         <hr class="hr">
     </div>
+    <form class="col-sm-12 col-md-12">
+        <div class="form-group row">
+            <label for="empresa"  class="col-sm-1 col-form-label" >Empresa:</label>
+            <div class="col-sm-3">
+                <select ng-model="empresa" class="form-control" ng-change="updateRamalByEmpresa(empresa.Id)" ng-options="empresa.Nombre for empresa in empresas track by empresa.Id">
+                    <option value="">Seleccione una opcion</option>
+                </select> 
+            </div>
+            <label for="ramal"  class="col-sm-1 col-form-label" >Ramal:</label>
+            <div class="col-sm-3">
+                <select ng-model="ramal" class="form-control" ng-change="updateRecorridosByRamal(ramal.Id)" ng-options="ramal.Nombre for ramal in ramales track by ramal.Id">
+                    <option value="">Seleccione una opcion</option>
+                </select> 
+            </div>
+            <label for="recorrido"  class="col-sm-1 col-form-label" >Recorrido:</label>
+            <div class="col-sm-3">
+                <select ng-model="recorrido" class="form-control" ng-change="loadMapParams(recorrido.Id)" ng-options="recorrido.Nombre for recorrido in recorridos track by recorrido.Id">
+                    <option value="">Seleccione una opcion</option>
+                </select> 
+            </div>
+        </div>
+    </form>
     <div>
         <div id="mapid"/>
     </div>

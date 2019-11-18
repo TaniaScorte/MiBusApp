@@ -25,7 +25,27 @@
         service.GetViajesByRecorrido = GetViajesByRecorrido;
         service.GetRecorridosByEmpresa = GetRecorridosByEmpresa;
         service.GetUltimaPosicionByViaje=GetUltimaPosicionByViaje;
+        service.GetColores = GetColores;
         return service;
+        function GetColores() {            
+            var deferred = $q.defer();
+            var urlGet ='https://www.mellevas.com.ar/api/viajes/GetColores?Token=' + 2019;       
+            var req = {
+                method: 'GET',
+                url: urlGet,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }                
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar las marcas");
+                });
+                return deferred.promise;
+        }
         function GetUltimaPosicionByViaje(id) {
             var deferred = $q.defer();
             var id = id;
