@@ -12,6 +12,7 @@
         DS.setEstado(0);
         var viajeElegido = DS.getViajeElegido();
         var idViajeIniciado = DS.getIdViajeActual();
+        var recorridoElegido = DS.getRecorridoElegido();
         $scope.iniciado;
         $scope.noElegido;
         reset();
@@ -26,15 +27,15 @@
         //funciones de botones de pasajes
 
         $scope.ocuparLibre = function () {
-            alert('ocupar libre');
+            swal({ title: "", text: "", type: "success", timer: 1000, showConfirmButton: false })
         }
 
         $scope.ocuparComprado = function () {
-            alert('ocupar comprado');
+            swal({ title: "", text: "", type: "success", timer: 1000, showConfirmButton: false })
         }
 
         $scope.liberar = function () {
-            alert('liberar asiento');
+            swal({ title: "", text: "", type: "success", timer: 1000, showConfirmButton: false })
         }
 
 
@@ -117,6 +118,7 @@
                 DS.stop();
                 DS.setIdViajeActual(null);
                 DS.setViajeElegido(null);
+                DS.setRecorridoElegido(null);
                 alternarBotones();
                 swal("Su viaje ha sido finalizado", "Elija otro para continuar", "success");
             } else {
@@ -177,10 +179,9 @@
 
         function loadBusStops() {
             if (viajeElegido == null || viajeElegido == undefined || viajeElegido == 'null') {
-                SweetAlert.swal('No ha elegido un viaje');
+                SweetAlert.swal('No ha elegido un viaje','' , "warning");
                 $scope.noElegido = true;
             } else {
-                //cargar las paradas cuando este la api/////////////////////////////////////////////////////////////////<-----------------------
                 console.log('cargando paradas del viaje', viajeElegido);
                 var stopIcon = L.icon({
                     iconUrl: 'images/bstop.png',
@@ -191,7 +192,7 @@
                     shadowAnchor: [4, 62],  // the same for the shadow
                     popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
                 });
-                ResourcesService.GetParadasByRecorrido(14)  // IMPORTANTE ELEGIR ID DE RECORRIDO CUANDO ESTE LA API
+                ResourcesService.GetParadasByRecorrido(recorridoElegido)
                     .then(function (response) {
                         var data = response;
                         for (var x = 0; x < data.length; x++) {

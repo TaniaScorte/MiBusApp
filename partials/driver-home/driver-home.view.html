@@ -51,99 +51,35 @@ h3{
                             <th>Hora</th>
                             <th>Recorrido</th>
                             <th>Descripción</th>
+                            <th>Estado</th>
                             <th>Elegir</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr> <!--despues borrar-->
+                                <td>23:00</td>
+                                <td>Ezeiza-Canuelas</td>
+                                <td>Por ruta 205</td>
+                                <td>Pendiente</td>
+                                <td>
+                                    <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
+                                            data-toggle="tooltip" title="Editar" data-original-title="Editar"
+                                            ng-click="elegirViaje(3, 14);"></i></a>
+                                </td>
+                        </tr>
     
-    <tr>
-                       <!-- <tr ng-repeat="item in filtroItems">-->
-                            <!--<td>{{item.Nombre}}</td>
-                            <td>{{item.Direccion}}</td>
-                            <td>{{item.Descripcion}}</td>-->
-                         <td>12:20</td>
-                            <td>La Plata -  Tigre</td>
-                            <td>Por ciudad de Buenos Aires</td>
+                       <tr ng-repeat="item in filtroItems">
+                            <td>{{item.HorarioSalida}}</td>
+                            <td>{{item.RecorridoNombre}}</td>
+                            <td>{{item.RecorridoDescripcion}}</td>
+                            <td>{{item.EstadoId}}</td>
                             <td>
                                 <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
                                         data-toggle="tooltip" title="Editar" data-original-title="Editar"
-                                        ng-click="elegirViaje(3);"></i></a>
+                                        ng-click="elegirViaje(item.ViajeId, item.RecorridoId);"></i></a>
                             </td>
                         </tr>
 
-
-
-                        <tr>
-                            
-                                  <td>12:20</td>
-                                     <td>La Plata -  Tigre</td>
-                                     <td>Por ciudad de Buenos Aires</td>
-                                     <td>
-                                         <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
-                                                 data-toggle="tooltip" title="Editar" data-original-title="Editar"
-                                                 ng-click="elegirViaje(4);"></i></a>
-                                     </td>
-                                 </tr>
-                                   
-                        <tr>
-                            
-                                <td>12:20</td>
-                                   <td>La Plata -  Tigre</td>
-                                   <td>Por ciudad de Buenos Aires</td>
-                                   <td>
-                                       <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
-                                               data-toggle="tooltip" title="Editar" data-original-title="Editar"
-                                               ng-click=""></i></a>
-                                   </td>
-                               </tr>
-                                 
-                        <tr>
-                            
-                                <td>12:20</td>
-                                   <td>La Plata -  Tigre</td>
-                                   <td>Por ciudad de Buenos Aires</td>
-                                   <td>
-                                       <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
-                                               data-toggle="tooltip" title="Editar" data-original-title="Editar"
-                                               ng-click=""></i></a>
-                                   </td>
-                               </tr>
-                                 
-                        <tr>
-                            
-                                <td>12:20</td>
-                                   <td>La Plata -  Tigre</td>
-                                   <td>Por ciudad de Buenos Aires</td>
-                                   <td>
-                                       <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
-                                               data-toggle="tooltip" title="Editar" data-original-title="Editar"
-                                               ng-click=""></i></a>
-                                   </td>
-                               </tr>
-                                 
-                        <tr>
-                            
-                                <td>12:20</td>
-                                   <td>La Plata -  Tigre</td>
-                                   <td>Por ciudad de Buenos Aires</td>
-                                   <td>
-                                       <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
-                                               data-toggle="tooltip" title="Editar" data-original-title="Editar"
-                                               ng-click=""></i></a>
-                                   </td>
-                               </tr>
-                                 
-                        <tr>
-                            
-                                <td>12:20</td>
-                                   <td>La Plata -  Tigre</td>
-                                   <td>Por ciudad de Buenos Aires</td>
-                                   <td>
-                                       <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
-                                               data-toggle="tooltip" title="Editar" data-original-title="Editar"
-                                               ng-click=""></i></a>
-                                   </td>
-                               </tr>
     
                     </tbody>
     
@@ -151,8 +87,6 @@ h3{
     
                 
             </div> 
-          <!-- <ul uib-pagination total-items="totalItems" max-size="5" boundary-link-numbers="true" rotate="false" next-text="Siguiente" previous-text="Anterior" items-per-page="numPerPage" ng-model="currentPage"></ul>--> 
+           <ul uib-pagination total-items="totalItems" max-size="5" boundary-link-numbers="true" rotate="false" next-text="Siguiente" previous-text="Anterior" items-per-page="numPerPage" ng-model="currentPage"></ul>
     
-
-
 </div>

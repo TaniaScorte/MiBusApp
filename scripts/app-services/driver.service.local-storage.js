@@ -25,6 +25,8 @@
         service.getLatLong=getLatLong;
         service.getIdAlerta=getIdAlerta;
         service.setIdAlerta=setIdAlerta;
+        service.setRecorridoElegido=setRecorridoElegido;
+        service.getRecorridoElegido=getRecorridoElegido;
 
         return service;
       
@@ -81,6 +83,12 @@
         }
         function setIdAlerta(id){
             localStorage.setItem('AL',id);
+        }
+        function getRecorridoElegido() {
+            return localStorage.getItem('RE');
+        }
+        function setRecorridoElegido(id){
+            localStorage.setItem('RE',id);
         }
 
     }

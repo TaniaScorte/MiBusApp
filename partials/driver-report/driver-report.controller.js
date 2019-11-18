@@ -21,7 +21,7 @@
 
         function check() {
             if (idViaje == null || idViaje == undefined || idViaje == 'null') {
-                SweetAlert.swal('No hay ningun viaje en curso');
+                SweetAlert.swal('No hay ningún viaje en curso','', "warning");
                 $scope.check=false;
             } else {
                 $scope.check=true;

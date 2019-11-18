@@ -1,69 +1,147 @@
-
 <style>
     .bg-light {
         background-color: #b4d3de !important;
     }
-    button{
-        font-family:arial,helvetica,courier;
+
+    button {
+        font-family: arial, helvetica, courier;
     }
+
     #driver-map {
         height: 37em;
     }
-    .inlinebtn{
+
+    .inlinebtn {
         display: inline;
     }
-    .bg-blue{
-        background-color: rgb(0,156,217);
+
+    .bg-blue {
+        background-color: rgb(0, 156, 217);
         color: blanchedalmond;
         box-shadow: 2px 2px 10px #666;
     }
-    .bg-blue:hover{
+
+    .bg-blue:hover {
         background-color: rgb(6, 133, 184);
     }
-    .bg-green{
+
+    .bg-green {
         background-color: rgb(25, 143, 64);
         color: blanchedalmond;
         box-shadow: 2px 2px 10px #666;
     }
-    .bg-green:hover{
+
+    .bg-green:hover {
         background-color: rgb(19, 121, 53);
     }
-    .bg-red{
+
+    .bg-red {
         background-color: rgb(184, 10, 10);
         color: blanchedalmond;
         box-shadow: 2px 2px 10px #666;
     }
-    .bg-red:hover{
+
+    .bg-red:hover {
         background-color: rgb(141, 4, 4);
     }
-    button:disabled{ 
-        cursor: no-drop;
-    }	
 
+    button:disabled {
+        cursor: no-drop;
+    }
 </style>
 
 <div nav-driver></div>
 <div id="content">
-<div class="row">
-    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2" ng-class='btnIniciar'>
-         <button class="button bg-green btn-lg btn-block"  ng-click='initReport()' ng-disabled='noElegido === true'>Iniciar <br class="d-none d-md-block">  Recorrido<span></span> <i class="fa fa-play-circle"></i></button>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2" ng-class='btnIniciar'>
+            <button class="button bg-green btn-lg btn-block" ng-click='initReport()'
+                ng-disabled='noElegido === true'>Iniciar <br class="d-none d-md-block"> Recorrido<span></span> <i
+                    class="fa fa-play-circle"></i></button>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2" ng-class='btnDetener'>
+            <button class="button bg-red btn-lg btn-block " ng-click='stopReport()'>Finalizar <br
+                    class="d-none d-md-block"> Recorrido <span></span><i class="fa fa-stop-circle"
+                    aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
+            <button class="button  bg-blue btn-lg btn-block" ng-disabled='iniciado === false' data-toggle="modal"
+                data-target="#modalLibre">Embarcar <br class="d-none d-md-block"> Libre <span></span><i
+                    class="fa fa-arrow-down"></i></button>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
+            <button class="button  bg-blue btn-lg btn-block" ng-disabled='iniciado === false'
+            data-toggle="modal" data-target="#modalComprado">Embarcar <br class="d-none d-md-block"> Comprado <span></span><i
+                    class="fa fa-arrow-down"></i></button>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
+            <button class="button  bg-blue btn-lg btn-block" ng-disabled='iniciado === false'
+            data-toggle="modal" data-target="#modalLiberar">Liberar <br class="d-none d-md-block"> Pasaje <span></span><i
+                    class="fa fa-arrow-up"></i></button>
+        </div>
     </div>
-    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2" ng-class='btnDetener'>
-         <button class="button bg-red btn-lg btn-block "  ng-click='stopReport()'>Finalizar <br class="d-none d-md-block"> Recorrido <span></span><i class="fa fa-stop-circle" aria-hidden="true"></i>
-         </button>
-    </div>
-    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
-         <button class="button  bg-blue btn-lg btn-block" ng-disabled='iniciado === false' ng-click='ocuparLibre()'>Embarcar <br class="d-none d-md-block"> Libre <span></span><i class="fa fa-arrow-down"></i></button>
-    </div>
-    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
-         <button class="button  bg-blue btn-lg btn-block" ng-disabled='iniciado === false' ng-click='ocuparComprado()'>Embarcar <br class="d-none d-md-block"> Comprado  <span></span><i class="fa fa-arrow-down"></i></button>
-    </div>
-    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 mt-2">
-         <button class="button  bg-blue btn-lg btn-block" ng-disabled='iniciado === false' ng-click='liberar()'>Liberar <br class="d-none d-md-block"> Pasaje <span></span><i class="fa fa-arrow-up"></i></button>
-    </div>
-</div>
-        <hr class="hr">
+    <hr class="hr">
     <div id="mapa">
         <div id="driver-map"></div>
     </div>
+
+
+    <!-- Modal libre -->
+    <div id="modalLibre" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h3>¿OCUPAR UN ASIENTO LIBRE?</h3>
+                    <h5>Disponibles:</h5><h5>7</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        ng-click='ocuparLibre()'>Ok</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal COMPRADO -->
+    <div id="modalComprado" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h3>¿OCUPAR UN ASIENTO COMPRADO?</h3>
+                        <h5>Disponibles:</h5><h5>7</h5>
+                        <P>Introduzca el código</P>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            ng-click='ocuparComprado()'>Ok</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+
+        <!-- Modal liberar -->
+    <div id="modalLiberar" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h3>¿LIBERAR ASIENTO?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            ng-click='liberar()'>Ok</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+
 </div>
