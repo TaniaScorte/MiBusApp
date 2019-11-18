@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular
+   var driver_home= angular
         .module('app')
         .controller('DriverHomeController', DriverHomeController);
 
@@ -95,5 +95,24 @@
 
     }
 }
+
+
+ //filtro personalizado para fechas
+ driver_home.filter('filterEstado', function () {
+    var cambiarFiltro = function (datosOriginales) {
+        if (datosOriginales == null) {
+            var nuevosDatos = 'No hay datos';
+
+        } else if( datosOriginales == 0) {
+
+                var nuevosDatos =  'Pendiente';            
+
+        }
+
+
+        return nuevosDatos;
+    };
+    return cambiarFiltro;
+});
 
 })();

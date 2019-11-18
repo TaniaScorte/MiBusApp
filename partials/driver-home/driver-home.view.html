@@ -57,7 +57,7 @@ h3{
                     </thead>
                     <tbody>
                         <tr> <!--despues borrar-->
-                                <td>23:00</td>
+                                <td>21:00</td>
                                 <td>Ezeiza-Canuelas</td>
                                 <td>Por ruta 205</td>
                                 <td>Pendiente</td>
@@ -69,10 +69,10 @@ h3{
                         </tr>
     
                        <tr ng-repeat="item in filtroItems">
-                            <td>{{item.HorarioSalida}}</td>
+                            <td>{{item.HoraSalida}}</td>
                             <td>{{item.RecorridoNombre}}</td>
                             <td>{{item.RecorridoDescripcion}}</td>
-                            <td>{{item.EstadoId}}</td>
+                            <td>{{item.EstadoId | filterEstado}}</td>
                             <td>
                                 <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
                                         data-toggle="tooltip" title="Editar" data-original-title="Editar"
