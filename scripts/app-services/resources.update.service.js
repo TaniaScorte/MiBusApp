@@ -20,7 +20,7 @@
         return service;
         function UpdateViaje(data) {
             var deferred = $q.defer();
-            var urlUpdateViaje = 'https://www.mellevas.com.ar/api/viaje/Update';
+            var urlUpdateViaje = 'https://www.mellevas.com.ar/api/viajes/Update';
             data.Token = 2019;//$rootScope.globals.currentUser.token; 
             var req = {
                 method: 'POST',
@@ -33,6 +33,7 @@
             })
             .catch(function(error){
                 deferred.reject("Error al actualizar el item");
+                console.log(error);
             });
             return deferred.promise;
         }

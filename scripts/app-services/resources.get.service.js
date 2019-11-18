@@ -28,7 +28,28 @@
         service.GetViajesxChoferxDia=GetViajesxChoferxDia;
         service.GetColores = GetColores;
         service.GetHistorial = GetHistorial;
+        service.GetViaje = GetViaje;
         return service;
+        function GetViaje(id) {
+            var deferred = $q.defer();
+            var id = id;
+            var url = 'https://www.mellevas.com.ar/api/viajes/GetViaje?Id=';
+            var req = {
+                method: 'GET',
+                url: url + id + "&token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            } 
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al obtener el viaje");
+            });
+            return deferred.promise;
+    }
         function GetViajesxChoferxDia(id) {
             var deferred = $q.defer();
             var id = id;
