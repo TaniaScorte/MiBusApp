@@ -26,6 +26,8 @@
         service.GetRecorridosByEmpresa = GetRecorridosByEmpresa;
         service.GetUltimaPosicionByViaje=GetUltimaPosicionByViaje;
         service.GetViajesxChoferxDia=GetViajesxChoferxDia;
+        service.GetColores = GetColores;
+        service.GetHistorial = GetHistorial;
         return service;
         function GetViajesxChoferxDia(id) {
             var deferred = $q.defer();
@@ -37,16 +39,57 @@
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }
-            }
+            } 
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al obtener los viajes del dia");
+            });
+            return deferred.promise;
+    }
+       
+        function GetHistorial(userId) {            
+            var deferred = $q.defer();
+            var urlGet ='https://www.mellevas.com.ar/api/viajes/GetHistorial?Token=' + 2019;       
+            var req = {
+                method: 'GET',
+                url: urlGet +'&userId='+userId,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }                
             $http(req)
                 .then(function(response){
                     deferred.resolve(response.data);
                 })
                 .catch(function(error){
-                    deferred.reject("Error al obtener los viajes del dia");
+                    deferred.reject("Error al cargar el historial");
                 });
                 return deferred.promise;
         }
+        function GetColores() {            
+            var deferred = $q.defer();
+            var urlGet ='https://www.mellevas.com.ar/api/viajes/GetColores?Token=' + 2019;       
+            var req = {
+                method: 'GET',
+                url: urlGet,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }                
+            $http(req)
+                .then(function(response){
+                    deferred.resolve(response.data);
+                })
+                .catch(function(error){
+                    deferred.reject("Error al cargar las marcas");
+                });
+                return deferred.promise;
+        }
+
+        
         function GetUltimaPosicionByViaje(id) {
             var deferred = $q.defer();
             var id = id;
