@@ -158,24 +158,26 @@
                 radius: 200
             }).addTo(vm.mymap);
         }
-        function updateRamalByEmpresa(empresaId){``
-            $rootScope.ramales = null;
-            ResourcesService.GetRamalesByEmpresa(empresaId)
-            .then(function (response) {
-                if (response){
-                    vm.ramales = response;      
-                    vm.empresaIdSelected = empresaId;
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+        function updateRamalByEmpresa(empresaId){
+            if(empresaId != undefined){
+                $rootScope.ramales = null;
+                ResourcesService.GetRamalesByEmpresa(empresaId)
+                .then(function (response) {
+                    if (response){
+                        vm.ramales = response;      
+                        vm.empresaIdSelected = empresaId;
+                    } 
+                })
+                .catch(function(error){
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
                 });
-            });
-            vm.schedulesOk = false;
+            }
+
         }
         function updateRecorridosByRamal(ramalId){
             $rootScope.recorridos = null;
@@ -195,41 +197,43 @@
             });
         }
         vm.loadMapParams = function(recorridoId){
-            vm.loadAllRoute = null;
-            vm.mymap.remove();
-            getLocation();
-            var pointList = [];
-            var markers = [];
-            ResourcesService.GetParadasByRecorrido(recorridoId)
-             .then(function (response) {
-                 if (response){
-                     vm.paradas = response;  
-                     vm.recorridoID = -1; 
-                     vm.countColor = 0;
-                     for (var index = 0; index < vm.paradas.length; index++) {
-                         var element = vm.paradas[index];
-                         var point = new L.LatLng(element.Latitud,element.Longitud);
-                         pointList.push(point);       
-                         var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.Nombre);  
-                         markers.push(marker);                   
-                     }
-
-                    //vm.color = $rootScope.colors[vm.countColor].ColorHex;
-                    setColorRoute(pointList,'blue',markers);
-                    pointList=[];
-                    markers=[];                                
-                    vm.countColor=vm.countColor + 1;   
-                 } 
- 
-             })
-             .catch(function(error){
-                 SweetAlert.swal ({
-                     type: "error", 
-                     title: "Error",
-                     text: error,
-                     confirmButtonAriaLabel: 'Ok',
-                 });
-             });                    
+            if(recorridoId != undefined){
+                vm.loadAllRoute = null;
+                vm.mymap.remove();
+                getLocation();
+                var pointList = [];
+                var markers = [];
+                ResourcesService.GetParadasByRecorrido(recorridoId)
+                 .then(function (response) {
+                     if (response){
+                         vm.paradas = response;  
+                         vm.recorridoID = -1; 
+                         vm.countColor = 0;
+                         for (var index = 0; index < vm.paradas.length; index++) {
+                             var element = vm.paradas[index];
+                             var point = new L.LatLng(element.Latitud,element.Longitud);
+                             pointList.push(point);       
+                             var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.Nombre);  
+                             markers.push(marker);                   
+                         }
+    
+                        //vm.color = $rootScope.colors[vm.countColor].ColorHex;
+                        setColorRoute(pointList,'blue',markers);
+                        pointList=[];
+                        markers=[];                                
+                        vm.countColor=vm.countColor + 1;   
+                     } 
+     
+                 })
+                 .catch(function(error){
+                     SweetAlert.swal ({
+                         type: "error", 
+                         title: "Error",
+                         text: error,
+                         confirmButtonAriaLabel: 'Ok',
+                     });
+                 });     
+            }               
  
         }
         function getColors(){
