@@ -132,6 +132,11 @@
                 templateUrl: 'partials/admin-alert/admin-alert.view.html',
                 controllerAs: 'vm'
             })
+            .when('/admin-admins', {
+                controller: 'AdminAdminsController',
+                templateUrl: 'partials/admin-admins/admin-admins.view.html',
+                controllerAs: 'vm'
+            })
 
             .otherwise({ redirectTo: '/home' });            
     }
