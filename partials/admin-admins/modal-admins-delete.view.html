@@ -1,10 +1,10 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">Datos del chofer</h3>
+    <h3 class="modal-title" id="modal-title">Datos del usuario</h3>
 </div>
 <div class="modal-body" id="modal-body">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Usted esta por eliminar al chofer </h5>
+            <h5 class="card-title">Usted esta por eliminar al administrador </h5>
             <p class="card-text">
                <label>Nombre:</label> {{userDelete.FullName}},
                <label>Documento</label> {{userDelete.Dni}}
@@ -13,11 +13,11 @@
     </div>
 </div>
 <div class="modal-footer">
-    <form name="form.deletedriver" ng-submit="deleteDriver()" class="form-deletedriver">
+    <form name="form.deleteadmin" ng-submit="deleteAdmin()" class="form-deleteadmin">
         <div class="form-actions">
             <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary"><i class="fa fa-trash"></i> Borrar</button>
             <img ng-if="dataLoading" src="images/descarga.gif" />
-            <button class="btn btn-danger" type="button" ng-click="cancelDriverModal()">Cancelar</button>
+            <button class="btn btn-danger" type="button" ng-click="cancelAdminModal()">Cancelar</button>
         </div>
     </form>
 </div>

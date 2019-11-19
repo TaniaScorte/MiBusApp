@@ -49,8 +49,7 @@
                                 $rootScope.admins = response;         
                                 $scope.hacerPagineo($scope.admins);
                                 $scope.totalAdmins = $scope.admins.length;
-                            }
-                        
+                            }  
                     })
                     .catch(function (error) {
                         SweetAlert.swal({
