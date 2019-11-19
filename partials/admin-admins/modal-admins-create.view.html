@@ -15,21 +15,21 @@
             </div>
             <div class="form-group">
                 <label for="dnitype">Tipo de Documento:</label>
-                <select ng-model="userCreate.dnitype" class="form-control" ng-options="dnitype.Nombre for dnitype in dnitypes track by dnitype.Id">
+                <select ng-model="userCreate.dnitype" class="form-control" ng-options="dnitype.Nombre for dnitype in dnitypes track by dnitype.Id" required>
                     <option value="">Seleccione una opcion</option>
                 </select> 
             </div>
             <div class="form-group">
                 <label for="dni">Numero de documeto:</label>
-                <input type="number" class="form-control" name="dni" id="dni" ng-minlength="7" ng-model="userCreate.dni" ng-maxlength="10">    
+                <input type="number" class="form-control" name="dni" id="dni" ng-minlength="7" ng-model="userCreate.dni" ng-maxlength="10" required>    
             </div>
             <div class="form-group">
                 <label for="tel">Telefono:</label>
-                <input type="number" class="form-control" name="tel" id="tel" ng-minlength="7" ng-model="userCreate.tel" ng-maxlength="10">    
+                <input type="number" class="form-control" name="tel" id="tel" ng-minlength="7" ng-model="userCreate.tel" ng-maxlength="10" required>    
             </div>
             <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email"  ng-model="userCreate.email" class="form-control" />
+                <input type="email" name="email" id="email"  ng-model="userCreate.email" class="form-control" required/>
                 <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email es requerido</span>
                 </div>
             <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
