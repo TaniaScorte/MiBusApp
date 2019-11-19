@@ -1,0 +1,249 @@
+<link rel="stylesheet" href="css/table/table.style.css">
+
+<style>
+    
+
+</style>
+<script type="text/javascript">
+    
+</script>
+
+<div nav-su></div>
+
+<div class="contenedor">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Gestión de <b>Clientes</b></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a href="" class="btn btn-info" data-toggle="modal" ng-click='clearForm(); resetError(); resetInput()'
+                        data-target="#modalNuevo"><i class="fa fa-plus-circle"></i> <span></span>Agregar cliente</a>
+                </div>
+            </div>
+        </div>
+<div class="form-group row">
+    <label for="busqueda control-labe col-2" style="font-size: 130%;">Buscar</label><input type="text" id="busqueda" class="form-control col-6 mb-3 ml-3"  ng-model="busqueda" ng-change="buscar(busqueda)">
+</div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Recorrido</th>
+                        <th>Descripcion del viaje</th>
+                        <th>Hora del viaje</th>
+                        <th>Mensaje</th>
+                        <th>Tipo</th>
+                        <th>Ver ubicación</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    <tr ng-repeat="item in filtroItems">
+                        <td>{{item.Nombre}}</td>
+                        <td>{{item.Direccion}}</td>
+                        <td>{{item.FechaAlta | filterDate}}</td>
+                        <td>{{item.FechaBaja | filterDate}}</td>
+                        <td>{{item.Cuit}}</td>
+                        <td>{{item.Descripcion}}</td>
+                        <td>
+                            <a href="" class="delete" data-toggle="modal" data-target="#modalEliminar"
+                                ng-click="eliminar(item.Id)"><i class="fa fa-trash" data-toggle="tooltip" title="Borrar"
+                                    data-original-title="Borrar"></i></a>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            
+        </div>
+        <ul uib-pagination total-items="totalItems" max-size="5" boundary-link-numbers="true" rotate="false" next-text="Siguiente" previous-text="Anterior" items-per-page="numPerPage" ng-model="currentPage"></ul>
+
+    </div>
+</div>
+
+
+
+<!-- Modal nuevo-->
+<div id="modalNuevo" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h4 class="modal-title">Nuevo cliente</h4>
+            </div>
+            <div class="modal-body">
+
+                <form ng-class='formEmpresa' role="form" ng-model='frmEmpresa'>
+                    <h4>Datos de la empresa</h4>
+                    <div class="form-group" ng-class="validNewNom">
+                        <label for="txtNombreNew">Nombre</label>
+                        <input type="text" ng-model='txtNombreNew' class="form-control" id="txtNombreNew" ng-focus='resetError()' maxlength="100">
+                        <span ng-show="errorNewNom" class="help-block error">Ingrese el nombre de la empresa</span>
+                    </div>
+                    <div class="form-group" ng-class="validNewDir">
+                        <label for="txtDirNew">Dirección</label>
+                        <input type="text" ng-model='txtDirNew' class="form-control" id="txtDirNew" ng-focus='resetError()' maxlength="100">
+                        <span ng-show="errorNewDir" class="help-block error">Ingrese la dirección de la empresa</span>
+                    </div>
+                    <div class="form-group" ng-class="validNewCuit">
+                        <label for="txtCuitNew">CUIT</label>
+                        <input type="number" ng-model='txtCuitNew' class="form-control" id="txtCuitNew" ng-focus='resetError()' maxlength="11">
+                        <span ng-show="errorNewCuit" class="help-block error">Ingrese el CUIT de la empresa</span>
+                    </div>
+                    <div class="form-group" ng-class="validNewDesc">
+                        <label for="txtDescNew">Descripcion</label>
+                        <textarea name="" cols="30" rows="4" ng-model='txtDescNew' class="form-control" id="txtDescNew" ng-focus='resetError()'></textarea>
+                        <span ng-show="errorNewDesc" class="help-block error">Ingrese una descripción de la empresa</span>
+                </form>
+                <br>
+                <button type="button" class="btn btn-success" ng-click="siguiente()"><i class="fa fa-arrow-circle-right"></i><span></span> Siguiente</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-window-close"></i><span></span> Cancelar</button>
+                <br>
+            </div>
+            <form ng-class="formUsuario" id="formUser">
+                <h4>Datos del usuario</h4>
+                <div class="form-group" ng-class="validNom">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" class="form-control" ng-model="nombre" ng-focus='resetError()' maxlength="50" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+"/>
+                    <span ng-show="errorNom" class="help-block error">Ingrese el nombre del usuario</span>
+                </div>
+                <div class="form-group" ng-class="validApe">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" class="form-control" ng-model="apellido" ng-focus='resetError()' maxlength="50" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+"/>
+                    <span ng-show="errorApe" class="help-block error">Ingrese el apellido del usuario</span>
+                </div>
+                <div class="form-group" ng-class="validTipoDoc">
+                    <label for="tipoDni">Tipo de Documento:</label>
+                    <select ng-model="tipoDni" class="form-control" ng-focus='resetError()'
+                        ng-options="dnitype.Nombre for dnitype in dnitypes track by dnitype.Id">
+                        <option value="">Seleccione una opcion</option>
+                    </select>
+                    <span ng-show="errorTipoDoc" class="help-block error">Seleccione un tipo de documento</span>
+                </div>
+                <div class="form-group" ng-class="validNumDoc">
+                    <label for="dni">Número de documento:</label>
+                    <input type="number" class="form-control" id="dni" ng-model="dni" maxlength="8" ng-focus='resetError()'>
+                    <span ng-show="errorNumDoc" class="help-block error">Ingrese un número de documento valido</span>
+                </div>
+                <div class="form-group" ng-class="validTel">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="number" class="form-control" name="telefono" id="telefono" ng-model="telefono" maxlength="15" ng-focus='resetError()'>
+                    <span ng-show="errorTel" class="help-block error">Ingrese un número de telefono valido</span>
+                </div>
+                <div class="form-group" ng-class="validEmail">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" ng-model="email" class="form-control" ng-focus='resetError()' maxlength="100" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"/>
+                    <span ng-show="errorEmail" class="help-block error">Ingrese un email valido</span>
+                </div>
+                <div class="form-group" ng-class="validPass">
+                    <label for="clave">Contraseña</label>
+                    <input type="password" id="clave" class="form-control" ng-model="clave" maxlength="50" ng-focus='resetError()'/>
+                    <span ng-show="errorClave" class="help-block error">Ingrese una contraseña</span>
+                </div>
+                <button type="button" class="btn btn-info" ng-click='nueva()'><i class="fa fa-save"></i><span></span> Guardar</button>
+                <button type="button" class="btn btn-success" ng-click='volver()'><i class="fa fa-arrow-circle-left"></i><span></span> Volver</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-window-close"></i><span></span> Cancelar</button>
+            </form>
+
+
+        </div>
+       <!-- <div class="modal-footer">
+
+        </div>-->
+    </div>
+
+</div>
+</div>
+
+
+
+
+<!-- Modal editar-->
+<div id="modalEditar" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h4 class="modal-title">Editar cliente</h4>
+            </div>
+            <div class="modal-body">
+                <form role='form' ng-class='formEditar'>
+                    <div class="form-group" ng-class="validEditNombre">
+                        <label for="txtNombreEdit">Nombre</label>
+                        <input type="text" ng-model='txtNombreEdit' class="form-control" id="txtNombreEdit" maxlength="100">
+                        <span ng-show="errorEditNom" class="help-block error">Ingrese el nombre de la empresa</span>
+                    </div>
+                    <div class="form-group" ng-class="validEditDir">
+                        <label for="txtDirEdit">Dirección</label>
+                        <input type="text" ng-model='txtDirEdit' class="form-control" id="txtDirEdit" maxlength="100">
+                        <span ng-show="errorNewEdit" class="help-block error">Ingrese la dirección de la empresa</span>
+                    </div>
+                    <div class="form-group" ng-class="validEditCuit">
+                        <label for="txtCuitEdit">CUIT</label>
+                        <input type="number" ng-model='txtCuitEdit' class="form-control" id="txtCuitEdit" maxlength="11">
+                        <span ng-show="errorEditCuit" class="help-block error">Ingrese el CUIT de la empresa</span>
+                    </div>
+                    <div class="form-group" ng-class="validEditDesc">
+                        <label for="txtDescEdit">Descripción</label>
+                        <textarea name="" cols="30" rows="4" ng-model='txtDescEdit' class="form-control" id="txtDescEdit"></textarea>
+                        <span ng-show="errorEditDesc" class="help-block error">Ingrese una descripción de la empresa</span>
+                    </div>
+                    <div id="espera" ng-class="espera" style="position: absolute;top: 30%;left: 45%;">
+                        <img src="images/espera.gif" alt="reloj" style="width: 50px">
+                    </div>
+
+                   
+
+                </form>
+                <button type="button" id="btnEditar" ng-click='guardarEdicion()' class="btn btn-info"><i class="fa fa-save"></i><span></span> Guardar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-window-close"></i><span></span> Cancelar</button>
+
+            </div>
+          <!--  <div class="modal-footer">
+               
+            </div>-->
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- Modal eliminar-->
+<div id="modalEliminar" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content ">
+            <div class="modal-header bg-danger">
+                <h4 class="modal-title">Eliminar empresa</h4>
+                <span></span>
+            </div>
+            <div class="modal-body">
+                <h4>Está seguro que desea eliminar esta empresa?</h4>
+                <p>No podrá revertir esta operación</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" ng-click='confirmarEliminar()' id="btnEliminar"><i class="fa fa-trash"></i><span></span> Aceptar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-window-close"></i><span></span> Cancelar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="espera" ng-class="espera" style="position: absolute;top: 30%;left: 50%;">
+    <img src="images/espera.gif" alt="reloj" style="width: 50px">
+</div>
+
+
+
+
+
