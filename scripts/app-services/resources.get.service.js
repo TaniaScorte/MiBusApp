@@ -29,7 +29,30 @@
         service.GetColores = GetColores;
         service.GetHistorial = GetHistorial;
         service.GetViaje = GetViaje;
+        service.GetAlertasxEmpresa=GetAlertasxEmpresa;
         return service;
+        function GetAlertasxEmpresa() {
+            var deferred = $q.defer();
+            //var id = id;
+            var url = 'https://www.mellevas.com.ar/api/alertas/getAlertasxEmpresa?EmpresaId=1144';
+            var req = {
+                method: 'GET',
+               // url: url + id + "&token=" + 2019,
+               url: url + "&token=" + 2019,
+
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            } 
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al obtener las alertas");
+            });
+            return deferred.promise;
+    }
         function GetViaje(id) {
             var deferred = $q.defer();
             var id = id;

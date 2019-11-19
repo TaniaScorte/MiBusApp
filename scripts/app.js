@@ -127,6 +127,11 @@
                 templateUrl: 'partials/SUadmin-home/SUadmin-home.view.html',
                 controllerAs: 'vm'
             })
+            .when('/admin-alert', {
+                controller: 'AdminAlertController',
+                templateUrl: 'partials/admin-alert/admin-alert.view.html',
+                controllerAs: 'vm'
+            })
 
             .otherwise({ redirectTo: '/home' });            
     }
