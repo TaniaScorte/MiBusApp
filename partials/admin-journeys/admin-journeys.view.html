@@ -17,6 +17,17 @@
         </div>
         <hr>
         <div class="form-group row" style="padding-top: 5px;">
+            <label for="branch"  class="col-sm-2 col-form-label">Ramal:</label>
+            <div class="col-md-5">
+                <select ng-model="journey.branch" class="form-control" ng-change="updateRecorridosByRamal(journey.branch.Id)" ng-options="branch.Nombre for branch in ramales track by branch.Id">
+                    <option value="">Seleccione una opcion</option>
+                </select> 
+            </div>
+            <div class="col-md-5 alert-info" style="padding-left: 0px;" ng-if="!journey.branch">
+                <span><i class="fa fa-info"></i> Seleccione un ramal para agregar recorridos</span>
+            </div>
+        </div>
+        <div class="form-group row" style="padding-top: 5px;">
             <label for="route"  class="col-sm-2 col-form-label">Recorrido:</label>
             <div class="col-md-5">
                 <select ng-model="journey.route" class="form-control" ng-change="selectedRoute()" ng-options="route.Nombre for route in routes track by route.Id">
@@ -41,9 +52,10 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
+                            <th>Dia y Hora</th>
+                            <th>Fecha</th>
                             <th>Chofer</th>
                             <th>Vehiculo</th>
-                            <th>Horario</th>
                             <th>Recorrido</th>
                             <th>Fecha de Baja</th>
                             <th>Acciones</th>
@@ -51,10 +63,11 @@
                     </thead>
                     <tbody>        
                         <tr ng-repeat="journey in filtroJourneys">
-                            <td>{{journey.Chofer}}</td>
-                            <td>{{journey.Vehiculo}}</td>
-                            <td>{{journey.Horario}}</td>
-                            <td>{{journey.RecorridoDescripcion}}</td>
+                            <td>{{journey.DiaNombre}} , {{journey.HoraSalida}}</td>
+                            <td><label ng-bind="formatDate(journey.FechaViaje) |  date:'dd/MM/yyyy'"></label></td>
+                            <td>{{journey.ChoferNombre}}</td>
+                            <td>{{journey.Patente}}</td>
+                            <td>{{journey.RecorridoNombre}}</td>
                             <td>
                                 <label ng-show="formatDate(journey.FechaBaja) < dateToday" ng-bind="formatDate(journey.FechaBaja) |  date:'dd/MM/yyyy'"></label>
                                 <label ng-show="formatDate(journey.FechaBaja) > dateToday"> <i class="fa fa-check"></i> Activo</label>

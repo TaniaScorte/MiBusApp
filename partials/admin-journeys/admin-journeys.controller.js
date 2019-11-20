@@ -13,15 +13,13 @@
         vm.openModalJourneysCreate = openModalJourneysCreate;
         vm.openModalJourneysEdit = openModalJourneysEdit;
         vm.openModalJourneysDelete = openModalJourneysDelete;    
-        vm.formatDate = formatDate;
+        $rootScope.formatDate = formatDate;
         vm.dateToday = new Date();
         
         initController();        
         function initController(){
             vm.routeOk = false;
-            if(!$rootScope.routes){
-                getRecorridosByEmpresa();
-            }            
+            getRamalByEmpresa($rootScope.globals.currentUser.userData.EmpresaId);           
             if(!$rootScope.brands){
                 getMarcas();
             }
@@ -35,7 +33,45 @@
                 getDays();
             }
         }
-
+        function getRamalByEmpresa(empresaId){
+            if(empresaId != undefined){
+                $rootScope.ramales = null;
+                ResourcesService.GetRamalesByEmpresa(empresaId)
+                .then(function (response) {
+                    if (response){
+                        vm.ramales = response;      
+                    } 
+                })
+                .catch(function(error){
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
+                });
+                vm.schedulesOk = false;
+            }
+        }
+        vm.updateRecorridosByRamal = function(ramalId){
+            if (ramalId != undefined) {
+                $rootScope.routes = null;
+                ResourcesService.GetRecorridosByEmpresaRamal(ramalId,$rootScope.globals.currentUser.userData.EmpresaId)
+                .then(function (response) {
+                    if (response){
+                        $rootScope.routes = response;      
+                    } 
+                })
+                .catch(function(error){
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });                
+                });                
+            }
+        }
         $rootScope.$on("refreshListJourneys", function(evt,recorridoId){ 
             getViajesByRecorrido(recorridoId);
         });
@@ -133,9 +169,6 @@
                             if (response) {
                                 $scope.journeys = response;
                                 $rootScope.journeys = response;          //por las dudas que lo use en otro lado
-                                for(var x = 0 ; x < $rootScope.journeys.length ; x++){
-                                    $rootScope.journeys[x].RecorridoDescripcion = $filter('filter')($rootScope.routes, {Id:  $rootScope.journeys[x].RecorridoId})[0].Nombre;
-                                }   
                                 vm.routeOK=true;   
                                 $scope.hacerPagineo($scope.journeys);
                                 $scope.totalJourneys = $scope.journeys.length;

@@ -23,12 +23,15 @@
         $uibModalInstance.close();
     };  
     if(journey.edit){
+        vm.initEdit = true;
         vm.journeyEdit = {};
         vm.journeyEdit.Id = journey.Id;
-        vm.journeyEdit.route = $filter('filter')($rootScope.route, {Id:  journey.RecorridoId}); 
-        vm.journeyEdit.vehicle = $filter('filter')($rootScope.vehicles, {Id:  journey.VehiculoId}); 
-        vm.journeyEdit.driver = $filter('filter')($rootScope.drivers, {Id: journey.ChoferId});
-        vm.journeyEdit.dt = new Date(journey.Fecha);
+        vm.journeyEdit.description = journey.Descripcion;
+        vm.journeyEdit.route = $filter('filter')($rootScope.routes, {Id:  journey.RecorridoId})[0]; 
+        vm.journeyEdit.vehicle = $filter('filter')($rootScope.vehicles, {Id:  journey.VehiculoId})[0]; 
+        vm.journeyEdit.driver = $filter('filter')($rootScope.drivers, {Id: journey.ChoferId})[0];
+        vm.journeyEdit.schedule = $filter('filter')($rootScope.schedules, {Id: journey.HorarioId})[0];
+        vm.dateJourney = $filter('date')($rootScope.formatDate(journey.FechaViaje), 'dd-MM-yyyy');
     }
     if(journey.delete){
         vm.idJourney = journey.Id;
@@ -87,14 +90,23 @@
 
     vm.updateJourneys = function(journeyEdit){
         vm.dataLoading = true;
+        var fechaViaje = $filter('date')(journeyEdit.dateJourney, 'dd-mm-yyyy');
+        var date;
+        if(fechaViaje){
+            date = fechaViaje;
+        }
+        else{
+            date = $filter('date')($rootScope.formatDate(journey.FechaViaje), 'dd-MM-yyyy');
+        }
         var data = {
             Id: journeyEdit.Id,
             EmpresaId: $rootScope.globals.currentUser.userData.EmpresaId,
             RecorridoId: journeyEdit.route.Id,
             ChoferId: journeyEdit.driver.Id,
             VehiculoId: journeyEdit.vehicle.Id,
-            HorarioId: journeyEdit.schedulesFilter.Id,
-            Descripcion: journeyEdit.description
+            HorarioId: journeyEdit.schedule.Id,
+            Descripcion: journeyEdit.description,
+            FechaViaje: date
         }
         ResourcesUpdateService.UpdateViaje(data)
             .then(function (response) {
@@ -148,7 +160,7 @@
                 function(isConfirm) {
                     if (isConfirm) {
                         vm.dataLoading = false;
-                        $rootScope.$emit("refreshListJourney",journeyRecorridoId);
+                        $rootScope.$emit("refreshListJourneys",journeyRecorridoId);
                         vm.cancelJourneysModal();
                     } 
                 });               
@@ -176,7 +188,17 @@
     }
     vm.updateSchedulesByDay = function(dayNumber) {
         vm.schedulesFilter = $filter('filter')($rootScope.schedules, {DiaId:  dayNumber});
+        if(vm.schedulesFilter == null || vm.schedulesFilter == undefined || vm.schedulesFilter.length == 0 && !vm.initEdit){
+            SweetAlert.swal ({
+                type: "warning", 
+                title: "No hay horarios",
+                text: "Verifique el dia",
+                confirmButtonAriaLabel: 'Ok',
+            });
+        }
+        vm.initEdit = false;
     }
+    vm.todayDate = new Date();
     vm.today = function() {
         if(journey.edit){
             vm.journeyEdit.dt = new Date();
