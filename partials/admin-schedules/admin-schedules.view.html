@@ -12,6 +12,17 @@
         </div>
         <hr>
         <div class="form-group row" style="padding-top: 5px;">
+            <label for="branch"  class="col-sm-2 col-form-label">Ramal:</label>
+            <div class="col-md-5">
+                <select ng-model="schedule.branch" class="form-control" ng-change="updateRecorridosByRamal(schedule.branch.Id)" ng-options="branch.Nombre for branch in ramales track by branch.Id">
+                    <option value="">Seleccione una opcion</option>
+                </select> 
+            </div>
+            <div class="col-md-5 alert-info" style="padding-left: 0px;" ng-if="!schedule.branch">
+                <span><i class="fa fa-info"></i> Seleccione un ramal para agregar recorridos</span>
+            </div>
+        </div>
+        <div class="form-group row" style="padding-top: 5px;">
             <label for="route"  class="col-sm-2 col-form-label">Recorrido:</label>
             <div class="col-md-5">
                 <select ng-model="schedule.route" class="form-control" ng-change="selectedRoute()" ng-options="route.Nombre for route in routes track by route.Id">

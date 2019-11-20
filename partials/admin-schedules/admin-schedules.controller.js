@@ -20,12 +20,31 @@
         function initController(){
             vm.routeOk = false;
             getDays();
-            getRecorridosByEmpresa();
+            getRamalesByEmpresa();
         }
 
         $rootScope.$on("refreshListSchedules", function(evt,recorridoId){ 
             getHorariosByRecorrido(recorridoId);
         });
+        vm.updateRecorridosByRamal = function(ramalId){
+            if (ramalId != undefined) {
+                $rootScope.routes = null;
+                ResourcesService.GetRecorridosByEmpresaRamal(ramalId,$rootScope.globals.currentUser.userData.EmpresaId)
+                .then(function (response) {
+                    if (response){
+                        $rootScope.routes = response;      
+                    } 
+                })
+                .catch(function(error){
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });                
+                });                
+            }
+        }
         vm.selectedRoute= function(){
             if(vm.schedule.route){
                 vm.routeOK=true;
@@ -155,6 +174,22 @@
                 });
             });
         };
+        function getRamalesByEmpresa(){
+            ResourcesService.GetRamalesByEmpresa( $rootScope.globals.currentUser.userData.EmpresaId)
+            .then(function (response) {
+                if (response){
+                   $rootScope.ramales = response;          
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
+            });
+        }
 
 }
 
