@@ -19,12 +19,31 @@
         initController();        
         function initController(){
             vm.routeOk = false;
-            getRecorridosByEmpresa();
+            getRamalByEmpresa($rootScope.globals.currentUser.userData.EmpresaId)
         }
 
         $rootScope.$on("refreshListBusStops", function(evt,recorridoId){ 
             getParadasByRecorrido(recorridoId);
         });
+        vm.updateRecorridosByRamal = function(ramalId){
+            if (ramalId != undefined) {
+                $rootScope.routes = null;
+                ResourcesService.GetRecorridosByEmpresaRamal(ramalId,$rootScope.globals.currentUser.userData.EmpresaId)
+                .then(function (response) {
+                    if (response){
+                        $rootScope.routes = response;      
+                    } 
+                })
+                .catch(function(error){
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });                
+                });                
+            }
+        }
         vm.selectedRoute= function(){
             if(vm.busstop.route){
                 getParadasByRecorrido(vm.busstop.route.Id);     
@@ -103,7 +122,6 @@
                 });
             });
         }
-  
         function getParadasByRecorrido(recorridoId) {
             $scope.busstops = []; 
             $scope.filtroBusstops = [];
@@ -153,6 +171,26 @@
             $scope.$watch('currentPage', function () {
                 $scope.hacerPagineo($scope.busstops);
             });
+        }
+        function getRamalByEmpresa(empresaId){
+            if(empresaId != undefined){
+                $rootScope.ramales = null;
+                ResourcesService.GetRamalesByEmpresa(empresaId)
+                .then(function (response) {
+                    if (response){
+                        vm.ramales = response;      
+                    } 
+                })
+                .catch(function(error){
+                    SweetAlert.swal ({
+                        type: "error", 
+                        title: "Error",
+                        text: error,
+                        confirmButtonAriaLabel: 'Ok',
+                    });
+                });
+                vm.schedulesOk = false;
+            }
         }
 
 
