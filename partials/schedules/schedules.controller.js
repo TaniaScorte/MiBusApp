@@ -15,6 +15,13 @@
         initController();
 
         function initController() {
+            if($rootScope.backSchedules){
+                vm.loadComboBranchsRoutes= true;
+                vm.empresa = $rootScope.paramsBuy.empresa;
+                updateRamalByEmpresa($rootScope.paramsBuy.empresa.Id);
+                updateRecorridosByRamal($rootScope.paramsBuy.ramal.Id);    
+                return;
+            }
             vm.loadComboBranchsRoutes= false;
             vm.menssageEmpresa = false;
             if(!$rootScope.empresas){
