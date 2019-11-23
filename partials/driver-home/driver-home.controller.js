@@ -80,8 +80,6 @@
     }
 }
 
-
- //filtro personalizado para fechas
  driver_home.filter('filterEstado', function () {
     var cambiarFiltro = function (datosOriginales) {
         if (datosOriginales == null) {
