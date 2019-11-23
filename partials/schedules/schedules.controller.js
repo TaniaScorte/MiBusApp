@@ -15,6 +15,8 @@
         initController();
 
         function initController() {
+            vm.loadComboBranchsRoutes= false;
+            vm.menssageEmpresa = false;
             if(!$rootScope.empresas){
                 ResourcesService.GetEmpresas()
                 .then(function (response) {
@@ -49,7 +51,7 @@
                 ResourcesService.GetRamalesByEmpresa(empresaId)
                 .then(function (response) {
                     if (response){
-                        vm.ramales = response;      
+                        vm.ramales = response;  
                     } 
                 })
                 .catch(function(error){
@@ -103,7 +105,19 @@
                 });   
             }
         }
+        vm.loadBranchsRoutes = function(empresa){
+            vm.empresa = empresa;
+            vm.loadComboBranchsRoutes = true;
+            vm.updateRamalByEmpresa(empresa.Id);
 
+        }
+        vm.backLoadEmpresas = function (){
+            vm.loadComboBranchsRoutes = false;
+            vm.recorrido = null;
+            vm.horario=null;
+            vm.ramal=null;
+            vm.menssageEmpresa = false;
+        }
     }
 
 })();
