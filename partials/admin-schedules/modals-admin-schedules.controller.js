@@ -88,9 +88,7 @@
                     DiaId: schedule.day.Id,
                     HoraSalida: vm.hours[index],
                     RecorridoId: scheduleRecorridoId,
-                    PorcReserva: 0,
-                    VehiculoId:0,
-                    ChoferId:0
+                    PorcReserva: 0
                 }
                 saveSchedule(data);
             }
