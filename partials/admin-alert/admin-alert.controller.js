@@ -4,12 +4,11 @@
     var SUhome = angular
         .module('app')
         .controller('AdminAlertController', AdminAlertController);
-        AdminAlertController.$inject = ['UserService', 'SweetAlert', 'ResourcesService', 'ResourcesUpdateService', 'ResourcesDeleteService', 'ResourcesSetService', '$rootScope', '$http', '$filter', '$scope'];
-    function AdminAlertController(UserService, SweetAlert, ResourcesService, ResourcesUpdateService, ResourcesDeleteService, ResourcesSetService, $rootScope, $http, $filter, $scope) {
+        AdminAlertController.$inject = ['SweetAlert', 'ResourcesService', '$rootScope', '$filter', '$scope'];
+    function AdminAlertController(SweetAlert, ResourcesService, $rootScope, $filter, $scope) {
         var vm = this;
-        vm.idEtitar = 0;
-        vm.idEliminar = 0;
-
+        vm.mymap;
+        vm.busIcon;
 
         initController();
 
@@ -25,7 +24,7 @@
             $scope.currentPage = 1;
             $scope.numPerPage = 10;
             $scope.inicializar = function () {
-                ResourcesService.GetAlertasxEmpresa()
+                ResourcesService.GetAlertasxEmpresa($rootScope.globals.currentUser.userData.EmpresaId)
                     .then(function (response) {
                         if (response) {
                             if (response) {
@@ -70,27 +69,29 @@
 
         function verMapa(){
 
-            var mymap = L.map('map', {
+            vm.mymap = L.map('map', {
                 minZoom: 8
-            })
-            mymap.setView([-34.671325, -58.563797], 16);
-    
+            })    
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(mymap);
+                }).addTo(vm.mymap);
     
-                var busIcon = L.icon({
+                vm.busIcon = L.icon({
                     iconUrl: 'images/bus-alerta.png',
     
-                    iconSize: [60, 45], // size of the icon
-                    shadowSize: [50, 64], // size of the shadow
-                    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-                    shadowAnchor: [4, 62],  // the same for the shadow
-                    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+                    iconSize: [60, 45], 
+                    shadowSize: [50, 64],
+                    iconAnchor: [22, 94], 
+                    shadowAnchor: [4, 62],  
+                    popupAnchor: [-3, -76] 
                 });
                
-                var marker = L.marker([-34.671325, -58.563797], { icon: busIcon }).addTo(mymap);
-    
+        }
+
+        $scope.verBus=function(lat,lon){
+            vm.mymap.setView([lat, lon], 16);
+            var marker = L.marker([lat,lon], { icon: vm.busIcon }).addTo(vm.mymap);
+
         }
 
 

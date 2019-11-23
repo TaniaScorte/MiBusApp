@@ -2,7 +2,7 @@
 
 <style>
     #map{
-height: 300px;
+height: 400px;
 }
 </style>
 <script type="text/javascript">
@@ -32,7 +32,6 @@ height: 300px;
                         <th>Hora del viaje</th>
                         <th>Mensaje</th>
                         <th>Tipo</th>
-                        <th>Estado</th>
                         <th>Ver ubicación</th>
                     </tr>
                 </thead>
@@ -40,15 +39,14 @@ height: 300px;
 
 
                     <tr ng-repeat="item in filtroItems">
-                        <td>{{item.Nombre}}</td>
-                        <td>{{item.Direccion}}</td>
-                        <td>{{item.FechaAlta | filterDate}}</td>
-                        <td>{{item.FechaBaja | filterDate}}</td>
-                        <td>{{item.Cuit}}</td>
-                        <td>{{item.Descripcion}}</td>
+                        <td>{{item.RecorridoNombre}}</td>
+                        <td>{{item.ViajeDescripcion}}</td>
+                        <td>{{item.HoraSalida}}</td>
+                        <td>{{item.Mensaje}}</td>
+                        <td>{{item.TipoAlertaId}}</td>
                         <td>
                             <a href="" class='delete'data-toggle="modal" data-target="#modalAlerta"
-                                ng-click=""><i class="fa fa-map-marker" data-toggle="tooltip" title="Borrar"
+                                ng-click="verBus(item.Latitud, item.Longitud)"><i class="fa fa-map-marker" data-toggle="tooltip" title="Borrar"
                                     data-original-title="Borrar"></i></a>
                         </td>
                     </tr>
@@ -66,7 +64,7 @@ height: 300px;
 
     <!-- Modal -->
 <div class="modal fade" id="modalAlerta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">ubicación</h5>

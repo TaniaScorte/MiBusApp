@@ -12,7 +12,7 @@
         var idViaje = DS.getIdViajeActual();
         $scope.check;
         $scope.hayAlerta=false;
-        swipe();
+        $scope.radio=2;
         initController();
 
     function initController(){
@@ -128,19 +128,6 @@
         }
     };
 }
-    function swipe() {
-        $("#swipeReport").touchwipe({
-            wipeLeft: function () {
-                window.location.replace('#!driver-home');
-            },
-            wipeRight: function () {
-                window.location.replace('#!driver-map');
-            },
-            min_move_x: 200,
-            min_move_y: 200,
-            preventDefaultEvents: false
-        });
-    }
-
+    
 
 })();

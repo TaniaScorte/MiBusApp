@@ -31,15 +31,13 @@
         service.GetViaje = GetViaje;
         service.GetAlertasxEmpresa=GetAlertasxEmpresa;
         return service;
-        function GetAlertasxEmpresa() {
+        function GetAlertasxEmpresa(id) {
             var deferred = $q.defer();
             //var id = id;
-            var url = 'https://www.mellevas.com.ar/api/alertas/getAlertasxEmpresa?EmpresaId=1144';
+            var url = 'https://www.mellevas.com.ar/api/alertas/getAlertasxEmpresa?EmpresaId=';
             var req = {
                 method: 'GET',
-               // url: url + id + "&token=" + 2019,
-               url: url + "&token=" + 2019,
-
+                url: url + id + "&token=" + 2019,
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }

@@ -227,21 +227,6 @@
                 botonAlerta.classList.remove('d-none');
             }
         }
-        function swipe() {
-            $("#content").touchwipe({
-                wipeLeft: function () {
-                    window.location.replace('#!driver-bus');
-                },
-                wipeRight: function () {
-                    window.location.replace('#!driver-home');
-
-                },
-
-                min_move_x: 200,
-                min_move_y: 200,
-                preventDefaultEvents: true
-            });
-        }
-        swipe();
+       
     }
 })();
