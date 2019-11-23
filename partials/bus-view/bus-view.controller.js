@@ -37,14 +37,14 @@
 
         }
         function initMap() {
-            vm.loadAllRoute = true;
+            vm.loadAllRoute = null;
             MapResourcesService.GetPasajeByDNI($rootScope.user.Dni)
             .then(function(response){
                 if(response.Estado == 0){
                     vm.loadAllRoute = false;  
                 }                
                 if(response.Estado == 99){
-                    vm.loadAllRoute = true;
+                    vm.loadAllRoute = null;
                 }                 
             })
             .catch(function(error){
@@ -63,11 +63,6 @@
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(vm.mymap);
-
-            if(vm.loadAllRoute){
-                loadAllLayers();
-                return;
-            }
             if (vm.loadAllRoute == null) {
                 return;
             }
