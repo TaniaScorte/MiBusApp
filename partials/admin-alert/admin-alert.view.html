@@ -43,7 +43,7 @@ height: 400px;
                         <td>{{item.ViajeDescripcion}}</td>
                         <td>{{item.HoraSalida}}</td>
                         <td>{{item.Mensaje}}</td>
-                        <td>{{item.TipoAlertaId}}</td>
+                        <td>{{item.TipoAlertaId | filterTipo}}</td>
                         <td>
                             <a href="" class='delete'data-toggle="modal" data-target="#modalAlerta"
                                 ng-click="verBus(item.Latitud, item.Longitud)"><i class="fa fa-map-marker" data-toggle="tooltip" title="Borrar"
@@ -67,7 +67,7 @@ height: 400px;
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">ubicación</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Ubicación</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

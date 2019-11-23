@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var SUhome = angular
+    var adminAlert = angular
         .module('app')
         .controller('AdminAlertController', AdminAlertController);
         AdminAlertController.$inject = ['SweetAlert', 'ResourcesService', '$rootScope', '$filter', '$scope'];
@@ -93,10 +93,23 @@
             var marker = L.marker([lat,lon], { icon: vm.busIcon }).addTo(vm.mymap);
 
         }
-
-
-        
+   
     }
+    adminAlert.filter('filterTipo', function () {
+        var cambiarFiltro = function (datosOriginales) {
+            if (datosOriginales == null) {
+                var nuevosDatos = 'No hay datos';
+    
+            } else if( datosOriginales == 1) {
+                    var nuevosDatos =  'Demora';            
+            }else if( datosOriginales == 3) {
+                var nuevosDatos =  'Fallas técnicas';            
+        }
+            return nuevosDatos;
+        };
+        return cambiarFiltro;
+    });
+    
 })();
 
 
