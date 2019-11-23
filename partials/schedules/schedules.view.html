@@ -4,14 +4,29 @@
         <h2>Horarios MiBus</h2>
         <hr class="hr">
     </div>
-    <form class="col-sm-12 col-md-12">
+    <div class="col-sm-12 col-md-12" ng-show="!loadComboBranchsRoutes">
         <div class="form-group row">
-            <label for="empresa"  class="col-sm-2 col-form-label" >Empresa:</label>
-            <div class="col-sm-5">
-                <select ng-model="empresa" class="form-control" ng-change="updateRamalByEmpresa(empresa.Id)" ng-options="empresa.Nombre for empresa in empresas track by empresa.Id">
-                    <option value="">Seleccione una opcion</option>
-                </select> 
+                <label for="busqueda" class="col-sm-2 col-form-label col-xs-12">Buscar</label>
+            <input type="text" id="busqueda" class="form-control mb-3 col-md-6 col-xs-12 col-lg-6"  ng-model="busqueda" ng-change="buscar(busqueda)">
+        </div>
+        <div class="" ng-repeat="empresa in empresas" style="background: #cbe4ec;border: solid 1px;cursor: pointer" ng-click="loadBranchsRoutes(empresa);">
+            <div class="media border p-3">
+                <img src="images/combi.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <div class="media-body">
+                  <h4>{{empresa.Nombre}} <small><i>{{empresa.Descripcion}}</i></small></h4>
+                  <p>{{empresa.Direccion}}</p>
+                </div>
             </div>
+        </div>
+        <ul uib-pagination total-items="totalDrivers" max-size="5" boundary-link-numbers="true" rotate="false" next-text="Siguiente" previous-text="Anterior" items-per-page="numPerPage" ng-model="currentPage"></ul>
+    </div>
+    <form class="col-sm-12 col-md-12"  ng-show="loadComboBranchsRoutes">
+        <div class="form-group row" style="padding-left: 10px">
+            <button class="btn btn-primary" ng-click="backLoadEmpresas()"><i class="fa fa-back"></i> Volver </button>
+        </div>
+        <div class="media-body">
+            <h5>Empresa seleccionada:</h5>
+            <h4 style="color:blue;">{{empresa.Nombre}} <small><i>{{empresa.Descripcion}}</i></small></h4>
         </div>
         <div class="form-group row">
             <label for="ramal"  class="col-sm-2 col-form-label" >Ramal:</label>
@@ -30,7 +45,7 @@
             </div>
         </div>
     </form>
-    <div ng-show="schedulesOk">
+    <div ng-show="schedulesOk && loadComboBranchsRoutes" >
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -44,7 +59,7 @@
           </thead>
           <tbody>
             <tr ng-repeat="horario in horarios">
-              <td scope="row">{{horario.Fecha}}</td>
+              <td scope="row">{{horario.DiaNombre}}</td>
               <td>{{horario.HoraSalida}}</td>
               <td>{{ramal.Nombre}}</td>
               <td>{{recorrido.Nombre}}</td>
