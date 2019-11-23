@@ -28,14 +28,14 @@
     function validateDataRequired(data){
         if(ramal.edit){
             if(data.Id
-                && data.Nombre && data.Nombre.length <= 20
-                && data.Descripcion && data.Descripcion.length <= 50){
+                && data.Nombre && data.Nombre.length <= 30
+                && data.Descripcion && data.Descripcion.length <= 30){
                 return true;
             }
         }
         if(ramal.create){
-            if( data.Nombre && data.Nombre.length <= 20
-                && data.Descripcion && data.Descripcion.length <= 50){
+            if( data.Nombre && data.Nombre.length <= 30
+                && data.Descripcion && data.Descripcion.length <= 30){
                 return true;
             }
         }

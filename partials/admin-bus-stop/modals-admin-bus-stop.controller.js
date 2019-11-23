@@ -106,8 +106,8 @@
             if(data.RecorridoId 
                 && data.Id
                 && data.Numero && data.Numero <= 9999
-                && data.Nombre && data.Nombre.length <= 20 
-                && data.Descripcion && data.Descripcion.length <= 50
+                && data.Nombre && data.Nombre.length <= 30 
+                && data.Descripcion && data.Descripcion.length <= 60
                 && data.Latitud && data.Longitud
                 && data.Duracion != undefined && data.Duracion < 99 ){
                     return true;
@@ -116,8 +116,8 @@
         if(busStop.create){
             if(data.RecorridoId 
                 && data.Numero && data.Numero <= 9999
-                && data.Nombre && data.Nombre.length <= 20 
-                && data.Descripcion && data.Descripcion.length <= 50
+                && data.Nombre && data.Nombre.length <= 30 
+                && data.Descripcion && data.Descripcion.length <= 60
                 && data.Latitud && data.Longitud
                 && data.Duracion != undefined && data.Duracion < 99 ){
                     return true;

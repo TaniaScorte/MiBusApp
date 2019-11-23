@@ -35,8 +35,8 @@
     function validateDataRequired(data) {
         if(route.edit){
             if(data.Id
-                && data.Nombre && data.Nombre.length <+ 20
-                && data.Descripcion && data.Descripcion.length <= 50
+                && data.Nombre && data.Nombre.length <= 30
+                && data.Descripcion && data.Descripcion.length <= 60
                 && data.RamalId && data.EmpresaId
                 && data.Importe && data.Importe <= 9999
                 && data.Duracion && data.Duracion.length <= 9
@@ -45,8 +45,8 @@
             }            
         }
         if(route.create){
-            if(data.Nombre && data.Nombre.length <+ 20
-                && data.Descripcion && data.Descripcion.length <= 50
+            if(data.Nombre && data.Nombre.length <= 30
+                && data.Descripcion && data.Descripcion.length <= 60
                 && data.RamalId && data.EmpresaId
                 && data.Importe && data.Importe <= 9999
                 && data.Duracion && data.Duracion.length <= 9
