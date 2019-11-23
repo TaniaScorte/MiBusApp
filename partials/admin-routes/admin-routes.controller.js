@@ -61,11 +61,6 @@
                             if (response) {
                                 $scope.routes = response;
                                 $rootScope.routes = response;          //por las dudas que lo use en otro lado
-                                if($rootScope.ramales){
-                                    for(var x = 0 ; x < $rootScope.routes.length ; x++){
-                                        $rootScope.routes[x].RamalDescripcion = $filter('filter')($rootScope.ramales, {Id:  $rootScope.routes[x].RamalId})[0].Nombre;
-                                    } 
-                                }
                                 $scope.hacerPagineo($scope.routes);
                                 $scope.totalRoutes = $scope.routes.length;
                             }
@@ -159,12 +154,7 @@
             ResourcesService.GetRamalesByEmpresa( $rootScope.globals.currentUser.userData.EmpresaId)
             .then(function (response) {
                 if (response){
-                   $rootScope.ramales = response;      
-                   if($rootScope.routes){
-                    for(var x = 0 ; x < $rootScope.routes.length ; x++){
-                        $rootScope.routes[x].RamalDescripcion = $filter('filter')($rootScope.ramales, {Id:  $rootScope.routes[x].RamalId})[0].Nombre;
-                    } 
-                }    
+                   $rootScope.ramales = response;       
                 } 
             })
             .catch(function(error){
