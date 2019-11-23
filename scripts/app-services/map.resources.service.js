@@ -9,19 +9,19 @@
     function MapResourcesService($http,$q ,$cookies, $rootScope, $timeout) {
         var service = {};
 
-        service.GetPasajeByDNI = GetPasajeByDNI;
+        service.GetPasajeByUserId = GetPasajeByUserId;
 
 
         return service;
 
-        function GetPasajeByDNI(dni) {
+        function GetPasajeByUserId(dni) {
 
             var deferred = $q.defer();
-            var urlGetPasajeByDNI ='https://www.mellevas.com.ar/api/pasajes/getPasajexDni';       
+            var urlGetPasajeByUserId ='https://www.mellevas.com.ar/api/pasajes/getPasajexUsuario';       
         
             var req = {
                 method: 'GET',
-                url: urlGetPasajeByDNI,
+                url: urlGetPasajeByUserId,
                 headers: {
                   'Content-Type': 'application/json; charset=utf-8'
                 }
