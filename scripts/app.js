@@ -77,11 +77,6 @@
                 templateUrl: 'partials/driver-report/driver-report.view.html',
                 controllerAs: 'vm'
             })
-            .when('/driver-prueba', { //despues borrar
-                controller: 'DriverPruebaController',
-                templateUrl: 'partials/driver-prueba/driver-prueba.view.html',
-                controllerAs: 'vm'
-            })
             .when('/admin-home', {
                 controller: 'AdminHomeController',
                 templateUrl: 'partials/admin-home/admin-home.view.html',
