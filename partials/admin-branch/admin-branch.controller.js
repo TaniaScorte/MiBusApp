@@ -21,22 +21,6 @@
             getRamalesByEmpresa();
         }
 
-        var swipe = function () {
-        $("#swipeBranch").touchwipe({
-            wipeLeft: function () {
-                window.location.replace('#!admin-drivers');
-            },
-            wipeRight: function () {
-                window.location.replace('#!admin-journey');
-            },
-
-            min_move_x: 200,
-            min_move_y: 200,
-            preventDefaultEvents: false
-        });
-        }
-        swipe();
-
         $rootScope.$on("refreshListBranch", function(evt,data){ 
             getRamalesByEmpresa();
         });

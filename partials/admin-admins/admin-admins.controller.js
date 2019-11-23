@@ -17,21 +17,7 @@
             getTiposDNI();
             getUserAdmins();
         }
-        var swipe = function () {
-            $("#swipeAdmins").touchwipe({
-                wipeLeft: function () {
-                    window.location.replace('#!admin-bus');
-                },
-                wipeRight: function () {
-                    window.location.replace('#!admin-routes');
-                },
-
-                min_move_x: 200,
-                min_move_y: 200,
-                preventDefaultEvents: false
-            });
-        }
-        swipe();
+        
         $rootScope.$on("refreshListAdmins", function(evt,data){ 
             getUserAdmins();
         });
