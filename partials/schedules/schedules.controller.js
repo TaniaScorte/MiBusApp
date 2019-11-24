@@ -19,7 +19,8 @@
                 vm.loadComboBranchsRoutes= true;
                 vm.empresa = $rootScope.paramsBuy.empresa;
                 updateRamalByEmpresa($rootScope.paramsBuy.empresa.Id);
-                updateRecorridosByRamal($rootScope.paramsBuy.ramal.Id);    
+                updateRecorridosByRamal($rootScope.paramsBuy.ramal.Id);   
+                updateViajesByRecorrido($rootScope.paramsBuy.recorrido.Id);
                 return;
             }
             vm.loadComboBranchsRoutes= false;
@@ -59,6 +60,9 @@
                 .then(function (response) {
                     if (response){
                         vm.ramales = response;  
+                        if($rootScope.backSchedules){
+                          vm.ramal = $rootScope.paramsBuy.ramal;  
+                        }                        
                     } 
                 })
                 .catch(function(error){
@@ -79,6 +83,9 @@
                 .then(function (response) {
                     if (response){
                         vm.recorridos = response;      
+                        if($rootScope.backSchedules){
+                            vm.recorrido = $rootScope.paramsBuy.recorrido;  
+                          }
                     } 
                 })
                 .catch(function(error){
@@ -120,8 +127,9 @@
         }
         vm.backLoadEmpresas = function (){
             vm.loadComboBranchsRoutes = false;
-            vm.recorrido = null;
-            vm.horario=null;
+            vm.recorridos = null;
+            vm.horarios=null;
+            vm.ramales=null;
             vm.ramal=null;
             vm.menssageEmpresa = false;
             $rootScope.paramsBuy = null;
