@@ -35,7 +35,6 @@
                             <th>Capacidad</th>
                             <th>Identificacion</th>
                             <th>Descripcion</th>
-                            <th>Fecha de baja</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -47,11 +46,6 @@
                             <td>{{vehicle.Capacidad}}</td>
                             <td>{{vehicle.Identificacion}}</td>
                             <td>{{vehicle.Descripcion}}</td>
-                            <td>
-                                <label ng-show="formatDate(vehicle.FechaBaja) < dateToday" ng-bind="formatDate(vehicle.FechaBaja) |  date:'dd/MM/yyyy'"></label>
-                                <label ng-show="formatDate(vehicle.FechaBaja) > dateToday"> <i class="fa fa-check"></i> Activo</label>
-                            </td> 
-                            
                             <td>
                                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Editar">
                                     <button class="btn btn-warning"  ng-click="openModalVehiclesEdit(vehicle)" >

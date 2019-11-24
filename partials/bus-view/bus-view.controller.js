@@ -42,7 +42,7 @@
             .then(function(response){
                 if(response){
                     vm.loadAllRoute = false;  
-                    vm.pasaje = response;
+                    vm.pasaje = response[0];
                     getLocation();    
                 }                
                 if(!response){
@@ -117,17 +117,60 @@
 
             vm.schedulesOk = false;
         }
+        vm.stopTimer= function() {
+            if ($rootScope.intervalGetUltimaPosicion) {
+              clearInterval($rootScope.intervalGetUltimaPosicion);
+            }
+          }
         function loadLayersByPasaje(){
-            setInterval(() => {      
-                ResourcesService.GetUltimaPosicionByViaje(18)
+            $rootScope.intervalGetUltimaPosicion = setInterval(() => {      
+                ResourcesService.GetUltimaPosicionByViaje(vm.pasaje.ViajeId)
                 .then(function (response) {
-                    console.log(response.Latitud, response.Longitud);
-                    vm.marker.setLatLng([response.Latitud, response.Longitud]);
+                    if(response.EstadoId == 1){
+                        vm.marker.setLatLng([response.Latitud, response.Longitud]);
+                        vm.mymap.setView([response.Latitud, response.Longitud], 15)
+                    }
+                    if(response.EstadoId = 6){
+                        vm.stopTimer();
+                    }
                 })
                 .catch(function (error) {
-                    console.log(error);
                 });
             }, 3000);
+            var markers = [];
+            ResourcesService.GetParadasByRecorrido(vm.pasaje.RecorridoId)
+             .then(function (response) {
+                 if (response){
+                     vm.paradas = response;  
+                     for (var index = 0; index < vm.paradas.length; index++) {
+                         var element = vm.paradas[index];
+                        //  if(!vm.focusParada){
+                        //     vm.focusParada={};
+                        //     vm.focusParada.longitude = element.Longitud;
+                        //     vm.focusParada.latitude = element.Latitud; 
+                        //  }                            
+                         var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.Nombre);  
+                         markers.push(marker);                   
+                     }
+
+                    //vm.color = $rootScope.colors[vm.countColor].ColorHex;
+                    //setColorRoute(pointList,'blue',markers);
+                    //pointList=[];
+                    L.layerGroup(markers).addTo(vm.mymap);
+                    markers=[];                                
+                    //vm.countColor=vm.countColor + 1;   
+                    // vm.mymap.setView([vm.focusParada.latitude, vm.focusParada.longitude], 15)
+                 } 
+ 
+             })
+             .catch(function(error){
+                 SweetAlert.swal ({
+                     type: "error", 
+                     title: "Error",
+                     text: error,
+                     confirmButtonAriaLabel: 'Ok',
+                 });
+             })
 
         }
         function getLocation() {
@@ -214,6 +257,9 @@
 
         }
         vm.loadMapParams = function(recorridoId){
+            if($rootScope.intervalGetUltimaPosicion){
+                clearInterval(null);
+            }
             if(recorridoId != undefined){
                 vm.loadAllRoute = null;
                 vm.mymap.remove();

@@ -6,11 +6,11 @@
         <div class="form-group">
             <label style="color:red;">Fecha del viaje: {{dateJourney}} </label><br>
             <label>Seleccione nueva fecha:</label>
-            <input type="date" ng-model="journeyEdit.dateJourney" class="form-control" ng-change="updateSchedulesByDay(journeyEdit.dateJourney.getDay())">
+            <input type="date" ng-model="journeyEdit.dateJourney" class="form-control" ng-change="updateSchedulesByDay(journeyEdit.dateJourney.getDay())" required autofocus>
         </div>
         <div class="form-group">
             <label for="schedule">Horario:</label>
-            <select ng-model="journeyEdit.schedule" class="form-control" ng-options="schedule.Nombre for schedule in schedulesFilter track by schedule.Id"  required autofocus>
+            <select ng-model="journeyEdit.schedule" class="form-control" ng-options="schedule.HoraSalida for schedule in schedulesFilter track by schedule.Id"  required>
                 <option value="">Seleccione una opcion</option>
             </select> 
         </div>
