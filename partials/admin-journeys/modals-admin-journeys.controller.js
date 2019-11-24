@@ -26,6 +26,7 @@
         vm.initEdit = true;
         vm.journeyEdit = {};
         vm.journeyEdit.Id = journey.Id;
+        vm.journeyEdit.EstadoId = journey.EstadoId
         vm.journeyEdit.description = journey.Descripcion;
         vm.journeyEdit.route = $filter('filter')($rootScope.routes, {Id:  journey.RecorridoId})[0]; 
         vm.journeyEdit.vehicle = $filter('filter')($rootScope.vehicles, {Id:  journey.VehiculoId})[0]; 
@@ -90,7 +91,7 @@
 
     vm.updateJourneys = function(journeyEdit){
         vm.dataLoading = true;
-        var fechaViaje = $filter('date')(journeyEdit.dateJourney, 'dd-mm-yyyy');
+        var fechaViaje = $filter('date')(journeyEdit.dateJourney, 'dd-MM-yyyy');
         var date;
         if(fechaViaje){
             date = fechaViaje;
@@ -106,6 +107,7 @@
             VehiculoId: journeyEdit.vehicle.Id,
             HorarioId: journeyEdit.schedule.Id,
             Descripcion: journeyEdit.description,
+            EstadoId :journeyEdit.EstadoId,
             FechaViaje: date
         }
         ResourcesUpdateService.UpdateViaje(data)

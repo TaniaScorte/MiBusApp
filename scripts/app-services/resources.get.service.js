@@ -152,13 +152,13 @@
                 });
                 return deferred.promise;
         }
-        function GetViajesByRecorrido(recorridoID) {            
+        function GetViajesByRecorrido(recorridoID,empresaId) {            
             var deferred = $q.defer();
             var urlGetViajes ='https://www.mellevas.com.ar/api/viajes/GetViajesxEmpresaRecorrido';//$rootScope.globals.currentUser.token;       
             //var urlGetViajes = 'https://www.mellevas.com.ar/api/viajes/GetViajesxEmpresa?'
             var req = {
                 method: 'GET',
-                url: urlGetViajes + '?RecorridoId=' + recorridoID + "&EmpresaId=" + $rootScope.globals.currentUser.userData.EmpresaId +'&Token=' + 2019,
+                url: urlGetViajes + '?RecorridoId=' + recorridoID + "&EmpresaId=" + empresaId +'&Token=' + 2019,
                 headers: {
                   'Content-Type': 'application/json; charset=utf-8'
                 }

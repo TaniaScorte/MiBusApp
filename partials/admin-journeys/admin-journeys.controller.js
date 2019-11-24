@@ -163,7 +163,7 @@
             $scope.currentPage = 1;
             $scope.numPerPage = 10;
             $scope.inicializar = function () {
-                ResourcesService.GetViajesByRecorrido(recorridoId)
+                ResourcesService.GetViajesByRecorrido(recorridoId,$rootScope.globals.currentUser.userData.EmpresaId)
                 .then(function (response) {
                         if (response) {
                             if (response) {
