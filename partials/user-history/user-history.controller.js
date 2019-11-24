@@ -10,10 +10,14 @@
         var vm = $scope;
 
         initController();
-
+        $rootScope.stopTimer();
         function initController() {
            getHistorial();
         }
+        vm.formatDate = function(date){
+            var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
+            return dateOut;
+        };
         function getHistorial(){
             ResourcesService.GetHistorial($rootScope.globals.currentUser.userData.Id)
             .then(function (response) {

@@ -38,13 +38,16 @@
         }
         function initMap() {
             vm.loadAllRoute = null;
-            MapResourcesService.GetPasajeByUserId($rootScope.user.Id)
+            MapResourcesService.GetPasajeByUserId($rootScope.globals.currentUser.userData.Id)
             .then(function(response){
-                if(response.Estado == 0){
+                if(response){
                     vm.loadAllRoute = false;  
+                    vm.pasaje = response[0];
+                    getLocation();    
                 }                
-                if(response.Estado == 99){
+                if(!response){
                     vm.loadAllRoute = null;
+                    getLocation();    
                 }                 
             })
             .catch(function(error){
@@ -55,8 +58,9 @@
                     confirmButtonAriaLabel: 'Ok',
                 });
                 vm.showMensaje = false;
+                getLocation();    
             });                
-            getLocation();    
+           
         }
         function loadMap(paramLat,paramLon){
             vm.mymap = L.map('mapid').setView([paramLat,paramLon], 13);            
@@ -113,26 +117,60 @@
 
             vm.schedulesOk = false;
         }
-        function loadLayersByPasaje(recorrido){
-           ResourcesService.GetParadasByRecorrido(recorrido)
-            .then(function (response) {
-                if (response){
-                    vm.paradas = response;      
-                } 
-            })
-            .catch(function(error){
-                SweetAlert.swal ({
-                    type: "error", 
-                    title: "Error",
-                    text: error,
-                    confirmButtonAriaLabel: 'Ok',
+        $rootScope.stopTimer= function() {
+            if ($rootScope.intervalGetUltimaPosicion) {
+              clearInterval($rootScope.intervalGetUltimaPosicion);
+            }
+          }
+        function loadLayersByPasaje(){
+            $rootScope.stopTimer();
+            $rootScope.intervalGetUltimaPosicion = setInterval(() => {    
+                getLocationReal();
+                ResourcesService.GetUltimaPosicionByViaje(vm.pasaje.ViajeId)
+                .then(function (response) {
+                    vm.marker.setLatLng([response.Latitud, response.Longitud]);
+                    //vm.mymap.setView([response.Latitud, response.Longitud], 13)
+                    if(response.EstadoId == 6){
+                        $rootScope.stopTimer();
+                    }
+                })
+                .catch(function (error) {
                 });
-            });
+            }, 3000);
+            var markers = [];
+            ResourcesService.GetParadasByRecorrido(vm.pasaje.RecorridoId)
+             .then(function (response) {
+                 if (response){
+                     vm.paradas = response;  
+                     for (var index = 0; index < vm.paradas.length; index++) {
+                         var element = vm.paradas[index];
+                        //  if(!vm.focusParada){
+                        //     vm.focusParada={};
+                        //     vm.focusParada.longitude = element.Longitud;
+                        //     vm.focusParada.latitude = element.Latitud; 
+                        //  }                            
+                         var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.Nombre);  
+                         markers.push(marker);                   
+                     }
 
-            var marker1 = L.marker([-34.8482141,-58.4470336]).bindPopup('Parada Nro 1');
-            var marker2 = L.marker([-34.8471648,-58.4416045]).bindPopup('Parada Nro 2');
-            var marker3 = L.marker([-34.846258,-58.4395102]).bindPopup('Parada Nro 3');
-            var marker4 = L.marker([-34.8503334,-58.4410412]).bindPopup('Parada Nro 4');
+                    //vm.color = $rootScope.colors[vm.countColor].ColorHex;
+                    //setColorRoute(pointList,'blue',markers);
+                    //pointList=[];
+                    L.layerGroup(markers).addTo(vm.mymap);
+                    markers=[];                                
+                    //vm.countColor=vm.countColor + 1;   
+                    // vm.mymap.setView([vm.focusParada.latitude, vm.focusParada.longitude], 15)
+                 } 
+ 
+             })
+             .catch(function(error){
+                 SweetAlert.swal ({
+                     type: "error", 
+                     title: "Error",
+                     text: error,
+                     confirmButtonAriaLabel: 'Ok',
+                 });
+             })
 
         }
         function getLocation() {
@@ -144,6 +182,15 @@
             return false;
           }
         }    
+        function loadPositionIconPerson(position) {
+            vm.marker2.setLatLng([position.coords.latitude,position.coords.longitude])
+        }
+        function getLocationReal(position) {
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(loadPositionIconPerson);
+            }
+          }    
+         
         function loadAreaCicle(position) {
             loadMap(position.coords.latitude,position.coords.longitude);
             var circle = L.circle([position.coords.latitude,position.coords.longitude], {
@@ -152,6 +199,29 @@
                 fillOpacity: 0.3,
                 radius: 200
             }).addTo(vm.mymap);
+            var busIcon = L.icon({
+                iconUrl: 'images/bus.png',
+    
+                iconSize: [60, 45], // size of the icon
+                shadowSize: [50, 64], // size of the shadow
+                iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+                shadowAnchor: [4, 62],  // the same for the shadow
+                popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+            });
+            var pIcon = L.icon({
+                iconUrl: 'images/prueba-pasajero.png',
+    
+                iconSize: [60, 45], // size of the icon
+                shadowSize: [50, 64], // size of the shadow
+                iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+                shadowAnchor: [4, 62],  // the same for the shadow
+                popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+            });
+            if(vm.loadAllRoute == false){
+                vm.marker = L.marker([position.coords.latitude,position.coords.longitude], { icon: busIcon }).addTo(vm.mymap);
+                vm.marker2 = L.marker([position.coords.latitude,position.coords.longitude], { icon: pIcon }).addTo(vm.mymap);
+            }
+
         }
         function updateRamalByEmpresa(empresaId){
             $rootScope.ramales = null;
@@ -196,6 +266,7 @@
 
         }
         vm.loadMapParams = function(recorridoId){
+            $rootScope.stopTimer();
             if(recorridoId != undefined){
                 vm.loadAllRoute = null;
                 vm.mymap.remove();
@@ -212,7 +283,7 @@
                                 vm.focusParada.longitude = element.Longitud;
                                 vm.focusParada.latitude = element.Latitud; 
                              }                            
-                             var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.Nombre);  
+                             var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.ParadaNombre);  
                              markers.push(marker);                   
                          }
     
@@ -252,9 +323,10 @@
                     confirmButtonAriaLabel: 'Ok',
                 });
             });
-         }
+        }
 
- /*       function setColorRoute(pointList,color,markers) {
+ 
+         /*       function setColorRoute(pointList,color,markers) {
             var firstpolyline = new L.Polyline(pointList, {
                 color: color,
                 weight: 3,

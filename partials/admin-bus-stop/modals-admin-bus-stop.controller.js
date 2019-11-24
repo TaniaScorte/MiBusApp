@@ -88,10 +88,10 @@
     };  
     if(busStop.edit){
         vm.busStopEdit = {};
-        vm.busStopEdit.name = busStop.Nombre;
+        vm.busStopEdit.name = busStop.ParadaNombre;
         vm.busStopEdit.duration = Number(busStop.Duracion);
-        vm.busStopEdit.number = busStop.Numero;
-        vm.busStopEdit.description = busStop.Descripcion;
+        vm.busStopEdit.number = busStop.ParadaNumero;
+        vm.busStopEdit.description = busStop.ParadaDescripcion;
         vm.coords = {};
         vm.coords.latlng ={};
         vm.coords.latlng.lat = busStop.Latitud;
@@ -106,7 +106,7 @@
             if(data.RecorridoId 
                 && data.Id
                 && data.Numero && data.Numero <= 9999
-                && data.Nombre && data.Nombre.length <= 30 
+                && data.Nombre && data.Nombre.length <= 35 
                 && data.Descripcion && data.Descripcion.length <= 60
                 && data.Latitud && data.Longitud
                 && data.Duracion != undefined && data.Duracion < 99 ){
@@ -116,7 +116,7 @@
         if(busStop.create){
             if(data.RecorridoId 
                 && data.Numero && data.Numero <= 9999
-                && data.Nombre && data.Nombre.length <= 30 
+                && data.Nombre && data.Nombre.length <= 35 
                 && data.Descripcion && data.Descripcion.length <= 60
                 && data.Latitud && data.Longitud
                 && data.Duracion != undefined && data.Duracion < 99 ){

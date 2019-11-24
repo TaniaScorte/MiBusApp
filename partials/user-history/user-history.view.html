@@ -21,16 +21,24 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Fecha</th>
+                            <th>Fecha Compra</th>
                             <th>Hora</th>
+                            <th>Empresa</th>
+                            <th>Ramal</th>
+                            <th>Recorrido</th>
+                            <td>Parada</td>
                             <th>Importe</th>
                         </tr>
                     </thead>
                     <tbody>        
                         <tr ng-repeat="record in records">
-                            <td>{{record.Fecha}}</td>
+                            <td><label ng-bind="formatDate(record.FechaCompra) |  date:'dd/MM/yyyy'"></label></td>
                             <td>{{record.HoraSalida}}</td>
-                            <td>{{record.Importe}}</td>
+                            <td>{{record.EmpresaNombre}}</td>
+                            <td>{{record.RamalNombre}}</td>
+                            <td>{{record.RecorridoNombre}}</td>
+                            <td>{{record.ParadaNombre}}</td>
+                            <td>$ {{record.Importe}}</td>
                         </tr>
                     </tbody>
                 </table>

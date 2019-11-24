@@ -204,7 +204,7 @@
     vm.today = function() {
         if(journey.edit){
             vm.journeyEdit.dt = new Date();
-            vm.updateSchedulesByDay(vm.journeyEdit.dt.getDay());
+            return;
         }
         if(journey.create){
             vm.journey.dt = new Date();

@@ -94,10 +94,10 @@
        
         function GetHistorial(userId) {            
             var deferred = $q.defer();
-            var urlGet ='https://www.mellevas.com.ar/api/viajes/GetHistorial?Token=' + 2019;       
+            var urlGet ='https://www.mellevas.com.ar/api/pasaje/GetPasajesHistoricoxUsuario?Token=' + 2019;       
             var req = {
                 method: 'GET',
-                url: urlGet +'&userId='+userId,
+                url: urlGet +'&usuarioId='+userId,
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }

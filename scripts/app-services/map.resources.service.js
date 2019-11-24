@@ -14,14 +14,14 @@
 
         return service;
 
-        function GetPasajeByUserId(dni) {
+        function GetPasajeByUserId(id) {
 
             var deferred = $q.defer();
-            var urlGetPasajeByUserId ='https://www.mellevas.com.ar/api/pasajes/getPasajexUsuario';       
+            var urlGetPasajeByUserId ='https://www.mellevas.com.ar/api/pasaje/GetpasajexUsuario?usuarioId=' + id;       
         
             var req = {
                 method: 'GET',
-                url: urlGetPasajeByUserId,
+                url: urlGetPasajeByUserId + "&Token=" + 2019 ,
                 headers: {
                   'Content-Type': 'application/json; charset=utf-8'
                 }

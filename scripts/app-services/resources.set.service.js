@@ -19,8 +19,10 @@
         service.SetViaje = SetViaje;
         service.SetTracking = SetTracking;
         service.SetAlerta = SetAlerta;
+        service.SetPasaje = SetPasaje;
         service.SetViajeEstado=SetViajeEstado;
         return service;
+        
         function SetViajeEstado(data) {
             var deferred = $q.defer();
             var urlSetAlerta ='https://www.mellevas.com.ar/api/Viajes/SetViajeEstado?token=' + 2019;//$rootScope.globals.currentUser.token;         
@@ -39,6 +41,26 @@
             });
             return deferred.promise;
         }
+        function SetPasaje(data) {
+            var deferred = $q.defer();
+            var urlSetPasaje ='https://www.mellevas.com.ar/api/pasaje/Create';//$rootScope.globals.currentUser.token;       
+            data.Token=2019;
+            var req = {
+                method: 'POST',
+                url: urlSetPasaje,
+                data: data
+            }     
+
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        }
+        
         function SetAlerta(data) {
             var deferred = $q.defer();
             var urlSetAlerta ='https://www.mellevas.com.ar/api/alertas/Create?token=' + 2019;//$rootScope.globals.currentUser.token;         
