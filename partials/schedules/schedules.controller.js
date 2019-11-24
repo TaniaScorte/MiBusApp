@@ -10,7 +10,7 @@
         var vm = $scope;
         vm.updateRamalByEmpresa = updateRamalByEmpresa;
         vm.updateRecorridosByRamal = updateRecorridosByRamal;
-        vm.updateHorariosByRecorrido = updateHorariosByRecorrido;
+        vm.updateViajesByRecorrido = updateViajesByRecorrido;
         vm.buy = buy;
         initController();
 
@@ -42,12 +42,12 @@
             }
             
         }
-        function buy(horario) {
+        function buy(journey) {
             var paramsBuy= {};
             paramsBuy.recorrido = vm.recorrido;
             paramsBuy.empresa = vm.empresa;
             paramsBuy.ramal = vm.ramal;
-            paramsBuy.horario = horario;
+            paramsBuy.journey = journey;
             $rootScope.paramsBuy = {};
             $rootScope.paramsBuy = paramsBuy; 
             $location.path('/buy');
@@ -91,13 +91,13 @@
                 });                
             }
         }
-        function updateHorariosByRecorrido(recorridoId){
+        function updateViajesByRecorrido(recorridoId){
+            $rootScope.journeys = null;
             if (recorridoId != undefined) {
-                $rootScope.horarios = null;
-                ResourcesService.GetHorariosByRecorrido(recorridoId)
+                ResourcesService.GetViajesByRecorrido(recorridoId,vm.empresa.Id)
                 .then(function (response) {
                     if (response){
-                        vm.horarios = response;  
+                        vm.journeys = response;  
                         vm.schedulesOk = true;    
                     } 
                 })
@@ -124,7 +124,10 @@
             vm.horario=null;
             vm.ramal=null;
             vm.menssageEmpresa = false;
+            $rootScope.paramsBuy = null;
+            $rootScope.backSchedules= null;
         }
+        
     }
 
 })();

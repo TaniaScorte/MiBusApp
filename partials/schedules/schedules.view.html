@@ -22,7 +22,7 @@
     </div>
     <form class="col-sm-12 col-md-12"  ng-show="loadComboBranchsRoutes">
         <div class="form-group row" style="padding-left: 10px">
-            <button class="btn btn-primary offset-md-10 offset-lg-10 offset-sm-10" ng-click="backLoadEmpresas()"><i class="fa fa-back"></i> Volver </button>
+            <button class="btn btn-primary offset-md-10 offset-lg-10 offset-sm-10" ng-click="backLoadEmpresas()"><i class="fa fa-arrow-left"></i> Volver </button>
         </div>
         <div class="media-body">
             <h5>Empresa seleccionada:</h5>
@@ -39,7 +39,7 @@
         <div class="form-group row">
             <label for="recorrido"  class="col-sm-2 col-form-label" >Recorrido:</label>
             <div class="col-sm-5">
-                <select ng-model="recorrido" class="form-control" ng-change="updateHorariosByRecorrido(recorrido.Id)" ng-options="recorrido.Nombre for recorrido in recorridos track by recorrido.Id">
+                <select ng-model="recorrido" class="form-control" ng-change="updateViajesByRecorrido(recorrido.Id)" ng-options="recorrido.Nombre for recorrido in recorridos track by recorrido.Id">
                     <option value="">Seleccione una opcion</option>
                 </select> 
             </div>
@@ -58,12 +58,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="horario in horarios">
-              <td scope="row">{{horario.DiaNombre}}</td>
-              <td>{{horario.HoraSalida}}</td>
-              <td>{{ramal.Nombre}}</td>
-              <td>{{recorrido.Nombre}}</td>
-              <td><button class="btn btn-primary" ng-click="buy(horario)"> Comprar</button></td>
+            <tr ng-repeat="journey in journeys">
+              <td scope="row">{{journey.DiaNombre}}</td>
+              <td>{{journey.HoraSalida}}</td>
+              <td>{{journey.RamalNombre}}</td>
+              <td>{{journey.RecorridoNombre}}</td>
+              <td><button class="btn btn-primary" ng-click="buy(journey)"> Comprar</button></td>
             </tr>
           </tbody>
         </table>
