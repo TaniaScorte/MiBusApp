@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="offset-xs-2 col-xs-10 offset-sm-2 col-sm-10 offset-md-3 col-md-6 offset-lg-3 col-lg-6" style="text-align: left;">
+        <div class="col-xs-12 offset-sm-1 col-sm-11 offset-md-1 col-md-8 offset-lg-1 col-lg-8" style="text-align: left;">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <h5> Usted esta por comprar un pasaje</h5>
@@ -30,67 +30,68 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <table class="table table-responsive">
-                                <tr>
-                                    <td><label> Empresa: </label></td>
-                                    <td><strong> <h6>{{paramsBuy.empresa.Nombre}}</h6></strong><br></td>
-                                </tr>
-                                <tr>
-                                    <td><label for="">Ramal:</label></td>
-                                    <td>
-                                        <strong><h6> {{paramsBuy.ramal.Nombre}} </h6></strong>   
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for="">Recorrido:</label></td>
-                                    <td>
-                                        <strong><h6>{{paramsBuy.recorrido.Nombre}}  </h6></strong>   
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for="">Fecha: </label></td>
-                                    <td>
-                                        <strong><h6>{{paramsBuy.journey.Dia}}  </h6></strong>   
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for=""> Hora:  </label></td>
-                                    <td>
-                                        <strong><h6>{{paramsBuy.journey.HoraSalida}} </h6></strong>   
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for="">Valor del pasaje:  </label></td>
-                                    <td>
-                                        <strong><h6>$ {{paramsBuy.recorrido.Importe}}</h6></strong>   
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label for="">Parada</label></td>
-                                    <td>
-                                        <div class="col-md-6">
-                                            <select ng-model="buy.busStop" class="form-control" style="width: auto;" ng-change="selectedBusStop()" ng-options="busStop.ParadaNombre for busStop in busStops track by busStop.Id">
-                                                <option value="">Seleccione una opcion</option>
-                                            </select> 
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
+                        <tr>
+                            <td><label> Empresa: </label></td>
+                            <td><strong> <h6>{{paramsBuy.empresa.Nombre}}</h6></strong><br></td>
+                        </tr>
+                        <tr>
+                            <td><label for="">Ramal:</label></td>
+                            <td>
+                                <strong><h6> {{paramsBuy.ramal.Nombre}} </h6></strong>   
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="">Recorrido:</label></td>
+                            <td>
+                                <strong><h6>{{paramsBuy.recorrido.Nombre}}  </h6></strong>   
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="">Fecha: </label></td>
+                            <td>
+                                    <label ng-bind="formatDate(paramsBuy.journey.FechaViaje) |  date:'dd/MM/yyyy'"></label> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for=""> Hora:  </label></td>
+                            <td>
+                                <strong><h6>{{paramsBuy.journey.HoraSalida}} </h6></strong>   
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="">Valor del pasaje:  </label></td>
+                            <td>
+                                <strong><h6>$ {{paramsBuy.recorrido.Importe}}</h6></strong>   
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for=""><strong>Parada:</strong></label></td>
+                            <td>
+                                <div class="col-md-6">
+                                    <select ng-model="paramsBuy.busStop" class="form-control" style="width: auto;" ng-change="selectedBusStop()" ng-options="busStop.ParadaNombre for busStop in busStops track by busStop.Id">
+                                    </select> 
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3 col-lg-3"  style="float:right; padding-bottom: 5px;">
+                        <qr text="codigoqr"></qr>
                 </div>
             </div>
             <div class="row">
-                <div class="offset-sm-1 offset-md-2">
-                    <a class="btn btn-primary" mp-mode="dftl" href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=4296396-7419782e-a5c2-48e5-8ab0-6b2b2ec8c754" name="MP-payButton" class='blue-ar-l-rn-none'>Pagar</a>
-                    <a class="btn btn-danger" ng-click="backSchedules()">Cancelar</a>
+                <div class="offset-sm-1 offset-md-2" style="padding-bottom: 5px;">
+                        <a class="btn btn-primary" style="color:white;" ng-click="buyConfirm()">Confirmar</a>
+                    <!-- <a class="btn btn-primary" mp-mode="dftl" href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=4296396-7419782e-a5c2-48e5-8ab0-6b2b2ec8c754" name="MP-payButton" class='blue-ar-l-rn-none'>Pagar</a> -->
+                    <a class="btn btn-danger" style="color:white;" ng-click="backSchedules()">Cancelar</a>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3 col-lg-3 d-none d-md-block"  style="float:right; padding-bottom: 5px;">
-            <img src="images/lateralCompra.png" class="responsive">
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 (function(){function $MPC_load(){window.$MPC_loaded !== true && (function(){var s = document.createElement("script");s.type = "text/javascript";s.async = true;s.src = document.location.protocol+"//secure.mlstatic.com/mptools/render.js";var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);window.$MPC_loaded = true;})();}window.$MPC_loaded !== true ? (window.attachEvent ?window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;})();
 </script>
+-->
 <footer></footer>
