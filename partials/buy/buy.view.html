@@ -47,27 +47,31 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label for="">Recorrido:</label></td>
-                                    <td>
-                                        <strong><h6>{{paramsBuy.recorrido.Nombre}}  </h6></strong>   
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td><label for="">Fecha: </label></td>
                                     <td>
-                                        <strong><h6>{{paramsBuy.horario.Dia}}  </h6></strong>   
+                                        <strong><h6>{{paramsBuy.journey.Dia}}  </h6></strong>   
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for=""> Hora:  </label></td>
                                     <td>
-                                        <strong><h6>{{paramsBuy.horario.HoraSalida}} </h6></strong>   
+                                        <strong><h6>{{paramsBuy.journey.HoraSalida}} </h6></strong>   
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><label for="">Valor del pasaje:  </label></td>
                                     <td>
                                         <strong><h6>$ {{paramsBuy.recorrido.Importe}}</h6></strong>   
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="">Parada</label></td>
+                                    <td>
+                                        <div class="col-md-6">
+                                            <select ng-model="buy.busStop" class="form-control" style="width: auto;" ng-change="selectedBusStop()" ng-options="busStop.ParadaNombre for busStop in busStops track by busStop.Id">
+                                                <option value="">Seleccione una opcion</option>
+                                            </select> 
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
