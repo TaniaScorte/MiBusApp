@@ -22,14 +22,14 @@
         service.SetPasaje = SetPasaje;
         service.SetViajeEstado=SetViajeEstado;
         return service;
-        
-        function SetViajeEstado(data) {
+
+        function SetViajeEstado(idViaje, estado) {
             var deferred = $q.defer();
-            var urlSetAlerta ='https://www.mellevas.com.ar/api/Viajes/SetViajeEstado?token=' + 2019;//$rootScope.globals.currentUser.token;         
+          //  var url ='https://www.mellevas.com.ar/api/Viajes/SetViajeEstado?token=' + 2019;//$rootScope.globals.currentUser.token;  
+           var url = 'https://www.mellevas.com.ar/api/viajes/setviajeestado?id='+idViaje+'&estadoId='+estado+'&token=2019';       
             var req = {
-                method: 'POST',
-                url: urlSetAlerta,
-                data: data
+                method: 'GET',
+                url: url,
             }     
             $http(req)
             .then(function(response){

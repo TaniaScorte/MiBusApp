@@ -109,25 +109,26 @@
             DS.init();
             DS.setIdViajeActual(viajeElegido);
             alternarBotones();
-
-            /*var data = {
-                id: parseInt(viajeElegido),
-                estadoId: 1,
-                Token: "2019",
-            }
-            ResourcesSetService.SetViajeEstado(data)
+            ResourcesSetService.SetViajeEstado(parseInt(viajeElegido),1)
                 .then(function (response) {
-                    console.log(response);
+                 //   console.log(response);
                 })
                 .catch(function (error) {
                     console.log(error);
 
-                });*/
+                });
 
         }
         $scope.stopReport = function () { //detener reporte de posicion
             var al = DS.getIdAlerta();
             if (al == 'null' || al == null || al == undefined || al == 'undefined') {//si hay alerta no detiene
+                ResourcesSetService.SetViajeEstado(parseInt(viajeElegido),6)
+                .then(function (response) {
+                   // console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
                 $scope.noElegido = true;
                 DS.setEstado(1);
                 DS.stop();
@@ -165,7 +166,7 @@
                 if (DS.getIniciado() === 'true' && DS.getEstado() === '0') { //contador para manejar los hilos, para que no se creen muchos y se pongan en cola en cada intervalo
                     DS.setEstado(1);
                     var geo = navigator.geolocation.getCurrentPosition(function (position) {
-                        console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
+                       // console.log(position.coords.latitude, position.coords.longitude);// reportar ubicacion a la base de datos
                         DS.setLatLong({ lat: position.coords.latitude, long: position.coords.longitude });
                         var data = {
                             viajeId: viajeElegido,
@@ -197,7 +198,7 @@
                 SweetAlert.swal('No ha elegido un viaje','' , "warning");
                 $scope.noElegido = true;
             } else {
-                console.log('cargando paradas del viaje', viajeElegido);
+               // console.log('cargando paradas del viaje', viajeElegido);
                 var stopIcon = L.icon({
                     iconUrl: 'images/bstop.png',
 
