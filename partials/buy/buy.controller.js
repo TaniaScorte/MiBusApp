@@ -22,8 +22,14 @@
             getParadasByRecorrido();
         }
         vm.formatDate = function(date){
-            var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
-            return dateOut;
+            if(date){
+                var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
+                return dateOut;
+            }
+            else{
+                return $filter('date')(new Date, 'dd-MM-yyyy');
+            }
+
         };
         vm.buyConfirm = function(){
             var codigoqr = makeid(8) + "-" + makeid(4) +"-" +makeid(4) +"-" + makeid(4) +"-" + makeid(12);
