@@ -52,17 +52,7 @@
                     .then(function (response) {
                         if (response) {
                             $scope.vehicles = response;
-                            $rootScope.vehicles = response;          //por las dudas que lo use en otro lado
-                            if($rootScope.brands){
-                                for (var x = 0; x < $rootScope.vehicles.length; x++) {
-                                $rootScope.vehicles[x].Marca = $filter('filter')($rootScope.brands, { Id: $rootScope.vehicles[x].MarcaId })[0].Nombre;
-                                }
-                            }
-                            if($rootScope.allModels){
-                                for (var x = 0; x < $rootScope.vehicles.length; x++) {
-                                    $rootScope.vehicles[x].Modelo = $filter('filter')($rootScope.allModels, { Id: $rootScope.vehicles[x].ModeloId })[0].Nombre;
-                                }
-                            }                            
+                            $rootScope.vehicles = response;          //por las dudas que lo use en otro lado                          
                             $scope.hacerPagineo($scope.vehicles);
                             $scope.totalVehicles = $scope.vehicles.length;
                         }
@@ -102,11 +92,6 @@
                 .then(function (response) {
                     if (response) {
                         $rootScope.brands = response;
-                        if($rootScope.vehicles){
-                            for (var x = 0; x < $rootScope.vehicles.length; x++) {
-                                $rootScope.vehicles[x].Marca = $filter('filter')($rootScope.brands, { Id: $rootScope.vehicles[x].MarcaId })[0].Nombre;
-                            }   
-                        }
                     }
                 })
                 .catch(function (error) {
@@ -123,13 +108,6 @@
                 .then(function (response) {
                     if (response) {
                         $rootScope.allModels = response;
-                        if($rootScope.vehicles){
-                            if($rootScope.allModels){
-                                for (var x = 0; x < $rootScope.vehicles.length; x++) {
-                                    $rootScope.vehicles[x].Modelo = $filter('filter')($rootScope.allModels, { Id: $rootScope.vehicles[x].ModeloId })[0].Nombre;
-                                }
-                            }   
-                        }
                     }
                 })
                 .catch(function (error) {
