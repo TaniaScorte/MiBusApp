@@ -40,14 +40,21 @@
             vm.loadAllRoute = null;
             MapResourcesService.GetPasajeByUserId($rootScope.globals.currentUser.userData.Id)
             .then(function(response){
-                if(response){
+                if(response.length > 0){
                     vm.loadAllRoute = false;  
                     vm.pasaje = response[0];
                     getLocation();    
                 }                
-                if(!response){
+                if(response.length == 0){
                     vm.loadAllRoute = null;
-                    getLocation();    
+                    SweetAlert.swal ({
+                        type: "warning", 
+                        title: "Tenga en cuenta que no posee pasajes",
+                        text: "",
+                        confirmButtonAriaLabel: 'Ok',
+                    });
+                    vm.showMensaje = false;
+                    getLocation();      
                 }                 
             })
             .catch(function(error){
@@ -225,6 +232,7 @@
         }
         function updateRamalByEmpresa(empresaId){
             $rootScope.ramales = null;
+            $rootScope.recorridos=null;
             if(empresaId != undefined){
                 ResourcesService.GetRamalesByEmpresa(empresaId)
                 .then(function (response) {
@@ -293,7 +301,8 @@
                         L.layerGroup(markers).addTo(vm.mymap);
                         markers=[];                                
                         //vm.countColor=vm.countColor + 1;   
-                        vm.mymap.setView([vm.focusParada.latitude, vm.focusParada.longitude], 15)
+                        vm.mymap.setView([vm.focusParada.latitude, vm.focusParada.longitude], 15);
+                        vm.focusParada = null;
                      } 
      
                  })
