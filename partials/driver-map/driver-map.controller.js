@@ -107,8 +107,23 @@
 
         $scope.initReport = function () {  //iniciar reporte de posicion
             DS.init();
-            DS.setIdViajeActual(viajeElegido)
+            DS.setIdViajeActual(viajeElegido);
             alternarBotones();
+
+            /*var data = {
+                id: parseInt(viajeElegido),
+                estadoId: 1,
+                Token: "2019",
+            }
+            ResourcesSetService.SetViajeEstado(data)
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+
+                });*/
+
         }
         $scope.stopReport = function () { //detener reporte de posicion
             var al = DS.getIdAlerta();

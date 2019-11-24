@@ -65,11 +65,12 @@
                     if (response.Estado == 0){
                         SweetAlert.swal ({
                             type: "success", 
-                            title: "La operacion se ha realizado con exito",
-                            text: "El usuario ha sido actualizado",
+                            title: "La operacion se ha realizado con éxito",
+                            text: "El usuario ha sido actualizado, vuelva a iniciar sesión para ver sus cambios",
                             confirmButtonAriaLabel: 'Ok',
                         });
                         vm.dataLoading = false;
+                        $rootScope.logout();
                         return;
                     } 
                     else {

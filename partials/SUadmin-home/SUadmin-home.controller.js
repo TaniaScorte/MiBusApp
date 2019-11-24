@@ -306,7 +306,7 @@
                     $scope.errorNewDir = true;
                     return false;
                 }
-                if ($scope.txtCuitNew == "" || $scope.txtCuitNew == undefined || $scope.txtCuitNew == null || isNaN($scope.txtCuitNew) || $scope.txtCuitNew.toString().length > 11) {
+                if ($scope.txtCuitNew == "" || $scope.txtCuitNew == undefined || $scope.txtCuitNew == null || isNaN($scope.txtCuitNew) || $scope.txtCuitNew.toString().length != 11) {
                     $scope.errorNewCuit = true;
                     return false;
                 }
@@ -324,7 +324,7 @@
                     $scope.errorEditDir = true;
                     return false;
                 }
-                if ($scope.txtCuitEdit == "" || $scope.txtCuitEdit == undefined || $scope.txtCuitEdit == null || isNaN($scope.txtCuitEdit) || $scope.txtCuitEdit.toString().length > 11){
+                if ($scope.txtCuitEdit == "" || $scope.txtCuitEdit == undefined || $scope.txtCuitEdit == null || isNaN($scope.txtCuitEdit) || $scope.txtCuitEdit.toString().length != 11){
                     $scope.errorEditCuit = true;
                     return false;
                 }
