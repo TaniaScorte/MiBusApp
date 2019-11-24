@@ -10,7 +10,7 @@
         var vm = $scope;
 
         initController();
-
+        $rootScope.stopTimer();
         function initController() {
            getHistorial();
         }

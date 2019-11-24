@@ -13,7 +13,7 @@
         vm.updateViajesByRecorrido = updateViajesByRecorrido;
         vm.buy = buy;
         initController();
-
+        $rootScope.stopTimer();
         function initController() {
             if($rootScope.backSchedules){
                 vm.loadComboBranchsRoutes= true;

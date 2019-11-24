@@ -117,21 +117,21 @@
 
             vm.schedulesOk = false;
         }
-        vm.stopTimer= function() {
+        $rootScope.stopTimer= function() {
             if ($rootScope.intervalGetUltimaPosicion) {
               clearInterval($rootScope.intervalGetUltimaPosicion);
             }
           }
         function loadLayersByPasaje(){
-            $rootScope.intervalGetUltimaPosicion = setInterval(() => {      
+            $rootScope.stopTimer();
+            $rootScope.intervalGetUltimaPosicion = setInterval(() => {    
+                getLocationReal();
                 ResourcesService.GetUltimaPosicionByViaje(vm.pasaje.ViajeId)
                 .then(function (response) {
-                    if(response.EstadoId == 1){
-                        vm.marker.setLatLng([response.Latitud, response.Longitud]);
-                        vm.mymap.setView([response.Latitud, response.Longitud], 15)
-                    }
-                    if(response.EstadoId = 6){
-                        vm.stopTimer();
+                    vm.marker.setLatLng([response.Latitud, response.Longitud]);
+                    //vm.mymap.setView([response.Latitud, response.Longitud], 13)
+                    if(response.EstadoId == 6){
+                        $rootScope.stopTimer();
                     }
                 })
                 .catch(function (error) {
@@ -182,6 +182,15 @@
             return false;
           }
         }    
+        function loadPositionIconPerson(position) {
+            vm.marker2.setLatLng([position.coords.latitude,position.coords.longitude])
+        }
+        function getLocationReal(position) {
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(loadPositionIconPerson);
+            }
+          }    
+         
         function loadAreaCicle(position) {
             loadMap(position.coords.latitude,position.coords.longitude);
             var circle = L.circle([position.coords.latitude,position.coords.longitude], {
@@ -257,9 +266,7 @@
 
         }
         vm.loadMapParams = function(recorridoId){
-            if($rootScope.intervalGetUltimaPosicion){
-                clearInterval(null);
-            }
+            $rootScope.stopTimer();
             if(recorridoId != undefined){
                 vm.loadAllRoute = null;
                 vm.mymap.remove();
@@ -276,7 +283,7 @@
                                 vm.focusParada.longitude = element.Longitud;
                                 vm.focusParada.latitude = element.Latitud; 
                              }                            
-                             var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.Nombre);  
+                             var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.ParadaNombre);  
                              markers.push(marker);                   
                          }
     

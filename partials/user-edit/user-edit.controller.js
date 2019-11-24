@@ -9,7 +9,7 @@
     function UserEditController(UserService, $location,$rootScope,$scope,ResourcesService,$filter,SweetAlert) {
         var vm = $scope;
         initController();
-
+        $rootScope.stopTimer();
         function initController() {
             if(!$rootScope.dnitypes){
                 ResourcesService.GetTiposDNI()
