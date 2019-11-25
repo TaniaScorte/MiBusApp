@@ -32,6 +32,7 @@
                 ResourcesService.GetEmpresas()
                     .then(function (response) {
                         if (response) {
+                            espera(false);
                             if (response) {
                                 $scope.items = response;
                                 // console.log($scope.items);
@@ -44,6 +45,7 @@
                     })
                     .catch(function (error) {
                         //console.log(error);
+                        espera(false);
                         SweetAlert.swal({
                             type: "error",
                             title: "Error",
@@ -71,7 +73,6 @@
             $scope.$watch('currentPage', function () {
                 $scope.hacerPagineo($scope.items);
             });
-            espera(false);
 
 
         }
