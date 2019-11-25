@@ -34,7 +34,7 @@
         vm.journeyEdit.description = journey.Descripcion;
         vm.journeyEdit.route = $filter('filter')($rootScope.routes, {Id:  journey.RecorridoId})[0]; 
         vm.journeyEdit.vehicle = $filter('filter')($rootScope.vehicles, {Id:  journey.VehiculoId})[0]; 
-        vm.journeyEdit.driver = $filter('filter')($rootScope.drivers, {Id: journey.ChoferId})[0];
+        vm.journeyEdit.driver = $filter('filter')(vm.drivers , {Id: journey.ChoferId})[0];
         vm.journeyEdit.schedule = $filter('filter')($rootScope.schedules, {Id: journey.HorarioId})[0];
         vm.dateJourney = $filter('date')($rootScope.formatDate(journey.FechaViaje), 'dd-MM-yyyy');
     }
