@@ -135,7 +135,16 @@
             $rootScope.paramsBuy = null;
             $rootScope.backSchedules= null;
         }
-        
+        vm.formatDate = function(date){
+            if(date){
+                var dateOut = date.replace(/([A-Za-z)(\\/])/g, "");
+                return dateOut;
+            }
+            else{
+                return $filter('date')(new Date, 'dd-MM-yyyy');
+            }
+
+        };
     }
 
 })();

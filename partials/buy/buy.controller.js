@@ -5,8 +5,8 @@
         .module('app')
         .controller('BuyController', BuyController);
 
-        BuyController.$inject = ['$location','$scope','$rootScope','MapResourcesService','ResourcesService','SweetAlert','ResourcesSetService','$filter'];
-    function BuyController($location,$scope,$rootScope,MapResourcesService,ResourcesService,SweetAlert,ResourcesSetService,$filter) {
+        BuyController.$inject = ['$location','$scope','$rootScope','MapResourcesService','ResourcesService','SweetAlert','ResourcesSetService','$filter','$window'];
+    function BuyController($location,$scope,$rootScope,MapResourcesService,ResourcesService,SweetAlert,ResourcesSetService,$filter,$window) {
         var vm = $scope;
         initController();
 
@@ -17,6 +17,7 @@
                 return;
             }
             vm.paramsBuy = $rootScope.paramsBuy;
+            vm.UserId = $rootScope.globals.currentUser.userData.Id;
             
             $scope.codigoqr = makeid(10);
             getParadasByRecorrido();
@@ -39,19 +40,15 @@
                 ViajeId: vm.paramsBuy.journey.Id,
                 UsuarioId: $rootScope.globals.currentUser.userData.Id,
                 EstadoId: 1,
-                ParadaId: 50,// vm.paramsBuy.busStop.Id,
+                ParadaId: vm.busStop.Id,// vm.paramsBuy.busStop.Id,
                 Importe: vm.paramsBuy.recorrido.Importe,
                 FechaCompra: $filter('date')(new Date, 'dd-MM-yyyy')
             };
             ResourcesSetService.SetPasaje(data)
             .then(function (response) {
                 if (response.Estado == 0){
-                    SweetAlert.swal ({
-                        type: "success", 
-                        title: "Grandioso!",
-                        text: "Ya podes esperar tu MiBus!",
-                        confirmButtonAriaLabel: 'Ok',
-                    });   
+                    var url = "https://www.mellevas.com.ar/api/mp/index?id=" + response.id;
+                    $window.location.href = url;
                 } 
             })
             .catch(function(error){

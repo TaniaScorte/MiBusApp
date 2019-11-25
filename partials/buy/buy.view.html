@@ -68,7 +68,7 @@
                             <td><label for=""><strong>Parada:</strong></label></td>
                             <td>
                                 <div class="col-md-6">
-                                    <select ng-model="paramsBuy.busStop" class="form-control" style="width: auto;" ng-change="selectedBusStop()" ng-options="busStop.ParadaNombre for busStop in busStops track by busStop.Id">
+                                    <select ng-model="busStop" class="form-control" style="width: auto;" ng-change="selectedBusStop()" ng-options="busStop.ParadaNombre for busStop in busStops track by busStop.Id" required autofocus>
                                     </select> 
                                 </div>
                             </td>
@@ -81,7 +81,7 @@
             </div>
             <div class="row">
                 <div class="offset-sm-1 offset-md-2" style="padding-bottom: 5px;">
-                        <a class="btn btn-primary" style="color:white;" ng-click="buyConfirm()">Confirmar</a>
+                        <a class="btn btn-primary" style="color:white;" ng-click="buyConfirm()">Iniciar Pago</a>
                     <!-- <a class="btn btn-primary" mp-mode="dftl" href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=4296396-7419782e-a5c2-48e5-8ab0-6b2b2ec8c754" name="MP-payButton" class='blue-ar-l-rn-none'>Pagar</a> -->
                     <a class="btn btn-danger" style="color:white;" ng-click="backSchedules()">Cancelar</a>
                 </div>

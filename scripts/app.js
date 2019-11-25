@@ -160,6 +160,11 @@
         if ($rootScope.globals.currentUser) {
             $rootScope.user = $rootScope.globals.currentUser.userData; // jshint ignore:line
         }
+        $rootScope.stopTimer= function() {
+            if ($rootScope.intervalGetUltimaPosicion) {
+              clearInterval($rootScope.intervalGetUltimaPosicion);
+            }
+        }
 
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             // redirect to login page if not logged in and trying to access a restricted page

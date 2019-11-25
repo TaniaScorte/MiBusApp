@@ -128,7 +128,7 @@
             if ($rootScope.intervalGetUltimaPosicion) {
               clearInterval($rootScope.intervalGetUltimaPosicion);
             }
-          }
+        }
         function loadLayersByPasaje(){
             $rootScope.stopTimer();
             $rootScope.intervalGetUltimaPosicion = setInterval(() => {    

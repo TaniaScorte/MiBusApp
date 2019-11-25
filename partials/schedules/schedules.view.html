@@ -53,6 +53,7 @@
               <th scope="col">Dia</th>
               <th scope="col">Hora</th>
               <th scope="col">Ramal</th>
+              <th scope="col">Fecha Viaje</th>
               <th scope="col">Recorrido</th>
               <th scope="col"></th>
             </tr>
@@ -62,6 +63,7 @@
               <td scope="row">{{journey.DiaNombre}}</td>
               <td>{{journey.HoraSalida}}</td>
               <td>{{journey.RamalNombre}}</td>
+              <td><label ng-bind="formatDate(journey.FechaViaje) |  date:'dd/MM/yyyy'"></label> </td>
               <td>{{journey.RecorridoNombre}}</td>
               <td><button class="btn btn-primary" ng-click="buy(journey)"> Comprar</button></td>
             </tr>
