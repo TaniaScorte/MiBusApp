@@ -124,7 +124,7 @@
             });
         }
         $scope.aunNo= function(){
-            window.location.replace('#!driver-map');
+            window.location.href='#!/driver-map';
         }
     };
 }

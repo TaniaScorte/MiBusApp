@@ -25,8 +25,7 @@
 
         function SetViajeEstado(idViaje, estado) {
             var deferred = $q.defer();
-          //  var url ='https://www.mellevas.com.ar/api/Viajes/SetViajeEstado?token=' + 2019;//$rootScope.globals.currentUser.token;  
-           var url = 'https://www.mellevas.com.ar/api/viajes/setviajeestado?id='+idViaje+'&estadoId='+estado+'&token=2019';       
+            var url = 'https://www.mellevas.com.ar/api/viajes/setviajeestado?id='+idViaje+'&estadoId='+estado+'&token=2019';       
             var req = {
                 method: 'GET',
                 url: url,
@@ -72,7 +71,7 @@
             $http(req)
             .then(function(response){
                 deferred.resolve(response.data);
-            })
+            }) 
             .catch(function(error){
                 console.log(error);
                 deferred.reject("Error al enviar alerta");

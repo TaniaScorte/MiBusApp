@@ -24,6 +24,13 @@ h3{
     display: inline;
     font-weight: bold;
 }
+#btnIrMapa{
+    background: none;
+    border: none;
+}
+button:disabled {
+        cursor: no-drop;
+    }
 @media only screen and (max-width: 600px) {
   body {
     background-image: url('images/logoMiniBusApp-transparente-mobile.png');
@@ -62,9 +69,8 @@ h3{
                             <td>{{item.RecorridoDescripcion}}</td>
                             <td>{{item.EstadoId | filterEstado}}</td>
                             <td>
-                                <a class="" data-toggle="modal" data-target="#modalIniciar"><i class="fa fa-play-circle"
-                                        data-toggle="tooltip" title="Editar" data-original-title="Editar"
-                                        ng-click="elegirViaje(item.ViajeId, item.RecorridoId);"></i></a>
+                                <button class="" data-toggle="modal" id="btnIrMapa" ng-disabled='item.EstadoId==6' data-target="#modalIniciar" ng-click="elegirViaje(item.ViajeId, item.RecorridoId);"><i class="fa fa-play-circle"
+                                        data-toggle="tooltip" title="Editar" data-original-title="Editar"></i></button>
                             </td>
                         </tr>
 
