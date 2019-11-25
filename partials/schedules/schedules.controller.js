@@ -54,8 +54,9 @@
             $location.path('/buy');
         }
         function updateRamalByEmpresa(empresaId){
-            if(empresaId != undefined){
-                $rootScope.ramales = null;
+            $rootScope.ramales = null;
+            $rootScope.recorrido = null;
+            if(empresaId != undefined){                
                 ResourcesService.GetRamalesByEmpresa(empresaId)
                 .then(function (response) {
                     if (response){

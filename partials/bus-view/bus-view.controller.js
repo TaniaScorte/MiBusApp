@@ -231,8 +231,8 @@
 
         }
         function updateRamalByEmpresa(empresaId){
-            $rootScope.ramales = null;
-            $rootScope.recorridos=null;
+            vm.ramales = null;
+            vm.recorridos=null;
             if(empresaId != undefined){
                 ResourcesService.GetRamalesByEmpresa(empresaId)
                 .then(function (response) {
@@ -254,7 +254,7 @@
 
         }
         function updateRecorridosByRamal(ramalId){
-            $rootScope.recorridos = null;
+            vm.recorridos = null;
             if(ramalId != undefined){
                 ResourcesService.GetRecorridosByEmpresaRamal(ramalId, vm.empresaIdSelected)
                 .then(function (response) {
@@ -283,28 +283,37 @@
                 ResourcesService.GetParadasByRecorrido(recorridoId)
                  .then(function (response) {
                      if (response){
-                         vm.paradas = response;  
-                         for (var index = 0; index < vm.paradas.length; index++) {
-                             var element = vm.paradas[index];
-                             if(!vm.focusParada){
-                                vm.focusParada={};
-                                vm.focusParada.longitude = element.Longitud;
-                                vm.focusParada.latitude = element.Latitud; 
-                             }                            
-                             var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.ParadaNombre);  
-                             markers.push(marker);                   
+                         vm.paradas = response;
+                         if(response.length > 0){
+                            for (var index = 0; index < vm.paradas.length; index++) {
+                                var element = vm.paradas[index];
+                                if(!vm.focusParada){
+                                   vm.focusParada={};
+                                   vm.focusParada.longitude = element.Longitud;
+                                   vm.focusParada.latitude = element.Latitud; 
+                                }                            
+                                var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.ParadaNombre);  
+                                markers.push(marker);                   
+                            }
+       
+                           //vm.color = $rootScope.colors[vm.countColor].ColorHex;
+                           //setColorRoute(pointList,'blue',markers);
+                           //pointList=[];
+                           L.layerGroup(markers).addTo(vm.mymap);
+                           markers=[];                                
+                           //vm.countColor=vm.countColor + 1;   
+                           vm.mymap.setView([vm.focusParada.latitude, vm.focusParada.longitude], 15);
+                           vm.focusParada = null;
                          }
-    
-                        //vm.color = $rootScope.colors[vm.countColor].ColorHex;
-                        //setColorRoute(pointList,'blue',markers);
-                        //pointList=[];
-                        L.layerGroup(markers).addTo(vm.mymap);
-                        markers=[];                                
-                        //vm.countColor=vm.countColor + 1;   
-                        vm.mymap.setView([vm.focusParada.latitude, vm.focusParada.longitude], 15);
-                        vm.focusParada = null;
-                     } 
-     
+                         else{
+                            SweetAlert.swal ({
+                                type: "warning", 
+                                title: "Lo lamentamos!",
+                                text: "La empresa no tiene paradas configuradas",
+                                confirmButtonAriaLabel: 'Ok',
+                            });
+                         }
+                     }      
                  })
                  .catch(function(error){
                      SweetAlert.swal ({
