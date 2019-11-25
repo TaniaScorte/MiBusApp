@@ -22,7 +22,11 @@
         journey.delete =false;
         $uibModalInstance.close();
     };  
+    if(journey.create){
+       vm.drivers= journey.drivers;
+    }
     if(journey.edit){
+        vm.drivers = journey.drivers;
         vm.initEdit = true;
         vm.journeyEdit = {};
         vm.journeyEdit.Id = journey.Id;
