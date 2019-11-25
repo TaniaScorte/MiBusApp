@@ -20,7 +20,7 @@
                 } else {
                     DS.setRecorridoElegido(idR);
                     DS.setViajeElegido(idV);
-                   // console.log(DS.getRecorridoElegido());
+                    //console.log(DS.getRecorridoElegido());
                     //console.log(DS.getViajeElegido());
                     window.location.href='#!/driver-map';
                 }

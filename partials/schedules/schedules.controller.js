@@ -26,19 +26,50 @@
             vm.loadComboBranchsRoutes= false;
             vm.menssageEmpresa = false;
             if(!$rootScope.empresas){
-                ResourcesService.GetEmpresas()
-                .then(function (response) {
-                    if (response){
-                        $rootScope.empresas = response;      
-                    } 
-                })
-                .catch(function(error){
-                    SweetAlert.swal ({
-                        type: "error", 
-                        title: "Error",
-                        text: error,
-                        confirmButtonAriaLabel: 'Ok',
+                $scope.empresas = []; 
+                $scope.filtroEmpresas = [];
+                $scope.currentPage = 1;
+                $scope.numPerPage = 5;
+                $scope.inicializar = function () {
+                    ResourcesService.GetEmpresas()
+                        .then(function (response) {
+                            if (response) {
+                                if (response) {
+                                    $scope.empresas = response;
+                                    $rootScope.empresas = response;      
+                                    $scope.hacerPagineo($scope.empresas);
+                                    $scope.totalEmpresas = $scope.empresas.length;
+                                }
+    
+                            }
+                        })
+                        .catch(function (error) {
+                            SweetAlert.swal({
+                                type: "error",
+                                title: "Error",
+                                text: error,
+                                confirmButtonAriaLabel: 'Ok',
+                            });
+                        });
+                };
+                $scope.inicializar();
+    
+                $scope.hacerPagineo = function (arreglo) {
+                    var principio = (($scope.currentPage - 1) * $scope.numPerPage); 
+                    var fin = principio + $scope.numPerPage; 
+                    $scope.filtroEmpresas = arreglo.slice(principio, fin);  
+                };
+    
+                $scope.buscar = function (busqueda) {
+                    var buscados = $filter('filter')($scope.empresas, function (empresa) {
+                        return (empresa.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
                     });
+                    $scope.totalEmpresas = buscados.length;
+                    $scope.hacerPagineo(buscados);
+                };
+    
+                $scope.$watch('currentPage', function () {
+                    $scope.hacerPagineo($scope.empresas);
                 });
             }
             
@@ -102,22 +133,55 @@
         function updateViajesByRecorrido(recorridoId){
             $rootScope.journeys = null;
             if (recorridoId != undefined) {
-                ResourcesService.GetViajesByRecorrido(recorridoId,vm.empresa.Id)
-                .then(function (response) {
-                    if (response){
-                        vm.journeys = response;  
-                        vm.schedulesOk = true;    
-                    } 
-                })
-                .catch(function(error){
-                    SweetAlert.swal ({
-                        type: "error", 
-                        title: "Error",
-                        text: error,
-                        confirmButtonAriaLabel: 'Ok',
+                $scope.journeys = []; 
+                $scope.filtroJourneys = [];
+                $scope.currentPage = 1;
+                $scope.numPerPage = 5;
+                $scope.inicializar = function () {
+                    ResourcesService.GetViajesByRecorrido(recorridoId,vm.empresa.Id)
+                    .then(function (response) {
+                            if (response) {
+                                if (response) {
+
+                                    vm.journeys = response;  
+                                    vm.schedulesOk = true; 
+
+
+                                    $scope.journeys = response;
+                                    $scope.hacerPagineo($scope.journeys);
+                                    $scope.totalJourneys = $scope.journeys.length;
+                                }
+    
+                            }
+                        })
+                        .catch(function (error) {
+                            SweetAlert.swal({
+                                type: "error",
+                                title: "Error",
+                                text: error,
+                                confirmButtonAriaLabel: 'Ok',
+                            });
+                        });
+                };
+                $scope.inicializar();
+    
+                $scope.hacerPagineo = function (arreglo) {
+                    var principio = (($scope.currentPage - 1) * $scope.numPerPage); 
+                    var fin = principio + $scope.numPerPage; 
+                    $scope.filtroJourneys = arreglo.slice(principio, fin);  
+                };
+    
+                $scope.buscar = function (busqueda) {
+                    var buscados = $filter('filter')($scope.journeys, function (journey) {
+                        return (journey.DiaNombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
                     });
-                    vm.schedulesOk = false;
-                });   
+                    $scope.totalJourneys = buscados.length;
+                    $scope.hacerPagineo(buscados);
+                };
+    
+                $scope.$watch('currentPage', function () {
+                    $scope.hacerPagineo($scope.journeys);
+                });
             }
         }
         vm.loadBranchsRoutes = function(empresa){
