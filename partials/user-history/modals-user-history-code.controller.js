@@ -11,7 +11,7 @@
     function ModalUserHistoryCodeController($uibModalInstance, record, $scope,$rootScope,ResourcesService,$filter,ResourcesSetService,SweetAlert,ResourcesUpdateService,ResourcesDeleteService) {
     var vm = $scope;
     vm.record = record;
-    $scope.codigoqr = "AAS12234";
+    $scope.codigoqr = vm.record.Qr;
     vm.ok = function () {
         $uibModalInstance.close();
     };  

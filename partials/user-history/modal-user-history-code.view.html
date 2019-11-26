@@ -6,19 +6,47 @@
         <div class="card-body">
             <h5 class="card-title">Usted esta por usar el codigo </h5>
             <p class="card-text">
-               <label for=""><strong>Hora Salida:</strong></label>{{record.HoraSalida}},<br>
-               <label for=""><strong> Empresa:</strong></label>{{record.EmpresaNombre}},<br>
-               <label><strong> Ramal:</strong></label> {{record.RamalNombre}},<br>
-               <label><strong>Recorrido:</strong></label>{{record.RecorridoNombre}},<br>
-               <label><strong>Parada:</strong></label>{{record.ParadaNombre}},<br>
-               <label><strong>Importe:</strong></label>$ {{record.Importe}},<br>
-               <div>
+                <table class="text-left">
+                    <tr>
+                        <td>
+                            <label for=""><strong>Hora Salida:&nbsp;</strong></label>{{record.HoraSalida}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for=""><strong> Empresa:&nbsp;</strong></label>{{record.EmpresaNombre}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label><strong> Ramal:&nbsp;</strong></label> {{record.RamalNombre}}
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <label><strong>Recorrido:&nbsp;</strong></label>{{record.RecorridoNombre}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label><strong>Parada:&nbsp;</strong></label>{{record.ParadaNombre}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label><strong>Importe:&nbsp;</strong></label>$ {{record.Importe}}
+                        </td>
+                    </tr>
+                </table>
+                <div>
                     <qr text="codigoqr"></qr>
                 </div>
                 <div>
-                    <label><strong>C&oacute;digo QR:</strong></label><h4> {{codigoqr}}</h4>
+                    <label><strong>C&oacute;digo QR:</strong></label>
+                    <h4> {{codigoqr}}</h4>
                 </div>
-            </p>            
+            </p>
         </div>
     </div>
 </div>
