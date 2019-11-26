@@ -72,7 +72,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="journey in filtroJourneys">
+            <tr ng-repeat="journey in filtroJourneys" ng-show="formatDate(journey.FechaViaje) >= today">
               <td scope="row">{{journey.DiaNombre}}</td>
               <td>{{journey.HoraSalida}}</td>
               <td>{{journey.RamalNombre}}</td>

@@ -12,6 +12,7 @@
         vm.updateRecorridosByRamal = updateRecorridosByRamal;
         vm.updateViajesByRecorrido = updateViajesByRecorrido;
         vm.buy = buy;
+        vm.today = new Date();
         initController();
         $rootScope.stopTimer();
         function initController() {
