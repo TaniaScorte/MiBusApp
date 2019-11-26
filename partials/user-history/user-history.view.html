@@ -24,11 +24,10 @@
                             <th>Fecha Compra</th>
                             <th>Hora</th>
                             <th>Empresa</th>
-                            <th>Ramal</th>
                             <th>Recorrido</th>
-                            <td>Parada</td>
+                            <th>Parada</th>
                             <th>Importe</th>
-                            <th>Accion</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>        
@@ -36,13 +35,12 @@
                             <td><label ng-bind="formatDate(record.FechaCompra) |  date:'dd/MM/yyyy'"></label></td>
                             <td>{{record.HoraSalida}}</td>
                             <td>{{record.EmpresaNombre}}</td>
-                            <td>{{record.RamalNombre}}</td>
                             <td>{{record.RecorridoNombre}}</td>
                             <td>{{record.ParadaNombre}}</td>
                             <td>$ {{record.Importe}}</td>
                             <td>
                                 <span  class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Editar">
-                                    <button class="btn btn-primary"  ng-click="openModalViewCode(record)" >
+                                    <button class="btn btn-success"  ng-click="openModalViewCode(record)" >
                                         <i class="fa fa-ticket"></i> Usar
                                     </button>
                                 </span>
