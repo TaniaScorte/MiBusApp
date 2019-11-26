@@ -5,8 +5,8 @@
         .module('app')
         .controller('BusViewController', BusViewController);
 
-        BusViewController.$inject = ['UserService', '$location','$scope','$rootScope','MapResourcesService','ResourcesService','SweetAlert'];
-    function BusViewController(UserService, $location,$scope,$rootScope,MapResourcesService,ResourcesService,SweetAlert) {
+        BusViewController.$inject = ['$window','UserService', '$location','$scope','$rootScope','MapResourcesService','ResourcesService','SweetAlert'];
+    function BusViewController($window,UserService, $location,$scope,$rootScope,MapResourcesService,ResourcesService,SweetAlert) {
         var vm = $scope;
         vm.updateRamalByEmpresa = updateRamalByEmpresa;
         vm.updateRecorridosByRamal = updateRecorridosByRamal;
@@ -292,7 +292,15 @@
                                    vm.focusParada.longitude = element.Longitud;
                                    vm.focusParada.latitude = element.Latitud; 
                                 }                            
-                                var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.ParadaNombre);  
+                                var marker = L.marker([element.Latitud,element.Longitud]);  
+                                vm.paradaNombre = element.ParadaNombre;
+                                var container = $('<div />');
+                                container.on('click', '.onClickMarker', function() {
+                                    vm.onClickMarker();
+                                });
+                                container.html(element.ParadaNombre +"<button class='btn btn-primary btn-small onClickMarker'><i class='fa fa-ticket'></i></button>");
+                                container.append($('<span class="bold">').text(""));                                
+                                marker.bindPopup(container[0]);
                                 markers.push(marker);                   
                             }
        
@@ -325,6 +333,18 @@
                  });     
             }               
  
+        }
+        vm.onClickMarker = function() {
+            var paramsBuy= {};
+            paramsBuy.recorrido = vm.recorrido;
+            paramsBuy.empresa = vm.empresa;
+            paramsBuy.ramal = vm.ramal;
+            paramsBuy.mapSelected = true;
+            $rootScope.paramsBuy = {};
+            $rootScope.paramsBuy = paramsBuy; 
+            $rootScope.backSchedules = true;
+            $location.path("/schedules");
+            $window.location.href = $location.$$absUrl;
         }
         function getColors(){
             ResourcesService.GetColores()

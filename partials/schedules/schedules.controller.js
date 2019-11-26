@@ -21,59 +21,60 @@
             }
             if($rootScope.backSchedules){
                 vm.loadComboBranchsRoutes= true;
-                vm.empresa = $rootScope.paramsBuy.empresa;
-                updateRamalByEmpresa($rootScope.paramsBuy.empresa.Id);
-                updateRecorridosByRamal($rootScope.paramsBuy.ramal.Id);   
-                updateViajesByRecorrido($rootScope.paramsBuy.recorrido.Id);
+                vm.disabledDays = false;
+                vm.paramsBuy = angular.copy($rootScope.paramsBuy);
+                $rootScope.paramsBuy = null;
+                vm.empresa = vm.paramsBuy.empresa;
+                updateRamalByEmpresa(vm.paramsBuy.empresa.Id);
                 return;
             }
             vm.loadComboBranchsRoutes= false;
             vm.menssageEmpresa = false;
-                $scope.empresas = []; 
-                $scope.filtroEmpresas = [];
-                $scope.currentPage = 1;
-                $scope.numPerPage = 5;
-                $scope.inicializar = function () {
-                    ResourcesService.GetEmpresas()
-                        .then(function (response) {
+            $scope.empresas = []; 
+            $scope.filtroEmpresas = [];
+            $scope.currentPage = 1;
+            $scope.numPerPage = 5;
+            $scope.inicializar = function () {
+                ResourcesService.GetEmpresas()
+                    .then(function (response) {
+                        if (response) {
                             if (response) {
-                                if (response) {
-                                    $scope.empresas = response;
-                                    $rootScope.empresas = response;      
-                                    $scope.hacerPagineo($scope.empresas);
-                                    $scope.totalEmpresas = $scope.empresas.length;
-                                }
-    
+                                $scope.empresas = response;
+                                $rootScope.empresas = response;      
+                                $scope.hacerPagineo($scope.empresas);
+                                $scope.totalEmpresas = $scope.empresas.length;
                             }
-                        })
-                        .catch(function (error) {
-                            SweetAlert.swal({
-                                type: "error",
-                                title: "Error",
-                                text: error,
-                                confirmButtonAriaLabel: 'Ok',
-                            });
+
+                        }
+                    })
+                    .catch(function (error) {
+                        SweetAlert.swal({
+                            type: "error",
+                            title: "Error",
+                            text: error,
+                            confirmButtonAriaLabel: 'Ok',
                         });
-                };
-                $scope.inicializar();
-    
-                $scope.hacerPagineo = function (arreglo) {
-                    var principio = (($scope.currentPage - 1) * $scope.numPerPage); 
-                    var fin = principio + $scope.numPerPage; 
-                    $scope.filtroEmpresas = arreglo.slice(principio, fin);  
-                };
-    
-                $scope.buscar = function (busqueda) {
-                    var buscados = $filter('filter')($scope.empresas, function (empresa) {
-                        return (empresa.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
                     });
-                    $scope.totalEmpresas = buscados.length;
-                    $scope.hacerPagineo(buscados);
-                };
-    
-                $scope.$watch('currentPage', function () {
-                    $scope.hacerPagineo($scope.empresas);
+            };
+            $scope.inicializar();
+
+            $scope.hacerPagineo = function (arreglo) {
+                var principio = (($scope.currentPage - 1) * $scope.numPerPage); 
+                var fin = principio + $scope.numPerPage; 
+                $scope.filtroEmpresas = arreglo.slice(principio, fin);  
+            };
+
+            $scope.buscar = function (busqueda) {
+                var buscados = $filter('filter')($scope.empresas, function (empresa) {
+                    return (empresa.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
                 });
+                $scope.totalEmpresas = buscados.length;
+                $scope.hacerPagineo(buscados);
+            };
+
+            $scope.$watch('currentPage', function () {
+                $scope.hacerPagineo($scope.empresas);
+            });
         }
         function buy(journey) {
             var paramsBuy= {};
@@ -86,7 +87,10 @@
             $location.path('/buy');
         }
         function updateRamalByEmpresa(empresaId){
+            vm.journeysCopy = null;
+            $scope.journeys = null;
             vm.day=null;
+            vm.filtroJourneys = null;
             vm.ramales = null;
             vm.recorrido = null;
             vm.disabledDays = true;
@@ -96,7 +100,12 @@
                     if (response){
                         vm.ramales = response;  
                         if($rootScope.backSchedules){
-                          vm.ramal = $rootScope.paramsBuy.ramal;  
+                            if( $filter('filter')(vm.ramales, {Id:  vm.paramsBuy.ramal.Id}).length > 0){
+                                vm.ramal = vm.paramsBuy.ramal;  
+                                vm.disabledDays = false;
+                                updateRecorridosByRamal(vm.ramal.Id);
+                                return;
+                            } 
                         }                        
                     } 
                 })
@@ -112,6 +121,9 @@
             }
         }
         function updateRecorridosByRamal(ramalId){
+            vm.journeysCopy = null;
+            $scope.journeys = null;
+            vm.filtroJourneys = null;
             vm.day=null;
             vm.recorridos = null;
             vm.disabledDays = true;
@@ -121,7 +133,12 @@
                     if (response){
                         vm.recorridos = response;    
                         if($rootScope.backSchedules){
-                            vm.recorrido = $rootScope.paramsBuy.recorrido;  
+                            if( $filter('filter')(vm.recorridos, {Id:  vm.paramsBuy.recorrido.Id}).length > 0){
+                                vm.recorrido = vm.paramsBuy.recorrido;  
+                                vm.disabledDays = false;
+                                updateViajesByRecorrido(vm.recorrido.Id);
+                                return;
+                            }                            
                         }
                         vm.disabledDays = true;
                     } 
@@ -137,6 +154,8 @@
             }
         }
         function updateViajesByRecorrido(recorridoId){
+            vm.journeysCopy = null;
+            vm.filtroJourneys = null;
             vm.journeys = null;
             vm.day=null;
             vm.disabledDays = true;
@@ -154,8 +173,6 @@
                                     vm.journeysCopy = angular.copy(vm.journeys);  
                                     vm.disabledDays = false;
                                     vm.schedulesOk = true;    
-
-
                                     $scope.journeys = response;
                                     $scope.hacerPagineo($scope.journeys);
                                     $scope.totalJourneys = $scope.journeys.length;
@@ -208,6 +225,7 @@
             vm.menssageEmpresa = false;
             $rootScope.paramsBuy = null;
             $rootScope.backSchedules= null;
+            vm.filtroEmpresas = $rootScope.empresas;
         }
         vm.formatDate = function(date){
             if(date){
@@ -237,10 +255,10 @@
         };
         vm.filterByDayJourney = function(day){
             if(day != undefined){
-                vm.journeys = $filter('filter')(vm.journeysCopy, {DiaNombre:  day.Nombre});
+                vm.filtroJourneys = $filter('filter')(vm.journeysCopy, {DiaNombre:  day.Nombre});
             }
             else{
-                vm.journeys = vm.journeysCopy;
+                vm.filtroJourneys = vm.journeysCopy;
             }
         }
     }
