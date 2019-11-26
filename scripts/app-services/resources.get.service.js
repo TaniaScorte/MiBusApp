@@ -31,7 +31,28 @@
         service.GetViaje = GetViaje;
         service.GetAlertasxEmpresa=GetAlertasxEmpresa;
         service.GetAsientosLibresByViaje = GetAsientosLibresByViaje;
+        service.GetCompradosxViaje=GetCompradosxViaje;
         return service;
+        function GetCompradosxViaje(viajeId) {
+            var deferred = $q.defer();
+            //var id = id;
+            var url = 'https://www.mellevas.com.ar/api/pasaje/compradosxviaje?viajeId=';
+            var req = {
+                method: 'GET',
+                url: url + viajeId + "&token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            } 
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al obtener la cantidad de asientos comprados");
+            });
+            return deferred.promise;
+    }
         function GetAsientosLibresByViaje(viajeId) {
             var deferred = $q.defer();
             //var id = id;
