@@ -15,6 +15,10 @@
         initController();
         $rootScope.stopTimer();
         function initController() {
+            vm.disabledDays = true;
+            if(!vm.days){
+                getDays();
+            }
             if($rootScope.backSchedules){
                 vm.loadComboBranchsRoutes= true;
                 vm.empresa = $rootScope.paramsBuy.empresa;
@@ -54,8 +58,10 @@
             $location.path('/buy');
         }
         function updateRamalByEmpresa(empresaId){
-            $rootScope.ramales = null;
-            $rootScope.recorrido = null;
+            vm.day=null;
+            vm.ramales = null;
+            vm.recorrido = null;
+            vm.disabledDays = true;
             if(empresaId != undefined){                
                 ResourcesService.GetRamalesByEmpresa(empresaId)
                 .then(function (response) {
@@ -78,15 +84,18 @@
             }
         }
         function updateRecorridosByRamal(ramalId){
+            vm.day=null;
+            vm.recorridos = null;
+            vm.disabledDays = true;
             if (ramalId != undefined) {
-                $rootScope.recorridos = null;
                 ResourcesService.GetRecorridosByEmpresaRamal(ramalId,vm.empresa.Id)
                 .then(function (response) {
                     if (response){
-                        vm.recorridos = response;      
+                        vm.recorridos = response;    
                         if($rootScope.backSchedules){
                             vm.recorrido = $rootScope.paramsBuy.recorrido;  
-                          }
+                        }
+                        vm.disabledDays = true;
                     } 
                 })
                 .catch(function(error){
@@ -100,12 +109,16 @@
             }
         }
         function updateViajesByRecorrido(recorridoId){
-            $rootScope.journeys = null;
+            vm.journeys = null;
+            vm.day=null;
+            vm.disabledDays = true;
             if (recorridoId != undefined) {
                 ResourcesService.GetViajesByRecorrido(recorridoId,vm.empresa.Id)
                 .then(function (response) {
                     if (response){
                         vm.journeys = response;  
+                        vm.journeysCopy = angular.copy(vm.journeys);  
+                        vm.disabledDays = false;
                         vm.schedulesOk = true;    
                     } 
                 })
@@ -146,6 +159,30 @@
             }
 
         };
+        function getDays(){
+            ResourcesService.GetDias()
+            .then(function (response) {
+                if (response){                  
+                   $rootScope.days = response;     
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
+            });
+        };
+        vm.filterByDayJourney = function(day){
+            if(day != undefined){
+                vm.journeys = $filter('filter')(vm.journeysCopy, {DiaNombre:  day.Nombre});
+            }
+            else{
+                vm.journeys = vm.journeysCopy;
+            }
+        }
     }
 
 })();
