@@ -10,7 +10,8 @@
         var vm = $scope;
         vm.updateRamalByEmpresa = updateRamalByEmpresa;
         vm.updateRecorridosByRamal = updateRecorridosByRamal;
-
+        var buttonInitMap = document.getElementById('refreshButton');
+        buttonInitMap.addEventListener('click', () => initMap());
         initController();
 
         function initController() {
@@ -38,6 +39,9 @@
         }
         function initMap() {
             vm.loadAllRoute = null;
+            if(vm.mymap){
+                vm.mymap.remove();
+            }
             MapResourcesService.GetPasajeByUserId($rootScope.globals.currentUser.userData.Id)
             .then(function(response){
                 if(response.length > 0){
@@ -131,19 +135,31 @@
         }
         function loadLayersByPasaje(){
             $rootScope.stopTimer();
-            $rootScope.intervalGetUltimaPosicion = setInterval(() => {    
-                getLocationReal();
-                ResourcesService.GetUltimaPosicionByViaje(vm.pasaje.ViajeId)
-                .then(function (response) {
-                    vm.marker.setLatLng([response.Latitud, response.Longitud]);
-                    //vm.mymap.setView([response.Latitud, response.Longitud], 13)
-                    if(response.EstadoId == 6){
-                        $rootScope.stopTimer();
-                    }
-                })
-                .catch(function (error) {
+            if(vm.pasaje.EstadoId == 2 && vm.pasaje.ViajeEstadoId == 1){
+                $rootScope.intervalGetUltimaPosicion = setInterval(() => {    
+                    getLocationReal();
+                    ResourcesService.GetUltimaPosicionByViaje(vm.pasaje.ViajeId)
+                    .then(function (response) {
+                        if(response.ViajeEstadoId == 1){
+                            vm.marker.setLatLng([response.Latitud, response.Longitud]);
+                        }
+                        else{
+                            $rootScope.stopTimer();
+                        }
+                        //vm.mymap.setView([response.Latitud, response.Longitud], 13)
+                    })
+                    .catch(function (error) {
+                    });
+                }, 3000);
+            }
+            else{
+                SweetAlert.swal ({
+                    type: "info", 
+                    title: "Usted tiene un viaje proximo",
+                    text: "Vuelva a consultar a las " + vm.pasaje.HoraSalida,
+                    confirmButtonAriaLabel: 'Ok',
                 });
-            }, 3000);
+            }
             var markers = [];
             ResourcesService.GetParadasByRecorrido(vm.pasaje.RecorridoId)
              .then(function (response) {
@@ -156,7 +172,7 @@
                         //     vm.focusParada.longitude = element.Longitud;
                         //     vm.focusParada.latitude = element.Latitud; 
                         //  }                            
-                         var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.Nombre);  
+                         var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.ParadaNombre);  
                          markers.push(marker);                   
                      }
 
@@ -231,6 +247,7 @@
 
         }
         function updateRamalByEmpresa(empresaId){
+            $rootScope.stopTimer();
             vm.ramales = null;
             vm.recorridos=null;
             if(empresaId != undefined){
