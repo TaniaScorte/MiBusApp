@@ -33,6 +33,7 @@
                             confirmButtonAriaLabel: 'Ok',
                         });
                         clearRegister();
+                        window.location.href='#!/login';
                         return;
                        
                     } 
