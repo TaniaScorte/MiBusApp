@@ -29,7 +29,6 @@
             }
             vm.loadComboBranchsRoutes= false;
             vm.menssageEmpresa = false;
-            if(!$rootScope.empresas){
                 $scope.empresas = []; 
                 $scope.filtroEmpresas = [];
                 $scope.currentPage = 1;
@@ -75,8 +74,6 @@
                 $scope.$watch('currentPage', function () {
                     $scope.hacerPagineo($scope.empresas);
                 });
-            }
-            
         }
         function buy(journey) {
             var paramsBuy= {};
