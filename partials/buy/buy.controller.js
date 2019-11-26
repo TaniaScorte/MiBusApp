@@ -69,7 +69,7 @@
             .then(function (response) {
                 if (response){
                    $rootScope.busStops = response; 
-                   vm.paramsBuy.busStop = $rootScope.busStops[0] ;     
+                   vm.busStop = $rootScope.busStops[0];     
                 } 
             })
             .catch(function(error){

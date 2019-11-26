@@ -5,10 +5,10 @@
         .module('app')
         .controller('UserHistoryController', UserHistoryController);
 
-        UserHistoryController.$inject = ['UserService','$location', '$rootScope','$scope','ResourcesService','SweetAlert'];
-    function UserHistoryController(UserService,$location, $rootScope,$scope,ResourcesService,SweetAlert) {
+        UserHistoryController.$inject = ['UserService','$location', '$rootScope','$scope','ResourcesService','SweetAlert','$uibModal'];
+    function UserHistoryController(UserService,$location, $rootScope,$scope,ResourcesService,SweetAlert,$uibModal) {
         var vm = $scope;
-
+        vm.openModalViewCode = openModalViewCode;
         initController();
         $rootScope.stopTimer();
         function initController() {
@@ -33,7 +33,23 @@
                     confirmButtonAriaLabel: 'Ok',
                 });
             });
-         }
+        }
+        function openModalViewCode(record){
+            record.qr = true;
+            var modalInstance = $uibModal.open({
+                animation:true,
+                templateUrl: 'partials/user-history/modal-user-history-code.view.html',
+                controller: 'ModalUserHistoryCodeController',
+                size: 'lg',
+                windowClass: 'show',
+                backdrop: 'static',
+                resolve: {
+                  record: function () {
+                    return record;
+                  }
+                }
+              });
+        }
     }
 
 })();

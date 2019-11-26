@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Datos del Viaje</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Usted esta por usar el codigo </h5>
+            <p class="card-text">
+               <label for=""><strong>Hora Salida:</strong></label>{{record.HoraSalida}},<br>
+               <label for=""><strong> Empresa:</strong></label>{{record.EmpresaNombre}},<br>
+               <label><strong> Ramal:</strong></label> {{record.RamalNombre}},<br>
+               <label><strong>Recorrido:</strong></label>{{record.RecorridoNombre}},<br>
+               <label><strong>Parada:</strong></label>{{record.ParadaNombre}},<br>
+               <label><strong>Importe:</strong></label>$ {{record.Importe}},<br>
+               <div>
+                    <qr text="codigoqr"></qr>
+                </div>
+                <div>
+                    <label><strong>C&oacute;digo QR:</strong></label><h4> {{codigoqr}}</h4>
+                </div>
+            </p>            
+        </div>
+    </div>
+</div>
+<div style="padding-bottom: 5px;">
+    <form name="form.deletejourney" ng-submit="ok()" class="form-deletejourney">
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary"><i class="fa fa-check"></i> Listo!</button>
+            <img ng-if="dataLoading" src="images/descarga.gif" />
+            <button class="btn btn-danger" type="button" ng-click="cancelModal()">Cancelar</button>
+        </div>
+    </form>
+</div>
