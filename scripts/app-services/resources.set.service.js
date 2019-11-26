@@ -21,8 +21,25 @@
         service.SetAlerta = SetAlerta;
         service.SetPasaje = SetPasaje;
         service.SetViajeEstado=SetViajeEstado;
+        service.SetPasajeEstado=SetPasajeEstado;
         return service;
-
+        function SetPasajeEstado(guid, estadoId) {
+            var deferred = $q.defer();
+            var url = 'https://www.mellevas.com.ar/api/pasaje/CambiarEstado?guid='+guid+'&estadoId='+estadoId+'&token=2019';       
+            var req = {
+                method: 'GET',
+                url: url,
+            }     
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                console.log(error);
+                deferred.reject("Error al designar estado al pasaje");
+            });
+            return deferred.promise;
+        }
         function SetViajeEstado(idViaje, estado) {
             var deferred = $q.defer();
             var url = 'https://www.mellevas.com.ar/api/viajes/setviajeestado?id='+idViaje+'&estadoId='+estado+'&token=2019';       
