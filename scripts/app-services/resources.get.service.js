@@ -30,7 +30,28 @@
         service.GetHistorial = GetHistorial;
         service.GetViaje = GetViaje;
         service.GetAlertasxEmpresa=GetAlertasxEmpresa;
+        service.GetAsientosLibresByViaje = GetAsientosLibresByViaje;
         return service;
+        function GetAsientosLibresByViaje(viajeId) {
+            var deferred = $q.defer();
+            //var id = id;
+            var url = 'https://www.mellevas.com.ar/api/pasaje/TotalAsientosLibresxViaje?viajeId=';
+            var req = {
+                method: 'GET',
+                url: url + viajeId + "&token=" + 2019,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            } 
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                deferred.reject("Error al obtener la capacidad");
+            });
+            return deferred.promise;
+    }
         function GetAlertasxEmpresa(id) {
             var deferred = $q.defer();
             //var id = id;
