@@ -44,6 +44,14 @@
                 </select> 
             </div>
         </div>
+        <div class="form-group row">
+            <label for="day"  class="col-sm-2 col-form-label" >Filtrar por Dia:</label>
+            <div class="col-sm-5">
+                <select ng-model="day" class="form-control" ng-change="filterByDayJourney(day)" ng-options="day.Nombre for day in days track by day.Id" ng-disabled="disabledDays">
+                    <option value="">Todos los dias</option>
+                </select> 
+            </div>
+        </div>
     </form>
     <div ng-show="schedulesOk && loadComboBranchsRoutes" >
       <div class="table-responsive">
