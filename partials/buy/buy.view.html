@@ -27,6 +27,11 @@
                         <h5> Usted esta por comprar un pasaje</h5>
                 </div>
             </div>
+            <div class="row" ng-show="asientosLibres">
+                <div class="alert alert-info col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <h5>Total de asientos libres:  {{cantidadAsiento}}</h5>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <table class="table table-responsive">

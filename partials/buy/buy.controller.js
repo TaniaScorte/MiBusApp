@@ -11,7 +11,9 @@
         initController();
 
         function initController() {
+            vm.asientosLibre = false;
             if(!$rootScope.paramsBuy){
+                vm.asientosLibre = false;
                 $scope.codigoqr = "";
                 $location.path('/schedules');
                 return;
@@ -21,6 +23,7 @@
             
             $scope.codigoqr = makeid(10);
             getParadasByRecorrido();
+            getAsientosLibresByViaje();
         }
         vm.formatDate = function(date){
             if(date){
@@ -33,7 +36,7 @@
 
         };
         vm.buyConfirm = function(){
-            var codigoqr = makeid(8) + "-" + makeid(4) +"-" +makeid(4) +"-" + makeid(4) +"-" + makeid(12);
+            var codigoqr = makeid(10);
             var data = {
                 qr: codigoqr,
                 EmpresaId: vm.paramsBuy.empresa.Id,
@@ -70,6 +73,23 @@
                 if (response){
                    $rootScope.busStops = response; 
                    vm.busStop = $rootScope.busStops[0];     
+                } 
+            })
+            .catch(function(error){
+                SweetAlert.swal ({
+                    type: "error", 
+                    title: "Error",
+                    text: error,
+                    confirmButtonAriaLabel: 'Ok',
+                });
+            });
+        }
+        function getAsientosLibresByViaje() {
+            ResourcesService.GetAsientosLibresByViaje(vm.paramsBuy.journey.Id)
+            .then(function (response) {
+                if (response){
+                   vm.cantidadAsiento = response;     
+                   vm.asientosLibres = true;
                 } 
             })
             .catch(function(error){
