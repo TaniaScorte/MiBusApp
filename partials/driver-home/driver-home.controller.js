@@ -106,4 +106,21 @@
         return cambiarFiltro;
     });
 
+
+     //filtro personalizado para limitar viaje segun horario
+     driver_home.filter('franja', function () {
+        var cambiarFiltro = function (datosOriginales) {
+            var d = new Date("0001-01-01T" + datosOriginales);
+            var minutos = d.getHours() * 60 + d.getMinutes();
+
+            console.log(minutos);
+
+
+            return nuevosDatos;
+        };
+        return cambiarFiltro;
+    });
+
+
+
 })();

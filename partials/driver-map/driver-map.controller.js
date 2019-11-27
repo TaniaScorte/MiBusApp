@@ -14,6 +14,7 @@
         var idViajeIniciado = DS.getIdViajeActual();
         var recorridoElegido = DS.getRecorridoElegido();
         $scope.asientosLibres;
+        $scope.asientosLibresPlibres;
         $scope.iniciado;
         $scope.noElegido;
         reset();
@@ -68,7 +69,15 @@
             });
         }
         $scope.getAsientosLibresLibres = function(){
+            ResourcesService.GetLibresxViaje(viajeElegido)
+            .then(function (response) {
+                $scope.asientosLibresPlibres = response;
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
 
+            });
         }
 
         //funciones de mapa y ubicación
