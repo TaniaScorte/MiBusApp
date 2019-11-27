@@ -60,7 +60,7 @@
 
             $scope.buscar = function (busqueda) {
                 var buscados = $filter('filter')($scope.vehicles, function (item) {
-                    return (item.Marca.toLowerCase().indexOf(busqueda.toLowerCase()) != -1);
+                    return (item.MarcaNombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1);
                 });
                 $scope.totalVehicles = buscados.length;
                 $scope.hacerPagineo(buscados);
