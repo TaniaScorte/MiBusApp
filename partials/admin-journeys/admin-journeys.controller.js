@@ -204,7 +204,7 @@
 
             $scope.buscar = function (busqueda) {
                 var buscados = $filter('filter')($scope.journeys, function (item) {
-                    return (item.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
+                    return (item.DiaNombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
                 });
                 $scope.totalJourneys = buscados.length;
                 $scope.hacerPagineo(buscados);

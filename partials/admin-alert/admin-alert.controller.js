@@ -54,7 +54,7 @@
 
             $scope.buscar = function (busqueda) {
                 var buscados = $filter('filter')($scope.items, function (item) {
-                    return (item.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
+                    return (item.RecorridoNombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
                 });
                 $scope.totalItems = buscados.length;
                 $scope.hacerPagineo(buscados);
