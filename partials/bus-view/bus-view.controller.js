@@ -5,8 +5,8 @@
         .module('app')
         .controller('BusViewController', BusViewController);
 
-        BusViewController.$inject = ['$window','UserService', '$location','$scope','$rootScope','MapResourcesService','ResourcesService','SweetAlert'];
-    function BusViewController($window,UserService, $location,$scope,$rootScope,MapResourcesService,ResourcesService,SweetAlert) {
+        BusViewController.$inject = ['$filter','$window','UserService', '$location','$scope','$rootScope','MapResourcesService','ResourcesService','SweetAlert'];
+    function BusViewController($filter,$window,UserService, $location,$scope,$rootScope,MapResourcesService,ResourcesService,SweetAlert) {
         var vm = $scope;
         vm.updateRamalByEmpresa = updateRamalByEmpresa;
         vm.updateRecorridosByRamal = updateRecorridosByRamal;
@@ -145,55 +145,62 @@
                         }
                         else{
                             $rootScope.stopTimer();
+                            SweetAlert.swal ({
+                                type: "info", 
+                                title: "Viaje Finalizado",
+                                text: "Vuelva pronto",
+                                confirmButtonAriaLabel: 'Ok',
+                            });
                         }
                         //vm.mymap.setView([response.Latitud, response.Longitud], 13)
                     })
                     .catch(function (error) {
                     });
                 }, 3000);
+                var markers = [];
+                ResourcesService.GetParadasByRecorrido(vm.pasaje.RecorridoId)
+                 .then(function (response) {
+                     if (response){
+                         vm.paradas = response;  
+                         for (var index = 0; index < vm.paradas.length; index++) {
+                             var element = vm.paradas[index];
+                            //  if(!vm.focusParada){
+                            //     vm.focusParada={};
+                            //     vm.focusParada.longitude = element.Longitud;
+                            //     vm.focusParada.latitude = element.Latitud; 
+                            //  }                            
+                             var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.ParadaNombre);  
+                             markers.push(marker);                   
+                         }
+    
+                        //vm.color = $rootScope.colors[vm.countColor].ColorHex;
+                        //setColorRoute(pointList,'blue',markers);
+                        //pointList=[];
+                        L.layerGroup(markers).addTo(vm.mymap);
+                        markers=[];                                
+                        //vm.countColor=vm.countColor + 1;   
+                        // vm.mymap.setView([vm.focusParada.latitude, vm.focusParada.longitude], 15)
+                     } 
+     
+                 })
+                 .catch(function(error){
+                     SweetAlert.swal ({
+                         type: "error", 
+                         title: "Error",
+                         text: error,
+                         confirmButtonAriaLabel: 'Ok',
+                     });
+                 })
             }
             else{
                 SweetAlert.swal ({
                     type: "info", 
-                    title: "Usted tiene un viaje proximo",
-                    text: "Vuelva a consultar a las " + vm.pasaje.HoraSalida,
+                    title: "Su proximo viaje no esta iniciado, Vuelva a consultar mas tarde",
+                    text: "Proximo viaje" + " "+ $filter('date')(vm.formatDate(vm.pasaje.FechaViaje), 'dd-MM-yyyy') + " "+ vm.pasaje.HoraSalida,
                     confirmButtonAriaLabel: 'Ok',
                 });
             }
-            var markers = [];
-            ResourcesService.GetParadasByRecorrido(vm.pasaje.RecorridoId)
-             .then(function (response) {
-                 if (response){
-                     vm.paradas = response;  
-                     for (var index = 0; index < vm.paradas.length; index++) {
-                         var element = vm.paradas[index];
-                        //  if(!vm.focusParada){
-                        //     vm.focusParada={};
-                        //     vm.focusParada.longitude = element.Longitud;
-                        //     vm.focusParada.latitude = element.Latitud; 
-                        //  }                            
-                         var marker = L.marker([element.Latitud,element.Longitud]).bindPopup(element.ParadaNombre);  
-                         markers.push(marker);                   
-                     }
 
-                    //vm.color = $rootScope.colors[vm.countColor].ColorHex;
-                    //setColorRoute(pointList,'blue',markers);
-                    //pointList=[];
-                    L.layerGroup(markers).addTo(vm.mymap);
-                    markers=[];                                
-                    //vm.countColor=vm.countColor + 1;   
-                    // vm.mymap.setView([vm.focusParada.latitude, vm.focusParada.longitude], 15)
-                 } 
- 
-             })
-             .catch(function(error){
-                 SweetAlert.swal ({
-                     type: "error", 
-                     title: "Error",
-                     text: error,
-                     confirmButtonAriaLabel: 'Ok',
-                 });
-             })
 
         }
         function getLocation() {
@@ -379,7 +386,11 @@
                 });
             });
         }
-
+        vm.formatDate = function(date){
+            var dateO = date.replace(/([A-Za-z)(\\/])/g, "");
+            var dateOut = $filter('date')(dateO, 'dd/MM/yyyy');
+            return dateOut;
+        };
  
          /*       function setColorRoute(pointList,color,markers) {
             var firstpolyline = new L.Polyline(pointList, {

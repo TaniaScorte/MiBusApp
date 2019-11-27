@@ -14,13 +14,13 @@
         initController();
 
         function initController() {
-            if (!$rootScope.empresas) {
+            if (!$scope.items) {
                 getEmpresas();
-
             }
             if (!$rootScope.dnitypes) {
                 getTiposDNI();
             }
+
         }
         function getEmpresas() {
             espera(true);
