@@ -13,6 +13,7 @@
         var viajeElegido = DS.getViajeElegido();
         var idViajeIniciado = DS.getIdViajeActual();
         var recorridoElegido = DS.getRecorridoElegido();
+        $scope.asientosLibres;
         $scope.iniciado;
         $scope.noElegido;
         reset();
@@ -31,13 +32,44 @@
         }
 
         $scope.ocuparComprado = function () {
-            swal({ title: "", text: "", type: "success", timer: 1000, showConfirmButton: false })
+            console.log($scope.qr);
+            ResourcesSetService.SetPasajeEstado($scope.qr,4)
+            .then(function (response) {
+                console.log(response);
+                if(response == 0){
+                    swal({ title: "Código incorrecto", text: "", type: "error", timer: 2000, showConfirmButton: false })
+                }else if (response == 1){
+                    swal({ title: "", text: "", type: "success", timer: 2000, showConfirmButton: false })
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                swal({ title: "", text: "Ha ocurrido un error", type: "error", timer: 1000, showConfirmButton: false })
+
+
+            });
+
         }
 
         $scope.liberar = function () {
             swal({ title: "", text: "", type: "success", timer: 1000, showConfirmButton: false })
         }
 
+        $scope.getAsientosLibresComprados = function(){
+            $scope.qr = '';
+            ResourcesService.GetCompradosxViaje(viajeElegido)
+            .then(function (response) {
+                $scope.asientosLibres = response;
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+
+            });
+        }
+        $scope.getAsientosLibresLibres = function(){
+
+        }
 
         //funciones de mapa y ubicación
         function init() {

@@ -23,9 +23,9 @@
         service.SetViajeEstado=SetViajeEstado;
         service.SetPasajeEstado=SetPasajeEstado;
         return service;
-        function SetPasajeEstado(guid, estadoId) {
+        function SetPasajeEstado(qr, estadoId) {
             var deferred = $q.defer();
-            var url = 'https://www.mellevas.com.ar/api/pasaje/CambiarEstado?guid='+guid+'&estadoId='+estadoId+'&token=2019';       
+            var url = 'https://www.mellevas.com.ar/api/pasaje/CambiarEstado?qr='+qr+'&estadoId='+estadoId+'&token=2019';       
             var req = {
                 method: 'GET',
                 url: url,
