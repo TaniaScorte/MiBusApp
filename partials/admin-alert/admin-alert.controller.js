@@ -69,6 +69,29 @@
 
         function verMapa(){
 
+            /*vm.mymap = L.map('map', {
+                minZoom: 8
+            })    
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(vm.mymap);
+    
+                vm.busIcon = L.icon({
+                    iconUrl: 'images/bus-alerta.png',
+    
+                    iconSize: [60, 45], 
+                    shadowSize: [50, 64],
+                    iconAnchor: [22, 94], 
+                    shadowAnchor: [4, 62],  
+                    popupAnchor: [-3, -76] 
+                });*/
+               
+        }
+
+        $scope.verBus=function(lat,lon){
+            setTimeout(() => {
+                
+           
             vm.mymap = L.map('map', {
                 minZoom: 8
             })    
@@ -85,16 +108,19 @@
                     shadowAnchor: [4, 62],  
                     popupAnchor: [-3, -76] 
                 });
-               
-        }
-
-        $scope.verBus=function(lat,lon){
             vm.mymap.setView([lat, lon], 16);
             var marker = L.marker([lat,lon], { icon: vm.busIcon }).addTo(vm.mymap);
-
+        }, 300);
         }
    
+
+        $scope.destroyMap= function(){
+            if (vm.mymap && vm.mymap.remove) { vm.mymap.off(); vm.mymap.remove(); } 
+    
+        }
     }
+
+    
     adminAlert.filter('filterTipo', function () {
         var cambiarFiltro = function (datosOriginales) {
             if (datosOriginales == null) {
