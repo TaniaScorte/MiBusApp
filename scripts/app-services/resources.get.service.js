@@ -36,7 +36,6 @@
         return service;
         function GetLibresxViaje(viajeId) {
             var deferred = $q.defer();
-            //var id = id;
             var url = 'https://www.mellevas.com.ar/api/pasaje/asientoslibrexviaje?viajeId=';
             var req = {
                 method: 'GET',

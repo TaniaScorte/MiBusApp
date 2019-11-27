@@ -29,7 +29,16 @@
         //funciones de botones de pasajes
 
         $scope.ocuparLibre = function () {
-            swal({ title: "", text: "", type: "success", timer: 1000, showConfirmButton: false })
+
+            ResourcesSetService.SubirPasajeroLibre(viajeElegido)
+            .then(function (response) {
+                console.log(response);
+                    swal({ title: "", text: "", type: "success", timer: 2000, showConfirmButton: false })
+            })
+            .catch(function (error) {
+                console.log(error);
+                swal({ title: "", text: "Ha ocurrido un error", type: "error", timer: 1000, showConfirmButton: false })
+            });
         }
 
         $scope.ocuparComprado = function () {
@@ -46,14 +55,21 @@
             .catch(function (error) {
                 console.log(error);
                 swal({ title: "", text: "Ha ocurrido un error", type: "error", timer: 1000, showConfirmButton: false })
-
-
             });
 
         }
 
         $scope.liberar = function () {
-            swal({ title: "", text: "", type: "success", timer: 1000, showConfirmButton: false })
+            ResourcesSetService.BajarPasajero(viajeElegido)
+            .then(function (response) {
+                console.log(response);
+                    swal({ title: "", text: "", type: "success", timer: 2000, showConfirmButton: false })
+            })
+            .catch(function (error) {
+                console.log(error);
+                swal({ title: "", text: "Ha ocurrido un error", type: "error", timer: 1000, showConfirmButton: false })
+            });
+            
         }
 
         $scope.getAsientosLibresComprados = function(){
