@@ -247,7 +247,7 @@
                 }
                 // console.log(DS.getEstado());
 
-            }, 5000);// setear el tiempo de espera enviar la ubicacion a la bd
+            }, 3000);// setear el tiempo de espera enviar la ubicacion a la bd
         }
 
         function loadBusStops() {
