@@ -55,10 +55,7 @@
         </div>
     </form>
     <div ng-show="schedulesOk && loadComboBranchsRoutes" >
-        <div class="form-group row">
-            <label for="busqueda" class="col-sm-2 col-form-label col-xs-12">Buscar</label>
-        <input type="text" id="busqueda" class="form-control mb-3 col-md-6 col-xs-12 col-lg-6"  ng-model="busqueda" ng-change="buscar(busqueda)">
-    </div>
+
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -82,7 +79,6 @@
             </tr>
           </tbody>
         </table>
-        <ul uib-pagination total-items="totalJourneys" max-size="5" boundary-link-numbers="true" rotate="false" next-text="Siguiente" previous-text="Anterior" items-per-page="numPerPage" ng-model="currentPage"></ul>
       </div>
     </div>
 </div>
