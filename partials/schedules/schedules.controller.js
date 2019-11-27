@@ -156,27 +156,22 @@
         }
         function updateViajesByRecorrido(recorridoId){
             vm.journeysCopy = null;
-            vm.filtroJourneys = null;
+            $scope.filtroJourneys = null;
             vm.journeys = null;
             vm.day=null;
             vm.disabledDays = true;
             if (recorridoId != undefined) {
                 $scope.journeys = []; 
-                $scope.filtroJourneys = [];
-                $scope.currentPage = 1;
-                $scope.numPerPage = 5;
-                $scope.inicializar = function () {
                     ResourcesService.GetViajesByRecorrido(recorridoId,vm.empresa.Id)
                     .then(function (response) {
                             if (response) {
                                 if (response) {
                                     vm.journeys = response;  
                                     vm.journeysCopy = angular.copy(vm.journeys);  
+                                    $scope.filtroJourneys = response;
                                     vm.disabledDays = false;
-                                    vm.schedulesOk = true;    
-                                    $scope.journeys = response;
-                                    $scope.hacerPagineo($scope.journeys);
-                                    $scope.totalJourneys = $scope.journeys.length;
+                                    vm.schedulesOk = true;   
+                            
                                 }
     
                             }
@@ -189,26 +184,6 @@
                                 confirmButtonAriaLabel: 'Ok',
                             });
                         });
-                };
-                $scope.inicializar();
-    
-                $scope.hacerPagineo = function (arreglo) {
-                    var principio = (($scope.currentPage - 1) * $scope.numPerPage); 
-                    var fin = principio + $scope.numPerPage; 
-                    $scope.filtroJourneys = arreglo.slice(principio, fin);  
-                };
-    
-                $scope.buscar = function (busqueda) {
-                    var buscados = $filter('filter')($scope.journeys, function (journey) {
-                        return (journey.DiaNombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
-                    });
-                    $scope.totalJourneys = buscados.length;
-                    $scope.hacerPagineo(buscados);
-                };
-    
-                $scope.$watch('currentPage', function () {
-                    $scope.hacerPagineo($scope.journeys);
-                });
             }
         }
         vm.loadBranchsRoutes = function(empresa){
@@ -256,10 +231,10 @@
         };
         vm.filterByDayJourney = function(day){
             if(day != undefined){
-                vm.filtroJourneys = $filter('filter')(vm.journeysCopy, {DiaNombre:  day.Nombre});
+                $scope.filtroJourneys = $filter('filter')(vm.journeysCopy, {DiaNombre:  day.Nombre});
             }
             else{
-                vm.filtroJourneys = vm.journeysCopy;
+                $scope.filtroJourneys = vm.journeysCopy;
             }
         }
     }
