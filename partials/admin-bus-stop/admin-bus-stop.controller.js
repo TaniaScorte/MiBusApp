@@ -162,7 +162,7 @@
 
             $scope.buscar = function (busqueda) {
                 var buscados = $filter('filter')($scope.busstops, function (item) {
-                    return (item.Nombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
+                    return (item.ParadaNombre.toLowerCase().indexOf(busqueda.toLowerCase()) != -1); 
                 });
                 $scope.totalBusstops = buscados.length;
                 $scope.hacerPagineo(buscados);
