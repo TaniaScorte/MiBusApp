@@ -22,7 +22,43 @@
         service.SetPasaje = SetPasaje;
         service.SetViajeEstado=SetViajeEstado;
         service.SetPasajeEstado=SetPasajeEstado;
+        service.SubirPasajeroLibre=SubirPasajeroLibre;
+        service.BajarPasajero=BajarPasajero;
         return service;
+        function BajarPasajero(viajeId) {
+            var deferred = $q.defer();
+            var url = 'https://www.mellevas.com.ar/api/pasaje/bajar?viajeId='+viajeId+'&token=2019&pasajeId=0';       
+            var req = {
+                method: 'GET',
+                url: url,
+            }     
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                console.log(error);
+                deferred.reject("Error al designar estado al bajar pasajero");
+            });
+            return deferred.promise;
+        }
+        function SubirPasajeroLibre(viajeId) {
+            var deferred = $q.defer();
+            var url = 'https://www.mellevas.com.ar/api/pasaje/subir?viajeId='+viajeId+'&token=2019&pasajeId=0';       
+            var req = {
+                method: 'GET',
+                url: url,
+            }     
+            $http(req)
+            .then(function(response){
+                deferred.resolve(response.data);
+            })
+            .catch(function(error){
+                console.log(error);
+                deferred.reject("Error al designar estado al subir pasajero");
+            });
+            return deferred.promise;
+        }
         function SetPasajeEstado(qr, estadoId) {
             var deferred = $q.defer();
             var url = 'https://www.mellevas.com.ar/api/pasaje/CambiarEstado?qr='+qr+'&estadoId='+estadoId+'&token=2019';       

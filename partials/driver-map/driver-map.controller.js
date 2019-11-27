@@ -14,6 +14,7 @@
         var idViajeIniciado = DS.getIdViajeActual();
         var recorridoElegido = DS.getRecorridoElegido();
         $scope.asientosLibres;
+        $scope.asientosLibresPlibres;
         $scope.iniciado;
         $scope.noElegido;
         reset();
@@ -28,7 +29,16 @@
         //funciones de botones de pasajes
 
         $scope.ocuparLibre = function () {
-            swal({ title: "", text: "", type: "success", timer: 1000, showConfirmButton: false })
+
+            ResourcesSetService.SubirPasajeroLibre(viajeElegido)
+            .then(function (response) {
+                console.log(response);
+                    swal({ title: "", text: "", type: "success", timer: 2000, showConfirmButton: false })
+            })
+            .catch(function (error) {
+                console.log(error);
+                swal({ title: "", text: "Ha ocurrido un error", type: "error", timer: 1000, showConfirmButton: false })
+            });
         }
 
         $scope.ocuparComprado = function () {
@@ -45,14 +55,21 @@
             .catch(function (error) {
                 console.log(error);
                 swal({ title: "", text: "Ha ocurrido un error", type: "error", timer: 1000, showConfirmButton: false })
-
-
             });
 
         }
 
         $scope.liberar = function () {
-            swal({ title: "", text: "", type: "success", timer: 1000, showConfirmButton: false })
+            ResourcesSetService.BajarPasajero(viajeElegido)
+            .then(function (response) {
+                console.log(response);
+                    swal({ title: "", text: "", type: "success", timer: 2000, showConfirmButton: false })
+            })
+            .catch(function (error) {
+                console.log(error);
+                swal({ title: "", text: "Ha ocurrido un error", type: "error", timer: 1000, showConfirmButton: false })
+            });
+            
         }
 
         $scope.getAsientosLibresComprados = function(){
@@ -68,7 +85,15 @@
             });
         }
         $scope.getAsientosLibresLibres = function(){
+            ResourcesService.GetLibresxViaje(viajeElegido)
+            .then(function (response) {
+                $scope.asientosLibresPlibres = response;
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
 
+            });
         }
 
         //funciones de mapa y ubicación

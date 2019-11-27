@@ -45,7 +45,7 @@ height: 400px;
                         <td>{{item.Mensaje}}</td>
                         <td>{{item.TipoAlertaId | filterTipo}}</td>
                         <td>
-                            <a href="" class='delete'data-toggle="modal" data-target="#modalAlerta"
+                            <a href="" class='delete'data-toggle="modal" data-target="#modalAlerta" data-backdrop="static" data-keyboard="false"
                                 ng-click="verBus(item.Latitud, item.Longitud)"><i class="fa fa-map-marker" data-toggle="tooltip" title="Borrar"
                                     data-original-title="Borrar"></i></a>
                         </td>
@@ -68,9 +68,6 @@ height: 400px;
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Ubicación</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
             <div id="mapa">
@@ -78,7 +75,7 @@ height: 400px;
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click='destroyMap()'>Cerrar</button>
         </div>
       </div>
     </div>
