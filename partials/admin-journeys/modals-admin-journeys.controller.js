@@ -23,10 +23,12 @@
         $uibModalInstance.close();
     };  
     if(journey.create){
-       vm.drivers= journey.drivers;
+       vm.driversJourney= journey.drivers;
+       vm.schedulesJourney = journey.schedules;
     }
     if(journey.edit){
-        vm.drivers = journey.drivers;
+        vm.schedulesJourney = journey.schedules;
+        vm.driversJourney = journey.drivers;
         vm.initEdit = true;
         vm.journeyEdit = {};
         vm.journeyEdit.Id = journey.Id;
@@ -34,8 +36,8 @@
         vm.journeyEdit.description = journey.Descripcion;
         vm.journeyEdit.route = $filter('filter')($rootScope.routes, {Id:  journey.RecorridoId})[0]; 
         vm.journeyEdit.vehicle = $filter('filter')($rootScope.vehicles, {Id:  journey.VehiculoId})[0]; 
-        vm.journeyEdit.driver = $filter('filter')(vm.drivers , {Id: journey.ChoferId})[0];
-        vm.journeyEdit.schedule = $filter('filter')($rootScope.schedules, {Id: journey.HorarioId})[0];
+        vm.journeyEdit.driver = $filter('filter')(vm.driversJourney , {Id: journey.ChoferId})[0];
+        vm.journeyEdit.schedule = $filter('filter')(vm.schedulesJourney, {Id: journey.HorarioId})[0];
         vm.dateJourney = $filter('date')($rootScope.formatDate(journey.FechaViaje), 'dd-MM-yyyy');
     }
     if(journey.delete){
@@ -193,7 +195,7 @@
         });
     }
     vm.updateSchedulesByDay = function(dayNumber) {
-        vm.schedulesFilter = $filter('filter')($rootScope.schedules, {DiaId:  dayNumber});
+        vm.schedulesFilter = $filter('filter')(vm.schedulesJourney, {DiaId:  dayNumber});
         if(vm.schedulesFilter == null || vm.schedulesFilter == undefined || vm.schedulesFilter.length == 0 && !vm.initEdit){
             SweetAlert.swal ({
                 type: "warning", 

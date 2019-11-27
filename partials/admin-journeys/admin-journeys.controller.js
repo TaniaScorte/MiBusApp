@@ -26,7 +26,7 @@
             if(!$rootScope.allModels){
                 getModelos();
             }
-            if(!vm.drivers){
+            if(!vm.driversJourney){
                 getUserDrivers();
             }
             if(!$rootScope.days){
@@ -103,7 +103,8 @@
             var journeyCreate = {};
             journeyCreate.RecorridoId = vm.journey.route.Id;
             journeyCreate.create = true;
-            journeyCreate.drivers = vm.drivers;
+            journeyCreate.drivers = vm.driversJourney;
+            journeyCreate.schedules = vm.schedulesJourney;
             var modalInstance = $uibModal.open({
                 animation:true,
                 templateUrl: 'partials/admin-journeys/modal-journeys-create.view.html',
@@ -120,7 +121,8 @@
         }
         function openModalJourneysEdit(journeyEdit){
             journeyEdit.edit=true;
-            journeyEdit.drivers = vm.drivers;
+            journeyEdit.drivers = vm.driversJourney;
+            journeyEdit.schedules = vm.schedulesJourney
             var modalInstance = $uibModal.open({
                 animation:true,
                 templateUrl: 'partials/admin-journeys/modal-journeys-edit.view.html',
@@ -270,7 +272,7 @@
             UserService.GetAllUserByEmpresaRol(2)
             .then(function (response) {
                     if (response) {
-                        vm.drivers = response.data;
+                        vm.driversJourney = response.data;
                     }                        
                 })
                 .catch(function (error) {
@@ -286,7 +288,7 @@
             ResourcesService.GetHorariosByRecorrido(recorridoId)
                 .then(function (response) {
                     if (response) {
-                        $rootScope.schedules = response;
+                        vm.schedulesJourney = response;
                     }
                 })
                 .catch(function (error) {
